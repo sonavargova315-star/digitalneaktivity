@@ -1,0 +1,2958 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="tool">
+  <meta name="design-style" content="sticker">
+  <title>Mladí dizajnéri plagátov — Plagát ako obrazovo-písaný text (4. ročník ZŠ)</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@1.43.0/dist/umd/lucide.min.js"></script>
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* Page and surfaces (Sticker) */
+      --background: #fef7ff;
+      --surface-container-low: #ffffff;
+      --surface-container: #f8eef8;
+      --surface-container-high: #f2e8f2;
+
+      /* Ink */
+      --on-surface: #2e1a28;
+      --on-surface-variant: #604868;
+
+      /* Rules */
+      --outline: #907898;
+      --outline-variant: #dcc8e0;
+
+      /* Accents */
+      --primary: #c2207f;
+      --on-primary: #ffffff;
+      --primary-container: #f080c0;
+      --on-primary-container: #2e1a28;
+      --secondary: #7c52aa;
+      --on-secondary: #ffffff;
+      --secondary-soft: #ede4f7;
+      --tertiary: #0096cc;
+      --tertiary-soft: #dff4fc;
+      --error: #c53030;
+      --on-error: #ffffff;
+      --error-bg: #fee2e2;
+
+      /* Data series */
+      --data-1: #c2207f;
+      --data-2: #7c52aa;
+      --data-3: #0096cc;
+      --data-4: #d96a00;
+      --data-context: #c8b8d0;
+
+      /* Semantic */
+      --positive: #15803d;
+      --positive-bg: #dcfce7;
+      --warning: #b45309;
+      --warning-bg: #fef3c7;
+      --focus: #c2207f;
+
+      /* Fonts */
+      --font-headline: 'DM Sans', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-label: 'DM Sans', sans-serif;
+
+      /* Shape */
+      --rounded: 1rem;
+      --rounded-lg: 2rem;
+      --rounded-full: 9999px;
+
+      /* Style effects */
+      --shadow-pink: 0 4px 16px rgb(224 64 160 / 0.2);
+      --shadow-pink-deep: 0 10px 28px rgb(224 64 160 / 0.32);
+      --shadow-grape: 0 4px 16px rgb(124 82 170 / 0.2);
+      --shadow-grape-deep: 0 10px 28px rgb(124 82 170 / 0.3);
+      --shadow-sky: 0 4px 16px rgb(0 150 204 / 0.2);
+      --shadow-gold: 0 6px 22px rgb(217 119 6 / 0.22);
+      --pop-scale: scale(1.03);
+      --lift: translateY(-4px);
+      --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+      /* Type scale */
+      --display-size: clamp(2.1rem, 1.35rem + 2.6vw, 3.25rem);
+      --headline-size: clamp(1.45rem, 1.15rem + 1.1vw, 2rem);
+      --subhead-size: clamp(1.1rem, 1rem + 0.4vw, 1.3rem);
+      --body-size: clamp(1rem, 0.96rem + 0.15vw, 1.0625rem);
+      --label-size: 0.75rem;
+
+      /* Spacing scale (4pt base) */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+      --space-3xl: 6rem;
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+      --dur-long: 420ms;
+
+      /* Poster Palettes */
+      --p-berry-bg: #fff5fb;
+      --p-berry-card: #ffffff;
+      --p-berry-ink: #2e1a28;
+      --p-berry-accent: #c2207f;
+      --p-berry-soft: #fbd3ea;
+      --p-berry-badge: #7c52aa;
+
+      --p-forest-bg: #f1fbf4;
+      --p-forest-card: #ffffff;
+      --p-forest-ink: #133120;
+      --p-forest-accent: #15803d;
+      --p-forest-soft: #cdeed7;
+      --p-forest-badge: #b45309;
+
+      --p-sunny-bg: #fffbea;
+      --p-sunny-card: #ffffff;
+      --p-sunny-ink: #1e293b;
+      --p-sunny-accent: #c2410c;
+      --p-sunny-soft: #fde68a;
+      --p-sunny-badge: #0369a1;
+
+      --p-curtain-bg: #fdf2f4;
+      --p-curtain-card: #ffffff;
+      --p-curtain-ink: #3b0d19;
+      --p-curtain-accent: #9f1239;
+      --p-curtain-soft: #fecdd3;
+      --p-curtain-badge: #b45309;
+
+      --p-galaxy-bg: #1e1633;
+      --p-galaxy-card: #2c214a;
+      --p-galaxy-ink: #f8f5ff;
+      --p-galaxy-accent: #f59e0b;
+      --p-galaxy-soft: #3d2e66;
+      --p-galaxy-badge: #c2207f;
+
+      /* Demo bad poster & certificate tokens */
+      --bad-bg: #fef9c3;
+      --bad-ink: #ca8a04;
+      --bad-muted: #94a3b8;
+      --cert-bg: #fffdf7;
+      --cert-border: #d97706;
+      --cert-gold-soft: #fef3c7;
+      --zone-highlight: #f080c0;
+    }
+
+    /* Base reset */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+      background-color: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+    header { position: static !important; }
+    button, input, select, textarea { font-family: inherit; }
+
+    .page-grid {
+      display: grid;
+      gap: var(--space-2xl);
+      padding: var(--space-lg);
+      max-width: 1220px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .page-grid * { min-width: 0; }
+
+    /* Focus rings */
+    :focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    /* Typography */
+    .kicker {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--on-surface-variant);
+      margin: 0 0 var(--space-sm) 0;
+    }
+
+    .display {
+      font-family: var(--font-headline);
+      font-weight: 900;
+      font-size: var(--display-size);
+      letter-spacing: -0.03em;
+      line-height: 1.07;
+      color: var(--on-surface);
+      margin: 0 0 var(--space-md) 0;
+    }
+    .display em {
+      font-style: normal;
+      color: var(--primary);
+    }
+
+    h2.section-title {
+      font-family: var(--font-headline);
+      font-weight: 800;
+      font-size: var(--headline-size);
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--on-surface);
+      margin: 0 0 var(--space-xs) 0;
+    }
+    h3.card-title {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: var(--subhead-size);
+      letter-spacing: -0.01em;
+      line-height: 1.25;
+      color: var(--on-surface);
+      margin: 0 0 var(--space-sm) 0;
+    }
+    .lede {
+      font-size: var(--subhead-size);
+      color: var(--on-surface-variant);
+      max-width: 65ch;
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    /* Hero panel */
+    .hero-panel {
+      background: var(--surface-container-low);
+      border-radius: var(--rounded-lg);
+      box-shadow: var(--shadow-pink);
+      padding: var(--space-xl);
+      display: grid;
+      gap: var(--space-lg);
+    }
+    .hero-top {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.85fr);
+      gap: var(--space-xl);
+      align-items: center;
+    }
+    .hero-stats {
+      background: var(--surface-container);
+      border-radius: var(--rounded);
+      padding: var(--space-lg);
+      display: grid;
+      gap: var(--space-md);
+    }
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .progress-value {
+      font-weight: 900;
+      font-size: 1.35rem;
+      color: var(--primary);
+      font-variant-numeric: tabular-nums;
+    }
+    .progress-track {
+      height: 14px;
+      background: var(--surface-container-low);
+      border-radius: var(--rounded-full);
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--tertiary);
+      border-radius: var(--rounded-full);
+      transition: width var(--dur-long) var(--ease-out);
+    }
+    .mission-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      align-items: center;
+    }
+
+    /* Pills & Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-lg);
+      border-radius: var(--rounded-full);
+      border: none;
+      font-weight: 700;
+      font-size: var(--body-size);
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform var(--dur-short) var(--ease-bounce),
+                  box-shadow var(--dur-short) var(--ease-out),
+                  background-color var(--dur-micro) var(--ease-out);
+    }
+    .btn:hover { transform: var(--pop-scale); }
+    .btn:active { transform: scale(0.97); }
+    .btn-primary {
+      background: var(--primary);
+      color: var(--on-primary);
+      box-shadow: var(--shadow-pink);
+    }
+    .btn-primary:hover { box-shadow: var(--shadow-pink-deep); }
+    .btn-secondary {
+      background: var(--secondary);
+      color: var(--on-secondary);
+      box-shadow: var(--shadow-grape);
+    }
+    .btn-secondary:hover { box-shadow: var(--shadow-grape-deep); }
+    .btn-soft {
+      background: var(--surface-container);
+      color: var(--on-surface);
+      box-shadow: var(--shadow-sky);
+    }
+    .btn-soft.active {
+      background: var(--primary);
+      color: var(--on-primary);
+      box-shadow: var(--shadow-pink);
+    }
+    .btn-quiet {
+      background: transparent;
+      color: var(--primary);
+      padding: var(--space-sm) var(--space-md);
+    }
+    .btn-quiet:hover { background: var(--surface-container); }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.25rem 0.8rem;
+      border-radius: var(--rounded-full);
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      font-size: var(--label-size);
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+    .badge-grape {
+      background: var(--secondary-soft);
+      color: var(--secondary);
+    }
+    .badge-ok {
+      background: var(--positive-bg);
+      color: var(--positive);
+    }
+    .badge-warn {
+      background: var(--warning-bg);
+      color: var(--warning);
+    }
+
+    /* Section wrapper */
+    .section-block {
+      display: grid;
+      gap: var(--space-lg);
+    }
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: var(--space-md);
+    }
+
+    /* Cards (Sticker tinted shadows, alternating) */
+    .card {
+      background: var(--surface-container-low);
+      border-radius: var(--rounded);
+      box-shadow: var(--shadow-pink);
+      padding: var(--space-lg);
+    }
+    .card-sky { box-shadow: var(--shadow-sky); }
+    .card-grape { box-shadow: var(--shadow-grape); }
+    .card-gold { box-shadow: var(--shadow-gold); }
+
+    /* Section 1: Interactive Guide */
+    .guide-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+      gap: var(--space-xl);
+      align-items: start;
+    }
+    .rules-list {
+      display: grid;
+      gap: var(--space-sm);
+    }
+    .rule-btn {
+      width: 100%;
+      text-align: left;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: var(--space-md);
+      align-items: center;
+      padding: var(--space-md) var(--space-lg);
+      border-radius: var(--rounded);
+      border: 2px solid transparent;
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      box-shadow: var(--shadow-sky);
+      cursor: pointer;
+      min-height: 54px;
+      transition: transform var(--dur-short) var(--ease-bounce),
+                  box-shadow var(--dur-short) var(--ease-out),
+                  background-color var(--dur-micro) var(--ease-out);
+    }
+    .rule-btn:hover {
+      transform: var(--lift);
+      box-shadow: var(--shadow-pink);
+    }
+    .rule-btn.active {
+      background: var(--surface-container);
+      border-color: var(--primary);
+      box-shadow: var(--shadow-pink);
+    }
+    .rule-num {
+      width: 34px;
+      height: 34px;
+      border-radius: var(--rounded-full);
+      background: var(--primary);
+      color: var(--on-primary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.95rem;
+      flex-shrink: 0;
+    }
+    .rule-btn.active .rule-num {
+      background: var(--secondary);
+    }
+    .rule-btn-title {
+      font-weight: 700;
+      display: block;
+    }
+    .rule-btn-sub {
+      font-size: 0.875rem;
+      color: var(--on-surface-variant);
+      display: block;
+    }
+
+    .rule-detail-box {
+      background: var(--surface-container-low);
+      border-radius: var(--rounded);
+      box-shadow: var(--shadow-grape);
+      padding: var(--space-lg);
+      margin-top: var(--space-md);
+      display: grid;
+      gap: var(--space-sm);
+    }
+
+    /* Sample Poster Viewer */
+    .sample-panel {
+      display: grid;
+      gap: var(--space-md);
+    }
+    .segmented {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+      background: var(--surface-container-high);
+      padding: var(--space-xs);
+      border-radius: var(--rounded-full);
+      width: fit-content;
+    }
+    .seg-btn {
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      border: none;
+      border-radius: var(--rounded-full);
+      background: transparent;
+      color: var(--on-surface-variant);
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color var(--dur-short) var(--ease-out),
+                  color var(--dur-short) var(--ease-out);
+    }
+    .seg-btn.active {
+      background: var(--surface-container-low);
+      color: var(--primary);
+      box-shadow: var(--shadow-pink);
+    }
+
+    .sample-poster {
+      background: var(--p-sunny-bg);
+      color: var(--p-sunny-ink);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-xl);
+      box-shadow: var(--shadow-pink);
+      display: grid;
+      gap: var(--space-md);
+      position: relative;
+      transition: background-color var(--dur-short) var(--ease-out);
+    }
+    .sample-poster.bad-mode {
+      background: var(--bad-bg);
+      color: var(--bad-ink);
+    }
+    .poster-zone {
+      border-radius: var(--rounded);
+      padding: var(--space-sm) var(--space-md);
+      cursor: pointer;
+      transition: transform var(--dur-short) var(--ease-bounce),
+                  box-shadow var(--dur-short) var(--ease-out),
+                  background-color var(--dur-short) var(--ease-out);
+    }
+    .poster-zone:hover {
+      transform: scale(1.01);
+    }
+    .poster-zone.highlighted {
+      box-shadow: 0 0 0 4px var(--primary);
+      background: var(--surface-container-low);
+    }
+    .sample-poster.bad-mode .poster-zone.highlighted {
+      box-shadow: 0 0 0 4px var(--error);
+    }
+
+    .bad-title {
+      font-size: 0.9rem;
+      text-decoration: underline;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+    }
+    .bad-wall {
+      font-size: 0.82rem;
+      line-height: 1.25;
+      text-decoration: underline;
+      color: var(--bad-ink);
+    }
+    .bad-clues {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+
+    /* Section 2: Studio Workbench */
+    .studio-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      gap: var(--space-xl);
+      align-items: start;
+    }
+    .studio-controls {
+      display: grid;
+      gap: var(--space-lg);
+    }
+    .topic-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr));
+      gap: var(--space-sm);
+    }
+    .topic-chip {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-md);
+      min-height: 54px;
+      border-radius: var(--rounded);
+      border: 2px solid var(--outline-variant);
+      background: var(--surface-container);
+      color: var(--on-surface);
+      font-weight: 700;
+      text-align: left;
+      cursor: pointer;
+      transition: transform var(--dur-short) var(--ease-bounce),
+                  background-color var(--dur-short) var(--ease-out),
+                  border-color var(--dur-short) var(--ease-out);
+    }
+    .topic-chip:hover { transform: var(--pop-scale); }
+    .topic-chip.selected {
+      background: var(--primary-container);
+      border-color: var(--primary);
+      color: var(--on-primary-container);
+      box-shadow: var(--shadow-pink);
+    }
+
+    /* Forms & Inputs (Sticker pills) */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+      gap: var(--space-md);
+    }
+    .field {
+      display: grid;
+      gap: var(--space-xs);
+      align-content: start;
+    }
+    .field-full {
+      grid-column: 1 / -1;
+    }
+    label.field-label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--on-surface-variant);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .char-count {
+      font-variant-numeric: tabular-nums;
+      font-weight: 600;
+      color: var(--on-surface-variant);
+    }
+    input[type="text"],
+    select,
+    textarea {
+      width: 100%;
+      min-height: 44px;
+      padding: 0.65rem 1.1rem;
+      border-radius: var(--rounded-full);
+      border: 2px solid var(--outline);
+      background: var(--surface-container);
+      color: var(--on-surface);
+      font-size: var(--body-size);
+      transition: border-color var(--dur-micro) var(--ease-out),
+                  box-shadow var(--dur-micro) var(--ease-out),
+                  background-color var(--dur-micro) var(--ease-out);
+    }
+    textarea {
+      border-radius: var(--rounded);
+      min-height: 92px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+    input[type="text"]:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: var(--surface-container-low);
+      box-shadow: 0 0 0 3px var(--primary-container);
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      align-items: center;
+    }
+    .mini-chip {
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--rounded-full);
+      border: 2px solid var(--outline-variant);
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: transform var(--dur-short) var(--ease-bounce),
+                  background-color var(--dur-micro) var(--ease-out),
+                  border-color var(--dur-micro) var(--ease-out);
+    }
+    .mini-chip:hover { transform: var(--pop-scale); }
+    .mini-chip.active {
+      background: var(--secondary);
+      border-color: var(--secondary);
+      color: var(--on-secondary);
+      box-shadow: var(--shadow-grape);
+    }
+
+    /* Palette & Icon Pickers */
+    .palette-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+    .palette-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--rounded-full);
+      border: 2px solid var(--outline-variant);
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: transform var(--dur-short) var(--ease-bounce), border-color var(--dur-micro);
+    }
+    .palette-btn:hover { transform: var(--pop-scale); }
+    .palette-btn.active {
+      border-color: var(--primary);
+      background: var(--surface-container);
+      box-shadow: var(--shadow-pink);
+    }
+    .swatch-dot {
+      width: 22px;
+      height: 22px;
+      border-radius: var(--rounded-full);
+      border: 2px solid var(--surface-container-low);
+      flex-shrink: 0;
+    }
+
+    .icon-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(130px, 100%), 1fr));
+      gap: var(--space-sm);
+    }
+    .icon-choice {
+      display: grid;
+      justify-items: center;
+      gap: var(--space-xs);
+      padding: var(--space-sm);
+      min-height: 82px;
+      border-radius: var(--rounded);
+      border: 2px solid var(--outline-variant);
+      background: var(--surface-container);
+      color: var(--on-surface);
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-align: center;
+      cursor: pointer;
+      transition: transform var(--dur-short) var(--ease-bounce), border-color var(--dur-micro);
+    }
+    .icon-choice:hover { transform: var(--pop-scale); }
+    .icon-choice.active {
+      background: var(--surface-container-low);
+      border-color: var(--primary);
+      box-shadow: var(--shadow-pink);
+    }
+
+    /* Sticky Live Poster Preview */
+    .preview-sticky {
+      position: sticky;
+      top: var(--space-lg);
+      display: grid;
+      gap: var(--space-md);
+    }
+    .preview-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    /* Live Poster Artwork */
+    .live-poster {
+      --poster-bg: var(--p-berry-bg);
+      --poster-card: var(--p-berry-card);
+      --poster-ink: var(--p-berry-ink);
+      --poster-accent: var(--p-berry-accent);
+      --poster-soft: var(--p-berry-soft);
+      --poster-badge: var(--p-berry-badge);
+
+      background: var(--poster-bg);
+      color: var(--poster-ink);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-xl) var(--space-lg);
+      box-shadow: var(--shadow-pink-deep);
+      display: grid;
+      gap: var(--space-md);
+      position: relative;
+      overflow: hidden;
+      min-height: 540px;
+      align-content: space-between;
+    }
+    .live-poster.palette-berry {
+      --poster-bg: var(--p-berry-bg);
+      --poster-card: var(--p-berry-card);
+      --poster-ink: var(--p-berry-ink);
+      --poster-accent: var(--p-berry-accent);
+      --poster-soft: var(--p-berry-soft);
+      --poster-badge: var(--p-berry-badge);
+    }
+    .live-poster.palette-forest {
+      --poster-bg: var(--p-forest-bg);
+      --poster-card: var(--p-forest-card);
+      --poster-ink: var(--p-forest-ink);
+      --poster-accent: var(--p-forest-accent);
+      --poster-soft: var(--p-forest-soft);
+      --poster-badge: var(--p-forest-badge);
+    }
+    .live-poster.palette-sunny {
+      --poster-bg: var(--p-sunny-bg);
+      --poster-card: var(--p-sunny-card);
+      --poster-ink: var(--p-sunny-ink);
+      --poster-accent: var(--p-sunny-accent);
+      --poster-soft: var(--p-sunny-soft);
+      --poster-badge: var(--p-sunny-badge);
+    }
+    .live-poster.palette-curtain {
+      --poster-bg: var(--p-curtain-bg);
+      --poster-card: var(--p-curtain-card);
+      --poster-ink: var(--p-curtain-ink);
+      --poster-accent: var(--p-curtain-accent);
+      --poster-soft: var(--p-curtain-soft);
+      --poster-badge: var(--p-curtain-badge);
+    }
+    .live-poster.palette-galaxy {
+      --poster-bg: var(--p-galaxy-bg);
+      --poster-card: var(--p-galaxy-card);
+      --poster-ink: var(--p-galaxy-ink);
+      --poster-accent: var(--p-galaxy-accent);
+      --poster-soft: var(--p-galaxy-soft);
+      --poster-badge: var(--p-galaxy-badge);
+    }
+
+    .live-poster.frame-dots {
+      outline: 4px dotted var(--poster-accent);
+      outline-offset: -12px;
+    }
+    .live-poster.frame-stars {
+      outline: 4px dashed var(--poster-accent);
+      outline-offset: -12px;
+    }
+    .live-poster.frame-ribbon {
+      border-top: 12px solid var(--poster-accent);
+      border-bottom: 12px solid var(--poster-accent);
+    }
+
+    .poster-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-sm);
+      flex-wrap: wrap;
+    }
+    .poster-audience-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.3rem 0.85rem;
+      border-radius: var(--rounded-full);
+      background: var(--poster-soft);
+      color: var(--poster-ink);
+      font-weight: 700;
+      font-size: 0.82rem;
+    }
+    .poster-sticker-stamp {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.35rem 0.9rem;
+      border-radius: var(--rounded-full);
+      background: var(--poster-badge);
+      color: var(--on-primary);
+      font-weight: 800;
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+      transform: rotate(-3deg);
+    }
+    .poster-headline {
+      margin: 0;
+      color: var(--poster-accent);
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      font-weight: 900;
+      word-break: break-word;
+    }
+    .poster-headline.size-md { font-size: 1.55rem; }
+    .poster-headline.size-lg { font-size: 2rem; }
+    .poster-headline.size-xl { font-size: 2.35rem; }
+    .poster-headline.align-center { text-align: center; }
+    .poster-headline.align-left { text-align: left; }
+    .poster-headline.style-band {
+      background: var(--poster-accent);
+      color: var(--on-primary);
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+    }
+    .live-poster.palette-galaxy .poster-headline.style-band {
+      color: var(--on-surface);
+    }
+
+    .poster-illustration-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: var(--poster-soft);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      min-height: 132px;
+      position: relative;
+    }
+    .poster-body-text {
+      margin: 0;
+      font-size: 0.98rem;
+      line-height: 1.5;
+      color: var(--poster-ink);
+      font-weight: 500;
+    }
+    .poster-facts-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-sm);
+    }
+    .poster-fact {
+      background: var(--poster-card);
+      border-radius: var(--rounded);
+      padding: 0.65rem 0.85rem;
+      display: grid;
+      gap: 0.15rem;
+    }
+    .poster-fact-wide { grid-column: 1 / -1; }
+    .poster-fact-key {
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--poster-accent);
+    }
+    .poster-fact-val {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--poster-ink);
+      word-break: break-word;
+    }
+    .poster-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-sm);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--poster-ink);
+      opacity: 0.88;
+      flex-wrap: wrap;
+    }
+
+    .zone-tag {
+      display: none;
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.15rem 0.5rem;
+      border-radius: var(--rounded-full);
+      background: var(--primary);
+      color: var(--on-primary);
+      margin-bottom: 0.25rem;
+      width: fit-content;
+    }
+    .show-zones .zone-tag { display: inline-block; }
+
+    /* Section 3: Detective Check & Quiz */
+    .detective-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr));
+      gap: var(--space-xl);
+      align-items: start;
+    }
+    .audit-list {
+      display: grid;
+      gap: var(--space-sm);
+    }
+    .audit-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-md);
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      background: var(--surface-container);
+    }
+    .audit-item.pass { background: var(--positive-bg); }
+    .audit-item.miss { background: var(--warning-bg); }
+
+    .self-check-list {
+      display: grid;
+      gap: var(--space-sm);
+      margin-top: var(--space-md);
+    }
+    .check-pill {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      background: var(--surface-container);
+      cursor: pointer;
+      min-height: 48px;
+      font-weight: 600;
+    }
+    .check-pill input[type="checkbox"] {
+      width: 22px;
+      height: 22px;
+      accent-color: var(--primary);
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .quiz-list {
+      display: grid;
+      gap: var(--space-md);
+    }
+    .quiz-case {
+      background: var(--surface-container);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      display: grid;
+      gap: var(--space-sm);
+    }
+    .quiz-options {
+      display: grid;
+      gap: var(--space-xs);
+    }
+    .quiz-opt {
+      width: 100%;
+      text-align: left;
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded-full);
+      border: 2px solid var(--outline-variant);
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform var(--dur-short) var(--ease-bounce), border-color var(--dur-micro);
+    }
+    .quiz-opt:hover { transform: var(--pop-scale); }
+    .quiz-opt.correct {
+      background: var(--positive-bg);
+      border-color: var(--positive);
+      color: var(--positive);
+    }
+    .quiz-opt.wrong {
+      background: var(--error-bg);
+      border-color: var(--error);
+      color: var(--error);
+    }
+    .quiz-feedback {
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--rounded);
+    }
+
+    /* Section 4: Presentation & Certificate */
+    .finale-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: var(--space-xl);
+      align-items: start;
+    }
+    .speech-cards {
+      display: grid;
+      gap: var(--space-sm);
+    }
+    .speech-step {
+      background: var(--surface-container);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+    }
+    .certificate-frame {
+      background: var(--cert-bg);
+      color: var(--on-surface);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-xl);
+      box-shadow: var(--shadow-gold);
+      outline: 6px solid var(--cert-border);
+      outline-offset: -14px;
+      display: grid;
+      gap: var(--space-md);
+      text-align: center;
+    }
+    .cert-seal {
+      width: 68px;
+      height: 68px;
+      border-radius: var(--rounded-full);
+      background: var(--cert-gold-soft);
+      color: var(--warning);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+    }
+    .cert-name {
+      font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.2rem);
+      font-weight: 900;
+      color: var(--primary);
+      margin: 0;
+    }
+    .cert-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: var(--space-sm);
+    }
+    .export-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-top: var(--space-md);
+    }
+    .inline-status {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--positive);
+      min-height: 1.4em;
+      margin: var(--space-xs) 0 0 0;
+    }
+
+    .sources-note {
+      font-size: 0.875rem;
+      color: var(--on-surface-variant);
+      padding: var(--space-lg);
+      background: var(--surface-container);
+      border-radius: var(--rounded);
+    }
+
+    /* Container queries for component cards */
+    .card-wrapper { container-type: inline-size; }
+    @container (max-width: 480px) {
+      .poster-facts-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Responsive mobile layout */
+    @media (max-width: 880px) {
+      .hero-top,
+      .guide-layout,
+      .studio-grid,
+      .finale-grid {
+        grid-template-columns: 1fr;
+      }
+      .preview-sticky {
+        position: static;
+      }
+    }
+    @media (max-width: 640px) {
+      .page-grid {
+        padding: var(--space-md);
+        gap: var(--space-xl);
+      }
+      .hero-panel,
+      .card,
+      .live-poster,
+      .certificate-frame {
+        padding: var(--space-lg);
+      }
+      .poster-facts-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Print styling */
+    @media print {
+      body { background: var(--surface-container-low); }
+      .mission-nav, .studio-controls, .preview-toolbar, .export-actions, .sources-note {
+        display: none !important;
+      }
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page-grid">
+    <!-- HERO & PROGRESS TRACKER -->
+    <header class="hero-panel">
+      <div class="hero-top">
+        <div>
+          <p class="kicker">Slovenský jazyk a literatúra · 4. ročník ZŠ (ŠVP 2023)</p>
+          <h1 class="display">Mladí <em>dizajnéri</em> plagátov</h1>
+          <p class="lede">
+            Plagát je obrazovo-písaný text, v ktorom sa obrázok a slová navzájom dopĺňajú.
+            Objav 7 pravidiel úspešného plagátu, navrhni vlastný dizajn v štúdiu, prejdi
+            detektívnou skúškou a získaj svoj certifikát.
+          </p>
+        </div>
+
+        <div class="hero-stats">
+          <div class="progress-header">
+            <span class="kicker" style="margin:0;">Postup tvojej misie</span>
+            <span class="progress-value" id="mission-score-label">0 / 4 kroky</span>
+          </div>
+          <div class="progress-track" aria-label="Postup misie">
+            <div class="progress-fill" id="mission-progress-fill"></div>
+          </div>
+          <p style="margin:0; font-size:0.92rem; color:var(--on-surface-variant);" id="mission-hint">
+            Začni preskúmaním pravidiel v prvej zastávke a pokračuj až k certifikátu.
+          </p>
+        </div>
+      </div>
+
+      <nav class="mission-nav" aria-label="Rýchla navigácia po sekciách">
+        <a class="btn btn-primary" href="#sekcia-sprievodca">
+          <i data-lucide="compass" aria-hidden="true"></i>
+          1. Sprievodca pravidlami
+        </a>
+        <a class="btn btn-secondary" href="#sekcia-studio">
+          <i data-lucide="palette" aria-hidden="true"></i>
+          2. Štúdio plagátov
+        </a>
+        <a class="btn btn-soft" href="#sekcia-detektiv">
+          <i data-lucide="search" aria-hidden="true"></i>
+          3. Detektívny test
+        </a>
+        <a class="btn btn-soft" href="#sekcia-certifikat">
+          <i data-lucide="award" aria-hidden="true"></i>
+          4. Prezentácia a certifikát
+        </a>
+        <button type="button" class="btn btn-quiet" id="btn-reset-all" onclick="handleResetAll(this)">
+          <i data-lucide="rotate-ccw" aria-hidden="true"></i>
+          Začať odznova
+        </button>
+      </nav>
+    </header>
+
+    <!-- SEKČIA 1: INTERAKTÍVNY SPRIEVODCA -->
+    <section class="section-block" id="sekcia-sprievodca">
+      <div class="section-head">
+        <div>
+          <p class="kicker">1. Zastávka · Objav tajomstvo obrazovo-písaného textu</p>
+          <h2 class="section-title">7 pravidiel úspešného plagátu</h2>
+          <p class="lede">
+            Klikni na ľubovoľné pravidlo alebo priamo na časť ukážkového plagátu. Zistíš, čo musí obsahovať každý dobrý plagát.
+          </p>
+        </div>
+        <span class="badge" id="guide-explored-badge">Preskúmané: 1 / 7</span>
+      </div>
+
+      <div class="guide-layout">
+        <div>
+          <div class="rules-list" id="guide-rules-list" role="tablist" aria-label="Pravidlá dobrého plagátu">
+            <!-- Populated by JS -->
+          </div>
+
+          <div class="rule-detail-box" id="guide-detail-box" aria-live="polite">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <div class="sample-panel">
+          <div class="preview-toolbar">
+            <div class="segmented" role="group" aria-label="Prepínač ukážkového plagátu">
+              <button type="button" class="seg-btn active" id="btn-sample-good" onclick="setSampleMode('good')">
+                Dobrý plagát
+              </button>
+              <button type="button" class="seg-btn" id="btn-sample-bad" onclick="setSampleMode('bad')">
+                Zmätočný plagát (Chyby!)
+              </button>
+            </div>
+            <span class="badge badge-grape" id="sample-mode-tag">Klikni na plagát</span>
+          </div>
+
+          <div id="sample-poster-container">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEKČIA 2: INTERAKTÍVNE ŠTÚDIO -->
+    <section class="section-block" id="sekcia-studio">
+      <div class="section-head">
+        <div>
+          <p class="kicker">2. Zastávka · Tvorivá dielňa</p>
+          <h2 class="section-title">Štúdio: Vytvor si vlastný plagát</h2>
+          <p class="lede">
+            Vyber si tému, napíš pútavý nadpis, doplň údaje KTO, ČO, KDE, KEDY, PREČO a adresáta. Vpravo hneď vidíš živý náhľad!
+          </p>
+        </div>
+        <button type="button" class="btn btn-soft" onclick="loadTopicStarter(true)">
+          <i data-lucide="sparkles" aria-hidden="true"></i>
+          Načítať inšpiráciu k téme
+        </button>
+      </div>
+
+      <div class="studio-grid">
+        <!-- Controls -->
+        <div class="studio-controls">
+          <!-- Krok A: Autor a Téma -->
+          <div class="card">
+            <h3 class="card-title">A. Kto plagát navrhuje a na akú tému?</h3>
+            <div class="form-grid">
+              <div class="field field-full">
+                <label class="field-label" for="input-student-name">
+                  <span>Tvoje meno alebo prezývka dizajnéra</span>
+                </label>
+                <input type="text" id="input-student-name" maxlength="40" placeholder="Napr. Zuzka zo 4.A" oninput="updatePosterField('studentName', this.value)">
+              </div>
+            </div>
+            <div style="margin-top: var(--space-md);">
+              <p class="field-label" style="margin:0 0 var(--space-sm) 0;">Vyber si tému plagátu</p>
+              <div class="topic-grid" id="topic-selector">
+                <!-- Populated by JS -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Krok B: Nadpis a štylizácia -->
+          <div class="card card-sky">
+            <h3 class="card-title">B. Chytľavý nadpis a úprava písma</h3>
+            <div class="form-grid">
+              <div class="field field-full">
+                <label class="field-label" for="input-headline">
+                  <span>Chytľavý nadpis (krátky a pútavý)</span>
+                  <span class="char-count" id="count-headline">0 / 55</span>
+                </label>
+                <input type="text" id="input-headline" maxlength="55" placeholder="Napr. Veľký školský bazár pokladov!" oninput="updatePosterField('headline', this.value)">
+              </div>
+
+              <div class="field">
+                <span class="field-label">Veľkosť nadpisu</span>
+                <div class="chip-row" id="headline-size-chips">
+                  <button type="button" class="mini-chip" data-size="md" onclick="setHeadlineOption('headlineSize', 'md')">Stredný</button>
+                  <button type="button" class="mini-chip" data-size="lg" onclick="setHeadlineOption('headlineSize', 'lg')">Veľký</button>
+                  <button type="button" class="mini-chip" data-size="xl" onclick="setHeadlineOption('headlineSize', 'xl')">Obrovský</button>
+                </div>
+              </div>
+
+              <div class="field">
+                <span class="field-label">Zarovnanie a zvýraznenie</span>
+                <div class="chip-row" id="headline-style-chips">
+                  <button type="button" class="mini-chip" data-align="center" onclick="setHeadlineOption('headlineAlign', 'center')">Na stred</button>
+                  <button type="button" class="mini-chip" data-align="left" onclick="setHeadlineOption('headlineAlign', 'left')">Vľavo</button>
+                  <button type="button" class="mini-chip" data-band="true" onclick="toggleHeadlineBand()">Farebný pruh</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Krok C: Kľúčové údaje + Adresát + Sprievodný text -->
+          <div class="card card-grape">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:var(--space-sm); margin-bottom:var(--space-sm);">
+              <h3 class="card-title" style="margin:0;">C. Kľúčové informácie a sprievodný text</h3>
+              <button type="button" class="btn btn-quiet" onclick="clearPosterTexts()">Vyčistiť texty a písať sám</button>
+            </div>
+            <div class="form-grid">
+              <div class="field">
+                <label class="field-label" for="input-who"><span>KTO (Organizátor)</span></label>
+                <input type="text" id="input-who" maxlength="55" placeholder="Napr. Žiaci 4.A triedy" oninput="updatePosterField('who', this.value)">
+              </div>
+              <div class="field">
+                <label class="field-label" for="input-what"><span>ČO (Čo sa bude diať)</span></label>
+                <input type="text" id="input-what" maxlength="55" placeholder="Napr. Výmena kníh a hračiek" oninput="updatePosterField('what', this.value)">
+              </div>
+              <div class="field">
+                <label class="field-label" for="input-where"><span>KDE (Presné miesto)</span></label>
+                <input type="text" id="input-where" maxlength="55" placeholder="Napr. Telocvičňa našej ZŠ" oninput="updatePosterField('where', this.value)">
+              </div>
+              <div class="field">
+                <label class="field-label" for="input-when"><span>KEDY (Dátum a čas)</span></label>
+                <input type="text" id="input-when" maxlength="55" placeholder="Napr. Piatok 20. novembra o 14:00" oninput="updatePosterField('when', this.value)">
+              </div>
+              <div class="field field-full">
+                <label class="field-label" for="input-why"><span>PREČO (Cieľ alebo dôvod prísť)</span></label>
+                <input type="text" id="input-why" maxlength="75" placeholder="Napr. Dáme veciam druhý život a pomôžeme útulku" oninput="updatePosterField('why', this.value)">
+              </div>
+              <div class="field field-full">
+                <label class="field-label" for="input-audience"><span>PRE KOHO (Adresát plagátu)</span></label>
+                <input type="text" id="input-audience" maxlength="55" placeholder="Napr. Všetci žiaci 1. – 4. ročníka" oninput="updatePosterField('audience', this.value)">
+                <div class="chip-row" style="margin-top:var(--space-xs);">
+                  <button type="button" class="mini-chip" onclick="pickAudience('Pre všetkých žiakov našej školy')">Všetci žiaci</button>
+                  <button type="button" class="mini-chip" onclick="pickAudience('Pre žiakov 1. stupňa')">1. stupeň</button>
+                  <button type="button" class="mini-chip" onclick="pickAudience('Pre rodičov a priateľov školy')">Rodičia a priatelia</button>
+                  <button type="button" class="mini-chip" onclick="pickAudience('Pre všetkých milovníkov prírody')">Milovníci prírody</button>
+                </div>
+              </div>
+              <div class="field field-full">
+                <label class="field-label" for="input-body">
+                  <span>Výstižný sprievodný text (krátka pozvánka)</span>
+                  <span class="char-count" id="count-body">0 / 180</span>
+                </label>
+                <textarea id="input-body" maxlength="180" placeholder="Napíš 1 až 3 pútavé vety, ktoré čitateľa pozvú a doplnia informácie..." oninput="updatePosterField('bodyText', this.value)"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- Krok D: Vizuálna stránka (Paleta, Ikona, Rámik, Odznak) -->
+          <div class="card">
+            <h3 class="card-title">D. Farby, hlavný symbol a dekorácie</h3>
+            <div style="display:grid; gap:var(--space-lg);">
+              <div>
+                <p class="field-label" style="margin:0 0 var(--space-sm) 0;">Farebná paleta (dbaj na dobrý kontrast)</p>
+                <div class="palette-row" id="palette-picker">
+                  <!-- Populated by JS -->
+                </div>
+              </div>
+
+              <div>
+                <p class="field-label" style="margin:0 0 var(--space-sm) 0;">Hlavný obrázok / symbol plagátu</p>
+                <div class="icon-grid" id="icon-picker">
+                  <!-- Populated by JS -->
+                </div>
+              </div>
+
+              <div class="form-grid">
+                <div class="field">
+                  <label class="field-label" for="select-frame"><span>Okraj a štýl rámika</span></label>
+                  <select id="select-frame" onchange="updatePosterField('frameId', this.value)">
+                    <option value="dots">Hravý bodkovaný rámik</option>
+                    <option value="stars">Prerušovaný kreatívny rámik</option>
+                    <option value="ribbon">Farebná horná a dolná stuha</option>
+                    <option value="clean">Čistý moderný dizajn</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label class="field-label" for="select-stamp"><span>Nálepka (odznak na plagáte)</span></label>
+                  <select id="select-stamp" onchange="updatePosterField('stampText', this.value)">
+                    <option value="">Bez nálepky</option>
+                    <option value="VSTUP VOĽNÝ">VSTUP VOĽNÝ</option>
+                    <option value="NEZMEŠKAJ!">NEZMEŠKAJ!</option>
+                    <option value="SPOLU TO DÁME">SPOLU TO DÁME</option>
+                    <option value="PRE VŠETKÝCH">PRE VŠETKÝCH</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sticky Live Preview -->
+        <aside class="preview-sticky card-wrapper" aria-label="Živý náhľad plagátu">
+          <div class="preview-toolbar">
+            <span class="badge" id="studio-readiness-badge">Pripravenosť: 0 / 7</span>
+            <button type="button" class="mini-chip" id="btn-toggle-zones" onclick="toggleZoneLabels()">
+              Ukázať zóny KTO/ČO/KDE
+            </button>
+          </div>
+
+          <div class="live-poster palette-berry frame-dots" id="live-poster-canvas">
+            <!-- Populated by JS -->
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:var(--space-sm); flex-wrap:wrap;">
+            <span style="font-size:0.9rem; color:var(--on-surface-variant);" id="live-preview-note">
+              Náhľad sa mení okamžite pri písaní.
+            </span>
+            <a class="btn btn-primary" href="#sekcia-detektiv">
+              Skontrolovať lupou
+              <i data-lucide="arrow-down" aria-hidden="true"></i>
+            </a>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- SEKČIA 3: DETEKTÍVNY TEST & SEBAHODNOTENIE -->
+    <section class="section-block" id="sekcia-detektiv">
+      <div class="section-head">
+        <div>
+          <p class="kicker">3. Zastávka · Kontrola podľa ŠVP 2023</p>
+          <h2 class="section-title">Detektívna kontrola a sebahodnotenie</h2>
+          <p class="lede">
+            Najprv skontroluj svoj plagát detektívnou lupou. Potom vyrieš 5 krátkych prípadov, ktoré preveria tvoje oko mladého dizajnéra.
+          </p>
+        </div>
+        <span class="badge badge-grape" id="detective-summary-badge">Kvíz: 0 / 5</span>
+      </div>
+
+      <div class="detective-grid">
+        <!-- Part 1: Live Poster Audit + Self-Check -->
+        <div class="card">
+          <h3 class="card-title">Lupa na tvoj plagát (7 povinných znakov)</h3>
+          <p style="margin:0 0 var(--space-md) 0; color:var(--on-surface-variant); font-size:0.95rem;">
+            Automatická kontrola sleduje, či tvoj plagát obsahuje všetky kľúčové prvky obrazovo-písaného textu.
+          </p>
+
+          <div class="audit-list" id="poster-audit-list">
+            <!-- Populated by JS -->
+          </div>
+
+          <h3 class="card-title" style="margin-top:var(--space-lg);">Moje sebahodnotenie (zaškrtni po kontrole)</h3>
+          <div class="self-check-list" id="self-check-list">
+            <!-- Populated by JS -->
+          </div>
+
+          <div style="margin-top:var(--space-md); display:flex; justify-content:space-between; align-items:center; gap:var(--space-sm); flex-wrap:wrap;">
+            <strong id="audit-verdict-text" style="color:var(--primary);"></strong>
+            <a class="btn btn-quiet" href="#sekcia-studio">Upraviť plagát</a>
+          </div>
+        </div>
+
+        <!-- Part 2: 5 Detective Quiz Cases -->
+        <div class="card card-sky">
+          <h3 class="card-title">Detektívna skúška: Vyrieš 5 prípadov</h3>
+          <div class="quiz-list" id="detective-quiz-list">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEKČIA 4: ZÁVEREČNÁ PREZENTÁCIA A CERTIFIKÁT -->
+    <section class="section-block" id="sekcia-certifikat">
+      <div class="section-head">
+        <div>
+          <p class="kicker">4. Zastávka · Obhajoba tvorby a ocenenie</p>
+          <h2 class="section-title">Záverečná prezentácia a certifikát</h2>
+          <p class="lede">
+            Vysvetli spolužiakom, pre koho si plagát navrhol/-a a prečo si zvolil/-a práve tieto farby a symbol. Potom si stiahni svoj plagát aj oficiálny certifikát!
+          </p>
+        </div>
+      </div>
+
+      <div class="finale-grid">
+        <!-- Speaking Guide for Classroom Presentation -->
+        <div class="card card-grape">
+          <h3 class="card-title">Ťahák pre tvoju reč pred triedou</h3>
+          <p style="margin:0 0 var(--space-md) 0; color:var(--on-surface-variant); font-size:0.95rem;">
+            Prečítaj si tieto 4 vety vytvorené priamo z tvojho plagátu a vyskúšaj si krátku prezentáciu nahlas:
+          </p>
+          <div class="speech-cards" id="presentation-speech">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Official Certificate + Downloads -->
+        <div>
+          <div class="certificate-frame" id="certificate-card">
+            <div class="cert-seal" aria-hidden="true">
+              <i data-lucide="award" style="width:36px; height:36px;"></i>
+            </div>
+            <p class="kicker" style="margin:0;">Slovenský jazyk a literatúra · 4. ročník ZŠ</p>
+            <h3 class="section-title" style="margin:0;">Certifikát mladého dizajnéra plagátov</h3>
+            <p style="margin:0; color:var(--on-surface-variant);">Toto ocenenie s radosťou udeľujeme tvorcovi:</p>
+            <p class="cert-name" id="cert-student-name">Mladý dizajnér</p>
+            <p style="margin:0; font-weight:600;" id="cert-poster-summary">
+              za vytvorenie obrazovo-písaného textu v téme Školský bazár.
+            </p>
+            <div class="cert-meta-row" id="cert-badges">
+              <!-- Populated by JS -->
+            </div>
+            <p style="margin:var(--space-xs) 0 0 0; font-size:0.85rem; color:var(--on-surface-variant);" id="cert-date-line">
+              Vystavené dňa 16. 11. 2026 · Plnené podľa ŠVP 2023 (2. cyklus)
+            </p>
+          </div>
+
+          <div class="export-actions">
+            <button type="button" class="btn btn-primary" onclick="downloadPosterPng()">
+              <i data-lucide="image" aria-hidden="true"></i>
+              Stiahnuť môj plagát (PNG)
+            </button>
+            <button type="button" class="btn btn-secondary" onclick="downloadCertificatePng()">
+              <i data-lucide="download" aria-hidden="true"></i>
+              Stiahnuť certifikát (PNG)
+            </button>
+            <button type="button" class="btn btn-soft" onclick="window.print()">
+              <i data-lucide="printer" aria-hidden="true"></i>
+              Vytlačiť stránku
+            </button>
+          </div>
+          <p class="inline-status" id="export-status" aria-live="polite"></p>
+        </div>
+      </div>
+
+      <footer class="sources-note">
+        <strong>Pedagogické východiská aplikácie:</strong> Štátny vzdelávací program pre základné vzdelávanie (ŠVP ZV 2023, 2. cyklus — Slovenský jazyk a literatúra: obrazovo-písaný text, komunikačný zámer, proces tvorenia a úpravy textu), Príručka prierezových gramotností NIVAM (Vizuálna a čitateľská gramotnosť v 2. cykle: zohľadnenie cieľovej skupiny, prepojenie obrazu a textu, obhajoba výberu farieb a symbolov) a zásady digitálnej typografie a čitateľnosti vo vyučovaní.
+      </footer>
+    </section>
+  </main>
+
+  <api-shim></api-shim>
+  <script>
+    const GUIDE_RULES = [
+      {
+        id: `headline`,
+        num: 1,
+        title: `Chytľavý nadpis`,
+        short: `Zaujme hneď na prvý pohľad`,
+        explain: `Nadpis je najväčší text na plagáte. Musí byť krátky, výstižný a veselý alebo zvedavý, aby sa okoloidúci zastavil. Na plagáte ho zbytočne nepodčiarkujeme, lebo podčiarknutie patrí odkazom na internete.`,
+        tip: `ŠVP 2023 tip: Použi výraznú veľkosť a tučné bezpätkové písmo, ktoré prečítaš aj z diaľky.`
+      },
+      {
+        id: `symbol`,
+        num: 2,
+        title: `Hlavný obrázok alebo symbol`,
+        short: `Dopĺňa a potvrdzuje text`,
+        explain: `Plagát je obrazovo-písaný text. Obrázok nie je len ozdoba — pomáha pochopiť tému ešte skôr, než čitateľ dočíta prvé slovo. Ak pozývaš na výmenu kníh, ukáž knihy, nie raketu!`,
+        tip: `Vizuálna gramotnosť: Obrázok a text musia rozprávať ten istý príbeh.`
+      },
+      {
+        id: `whowhat`,
+        num: 3,
+        title: `Údaje KTO a ČO`,
+        short: `Kto akciu robí a čo sa bude diať`,
+        explain: `Čitateľ musí okamžite vedieť, čo sa chystá (napr. výmena kníh) a kto podujatie organizuje (napr. žiaci 4.A). Vďaka tomu ľudia vedia, na koho sa obrátiť.`,
+        tip: `Kľúčová otázka: Čo presne návštevníka čaká?`
+      },
+      {
+        id: `wherewhen`,
+        num: 4,
+        title: `Údaje KDE a KEDY`,
+        short: `Presné miesto, dátum a hodina`,
+        explain: `Aj najkrajší plagát je zbytočný, ak chýba čas alebo miesto. Uveď presný deň, hodinu začiatku aj miestnosť alebo adresu, aby nikto nezablúdil.`,
+        tip: `Skontroluj si: Je jasný deň, čas aj presné miesto?`
+      },
+      {
+        id: `why`,
+        num: 5,
+        title: `Údaj PREČO`,
+        short: `Dôvod, prečo má čitateľ prísť`,
+        explain: `Dobré pozvanie ukáže zmysel alebo lákadlo — napríklad prečo je dôležité prísť alebo komu tým pomôžeme. To plní komunikačný zámer: zaujať a presvedčiť.`,
+        tip: `Príklad: „Daj prečítanej knihe druhý život a objav nový príbeh!“`
+      },
+      {
+        id: `audience`,
+        num: 6,
+        title: `Adresát (Pre koho)`,
+        short: `Prispôsobenie čitateľovi`,
+        explain: `Inak píšeme plagát pre prváčikov a inak pre rodičov či starých rodičov. Ak jasne napíšeš, pre koho je akcia určená, správni ľudia hneď spozornia.`,
+        tip: `ŠVP 2023: Pri tvorbe textu vždy zohľadňujeme očakávania adresáta.`
+      },
+      {
+        id: `clarity`,
+        num: 7,
+        title: `Celková prehľadnosť`,
+        short: `Kontrast, poriadok a voľné miesto`,
+        explain: `Na plagát nedávaj dlhé steny textu. Použi tmavé písmo na svetlom pozadí (alebo svetlé na tmavom), rozdeľ údaje do prehľadných blokov a nechaj okolo nich dýchajúci priestor.`,
+        tip: `Pravidlo čitateľnosti: Menej slov, jasný kontrast a logické poradie.`
+      }
+    ];
+
+    const TOPICS = [
+      {
+        id: `bazar`,
+        name: `Školský bazár`,
+        iconName: `shopping-bag`,
+        defaultIcon: `books`,
+        defaultPalette: `berry`,
+        starter: {
+          headline: `Veľký školský bazár pokladov!`,
+          who: `Žiacky parlament a 4.A`,
+          what: `Výmena a predaj kníh, hier a hračiek`,
+          where: `Telocvičňa našej ZŠ`,
+          when: `Štvrtok 26. novembra od 14:00 do 16:30`,
+          why: `Dáme veciam druhý život a podporíme útulok`,
+          audience: `Pre všetkých žiakov našej školy a rodičov`,
+          bodyText: `Máš doma knižku, ktorú si už prečítal, alebo spoločenskú hru, ktorá len leží v skrini? Prines ju na náš bazár a vymeň za nový poklad!`,
+          stampText: `VSTUP VOĽNÝ`
+        }
+      },
+      {
+        id: `sport`,
+        name: `Športový deň`,
+        iconName: `trophy`,
+        defaultIcon: `trophy`,
+        defaultPalette: `sunny`,
+        starter: {
+          headline: `Rozhýb školský dvor na Športovom dni!`,
+          who: `Učitelia telesnej výchovy a štvrtáci`,
+          what: `Štafetový beh, vybíjaná a prekážková dráha`,
+          where: `Školský športový areál`,
+          when: `Piatok 4. decembra o 9:00`,
+          why: `Zažijeme radosť z pohybu a tímovú spoluprácu`,
+          audience: `Pre žiakov 1. – 4. ročníka`,
+          bodyText: `Zober si tenisky, fľašu s vodou a dobrú náladu. Každý tím získa diplom a na víťazov čaká putovný pohár!`,
+          stampText: `SPOLU TO DÁME`
+        }
+      },
+      {
+        id: `les`,
+        name: `Zachráňme les`,
+        iconName: `trees`,
+        defaultIcon: `tree`,
+        defaultPalette: `forest`,
+        starter: {
+          headline: `Zachráňme náš les — pridaj ruku k dielu!`,
+          who: `Eko hliadka 4. ročníka`,
+          what: `Zber odpadkov a sadenie mladých stromčekov`,
+          where: `Zraz pred bránou školy, smer Lesopark`,
+          when: `Sobota 28. novembra o 9:30`,
+          why: `Aby mal náš les čisté chodníky a domov pre zvieratá`,
+          audience: `Pre žiakov, rodičov a milovníkov prírody`,
+          bodyText: `Príroda nás potrebuje! Rukavice a vrecia budú pripravené pri vchode. Spoločne urobíme náš les krajším miestom pre všetkých.`,
+          stampText: `PRE VŠETKÝCH`
+        }
+      },
+      {
+        id: `divadlo`,
+        name: `Divadelné predstavenie`,
+        iconName: `theater`,
+        defaultIcon: `masks`,
+        defaultPalette: `curtain`,
+        starter: {
+          headline: `Tajomstvo stratenej koruny — rozprávka naživo!`,
+          who: `Divadelný krúžok Hviezdička`,
+          what: `Veselé triedne divadelné predstavenie`,
+          where: `Kultúrna sála na 2. poschodí`,
+          when: `Streda 2. decembra o 16:00`,
+          why: `Príď sa zasmiať a podporiť našich malých hercov`,
+          audience: `Pre rodičov, súrodencov a žiakov 1. stupňa`,
+          bodyText: `Opona sa dvíha! Čaká vás napínavý príbeh o statočnom princovi, múdrej sove a rozprávkových kostýmoch, ktoré sme sami vyrobili.`,
+          stampText: `NEZMEŠKAJ!`
+        }
+      }
+    ];
+
+    const PALETTES = [
+      { id: `berry`, name: `Malinová radosť`, dotToken: `--p-berry-accent`, bgHex: `#fff5fb`, cardHex: `#ffffff`, inkHex: `#2e1a28`, accentHex: `#c2207f`, softHex: `#fbd3ea`, badgeHex: `#7c52aa` },
+      { id: `forest`, name: `Lesná sviežosť`, dotToken: `--p-forest-accent`, bgHex: `#f1fbf4`, cardHex: `#ffffff`, inkHex: `#133120`, accentHex: `#15803d`, softHex: `#cdeed7`, badgeHex: `#b45309` },
+      { id: `sunny`, name: `Slnečný štart`, dotToken: `--p-sunny-accent`, bgHex: `#fffbea`, cardHex: `#ffffff`, inkHex: `#1e293b`, accentHex: `#c2410c`, softHex: `#fde68a`, badgeHex: `#0369a1` },
+      { id: `curtain`, name: `Divadelná opona`, dotToken: `--p-curtain-accent`, bgHex: `#fdf2f4`, cardHex: `#ffffff`, inkHex: `#3b0d19`, accentHex: `#9f1239`, softHex: `#fecdd3`, badgeHex: `#b45309` },
+      { id: `galaxy`, name: `Hviezdna noc`, dotToken: `--p-galaxy-accent`, bgHex: `#1e1633`, cardHex: `#2c214a`, inkHex: `#f8f5ff`, accentHex: `#f59e0b`, softHex: `#3d2e66`, badgeHex: `#c2207f` }
+    ];
+
+    const ILLUSTRATIONS = [
+      { id: `books`, name: `Knihy a poklady` },
+      { id: `backpack`, name: `Školský batoh` },
+      { id: `trophy`, name: `Pohár a lopta` },
+      { id: `runner`, name: `Bežec v cieli` },
+      { id: `tree`, name: `Strom a lístky` },
+      { id: `planet`, name: `Planéta Zem` },
+      { id: `masks`, name: `Divadelné masky` },
+      { id: `castle`, name: `Rozprávkový hrad` }
+    ];
+
+    const SELF_CHECK_ITEMS = [
+      { id: `spelling`, label: `Skontroloval/-a som si pravopis (veľké písmená, dĺžne, mäkčene a bodky na konci viet).` },
+      { id: `visualMatch`, label: `Vybraný obrázok a farby sa hodia k téme a pomáhajú čitateľovi porozumieť textu.` },
+      { id: `purposeReady`, label: `Viem nahlas vysvetliť, pre koho som plagát urobil/-a a čo ním chcem povedať.` }
+    ];
+
+    const QUIZ_CASES = [
+      {
+        id: `q1`,
+        title: `Prípad 1: Čo chýba na pozvánke?`,
+        prompt: `Na plagáte stojí: „Veľký turnaj vo vybíjanej! Štvrtáci z 4.B pozývajú všetkých žiakov na školské ihrisko. Príďte povzbudiť svoj tím!“ Čo dôležité chýba?`,
+        options: [
+          `Kto akciu organizuje`,
+          `KEDY sa turnaj koná (dátum a čas)`,
+          `Pre koho je plagát určený`
+        ],
+        correctIdx: 1,
+        explanation: `Správne! Vieme KTO (4.B), ČO (turnaj), KDE (školské ihrisko) aj PRE KOHO (žiaci), no bez dátumu a času nikto nevie, kedy prísť.`
+      },
+      {
+        id: `q2`,
+        title: `Prípad 2: Hľadanie adresáta`,
+        prompt: `Plagát obsahuje vetu: „Vážení rodičia, príďte si pozrieť výstavu prác vašich detí a porozprávať sa s pani učiteľkou.“ Kto je adresátom plagátu?`,
+        options: [
+          `Rodičia žiakov`,
+          `Športovci z iného mesta`,
+          `Deti z materskej školy`
+        ],
+        correctIdx: 0,
+        explanation: `Výborne! Oslovenie „Vážení rodičia“ a obsah o prácach ich detí jasne ukazujú, že adresátom sú rodičia.`
+      },
+      {
+        id: `q3`,
+        title: `Prípad 3: Obraz a text`,
+        prompt: `Žiak robí plagát s názvom „Zachráňme školský lesík“, ale doprostred nakreslí obrovskú zmrzlinu. Prečo to nefunguje?`,
+        options: [
+          `Zmrzlina má príliš veľa farieb`,
+          `Obrázok vôbec nesúvisí s témou a mätie čitateľa`,
+          `Na plagát obrázky vôbec nepatria`
+        ],
+        correctIdx: 1,
+        explanation: `Presne tak! V obrazovo-písanom texte musí obrázok potvrdzovať a dopĺňať tému, nie ju popierať.`
+      },
+      {
+        id: `q4`,
+        title: `Prípad 4: Tajomstvo čitateľnosti`,
+        prompt: `Prečo na plagáte nepíšeme celý oznam drobným žltým písmom na bielom papieri a nepodčiarkujeme každú vetu?`,
+        options: [
+          `Text má slabý kontrast, nedá sa prečítať z diaľky a podčiarknutie patrí odkazom`,
+          `Žltá farba je zakázaná na všetkých plagátoch`,
+          `Plagát musí obsahovať aspoň celú stranu románu`
+        ],
+        correctIdx: 0,
+        explanation: `Výborné detektívne oko! Dobrý plagát má silný kontrast, čitateľnú veľkosť písma a podčiarknutie si šetrí pre webové odkazy.`
+      },
+      {
+        id: `q5`,
+        title: `Prípad 5: Komunikačný zámer`,
+        prompt: `Aký je hlavný cieľ (komunikačný zámer) plagátu na Školský bazár?`,
+        options: [
+          `Vymyslieť tajnú šifru len pre autora`,
+          `Napísať dlhý životopis autora plagátu`,
+          `Stručne informovať o akcii a zaujať adresáta, aby prišiel`
+        ],
+        correctIdx: 2,
+        explanation: `Skvelá práca! Plagát má zaujať na prvý pohľad, podať jasné informácie a pozvať čitateľa.`
+      }
+    ];
+
+    let appState = {
+      activeRuleId: `headline`,
+      exploredRules: [`headline`],
+      sampleMode: `good`,
+      badCluesFound: [],
+      showZones: false,
+      studentName: ``,
+      topicId: `bazar`,
+      headline: `Veľký školský bazár pokladov!`,
+      headlineSize: `lg`,
+      headlineAlign: `center`,
+      headlineBand: false,
+      who: `Žiacky parlament a 4.A`,
+      what: `Výmena a predaj kníh, hier a hračiek`,
+      where: `Telocvičňa našej ZŠ`,
+      when: `Štvrtok 26. novembra od 14:00 do 16:30`,
+      why: `Dáme veciam druhý život a podporíme útulok`,
+      audience: `Pre všetkých žiakov našej školy a rodičov`,
+      bodyText: `Máš doma knižku, ktorú si už prečítal, alebo spoločenskú hru, ktorá len leží v skrini? Prines ju na náš bazár a vymeň za nový poklad!`,
+      paletteId: `berry`,
+      iconId: `books`,
+      frameId: `dots`,
+      stampText: `VSTUP VOĽNÝ`,
+      selfChecks: [],
+      quizAnswers: {}
+    };
+
+    function escapeHtml(str) {
+      if (typeof str !== `string`) return ``;
+      return str
+        .replace(/&/g, `&amp;`)
+        .replace(/</g, `&lt;`)
+        .replace(/>/g, `&gt;`)
+        .replace(/"/g, `&quot;`)
+        .replace(/'/g, `&#39;`);
+    }
+
+    function getIllustrationSvg(iconId, sizePx) {
+      const sz = sizePx || 96;
+      const common = `width="${sz}" height="${sz}" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"`;
+      if (iconId === `books`) {
+        return `<svg ${common}>
+          <rect x="18" y="68" width="84" height="22" rx="6" style="fill: var(--poster-accent, var(--primary));" />
+          <rect x="26" y="74" width="60" height="8" rx="4" style="fill: var(--poster-card, var(--surface-container-low)); opacity:0.85;" />
+          <rect x="24" y="44" width="72" height="22" rx="6" style="fill: var(--poster-badge, var(--secondary));" />
+          <rect x="32" y="50" width="48" height="8" rx="4" style="fill: var(--poster-card, var(--surface-container-low)); opacity:0.85;" />
+          <path d="M40 24 L80 24 L86 42 L34 42 Z" style="fill: var(--poster-ink, var(--on-surface)); opacity:0.9;" />
+          <circle cx="94" cy="28" r="9" style="fill: var(--poster-accent, var(--primary));" />
+          <path d="M94 22 L94 34 M88 28 L100 28" stroke="white" stroke-width="2.5" stroke-linecap="round" />
+        </svg>`;
+      }
+      if (iconId === `backpack`) {
+        return `<svg ${common}>
+          <path d="M44 24 C44 14, 76 14, 76 24" fill="none" stroke-width="7" stroke-linecap="round" style="stroke: var(--poster-ink, var(--on-surface));" />
+          <rect x="26" y="26" width="68" height="72" rx="20" style="fill: var(--poster-accent, var(--primary));" />
+          <rect x="36" y="56" width="48" height="30" rx="10" style="fill: var(--poster-card, var(--surface-container-low));" />
+          <rect x="48" y="40" width="24" height="8" rx="4" style="fill: var(--poster-badge, var(--secondary));" />
+          <circle cx="60" cy="70" r="5" style="fill: var(--poster-accent, var(--primary));" />
+        </svg>`;
+      }
+      if (iconId === `trophy`) {
+        return `<svg ${common}>
+          <path d="M36 24 H84 V50 C84 68, 72 76, 60 76 C48 76, 36 68, 36 50 Z" style="fill: var(--poster-accent, var(--primary));" />
+          <path d="M36 30 H22 C22 48, 30 54, 36 54" fill="none" stroke-width="6" stroke-linecap="round" style="stroke: var(--poster-badge, var(--secondary));" />
+          <path d="M84 30 H98 C98 48, 90 54, 84 54" fill="none" stroke-width="6" stroke-linecap="round" style="stroke: var(--poster-badge, var(--secondary));" />
+          <rect x="54" y="74" width="12" height="16" style="fill: var(--poster-ink, var(--on-surface));" />
+          <rect x="38" y="88" width="44" height="12" rx="6" style="fill: var(--poster-badge, var(--secondary));" />
+          <polygon points="60,33 63,42 72,42 65,47 67,56 60,51 53,56 55,47 48,42 57,42" style="fill: var(--poster-card, var(--surface-container-low));" />
+        </svg>`;
+      }
+      if (iconId === `runner`) {
+        return `<svg ${common}>
+          <circle cx="68" cy="24" r="10" style="fill: var(--poster-accent, var(--primary));" />
+          <path d="M40 50 L62 40 L82 48" fill="none" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" style="stroke: var(--poster-badge, var(--secondary));" />
+          <path d="M62 40 L54 66 L74 78 L86 98" fill="none" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" style="stroke: var(--poster-ink, var(--on-surface));" />
+          <path d="M54 66 L36 86 L24 84" fill="none" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" style="stroke: var(--poster-accent, var(--primary));" />
+          <line x1="18" y1="104" x2="102" y2="104" stroke-width="6" stroke-linecap="round" style="stroke: var(--poster-badge, var(--secondary));" />
+        </svg>`;
+      }
+      if (iconId === `tree`) {
+        return `<svg ${common}>
+          <rect x="52" y="66" width="16" height="36" rx="5" style="fill: var(--poster-ink, var(--on-surface));" />
+          <circle cx="60" cy="42" r="28" style="fill: var(--poster-accent, var(--primary));" />
+          <circle cx="40" cy="54" r="18" style="fill: var(--poster-accent, var(--primary)); opacity:0.9;" />
+          <circle cx="80" cy="54" r="18" style="fill: var(--poster-badge, var(--secondary)); opacity:0.85;" />
+          <circle cx="60" cy="36" r="10" style="fill: var(--poster-card, var(--surface-container-low)); opacity:0.35;" />
+          <ellipse cx="60" cy="102" rx="36" ry="7" style="fill: var(--poster-badge, var(--secondary)); opacity:0.5;" />
+        </svg>`;
+      }
+      if (iconId === `planet`) {
+        return `<svg ${common}>
+          <circle cx="60" cy="60" r="38" style="fill: var(--poster-badge, var(--secondary));" />
+          <path d="M38 42 C46 34, 62 36, 62 48 C62 56, 46 60, 42 70 C36 62, 32 50, 38 42 Z" style="fill: var(--poster-accent, var(--primary));" />
+          <path d="M72 44 C82 46, 90 58, 86 72 C76 76, 68 68, 70 58 C71 52, 68 48, 72 44 Z" style="fill: var(--poster-accent, var(--primary));" />
+          <path d="M52 24 C56 14, 68 14, 70 22 C64 28, 56 28, 52 24 Z" style="fill: var(--poster-accent, var(--primary));" />
+          <circle cx="60" cy="60" r="38" fill="none" stroke-width="4" style="stroke: var(--poster-ink, var(--on-surface)); opacity:0.25;" />
+        </svg>`;
+      }
+      if (iconId === `masks`) {
+        return `<svg ${common}>
+          <path d="M22 28 H64 V58 C64 76, 43 84, 43 84 C43 84, 22 76, 22 58 Z" style="fill: var(--poster-accent, var(--primary));" />
+          <circle cx="35" cy="48" r="4" style="fill: var(--poster-card, var(--surface-container-low));" />
+          <circle cx="51" cy="48" r="4" style="fill: var(--poster-card, var(--surface-container-low));" />
+          <path d="M34 62 Q43 70 52 62" fill="none" stroke-width="3.5" stroke-linecap="round" style="stroke: var(--poster-card, var(--surface-container-low));" />
+          <path d="M56 38 H98 V68 C98 86, 77 94, 77 94 C77 94, 56 86, 56 68 Z" style="fill: var(--poster-badge, var(--secondary));" />
+          <circle cx="69" cy="58" r="4" style="fill: var(--poster-card, var(--surface-container-low));" />
+          <circle cx="85" cy="58" r="4" style="fill: var(--poster-card, var(--surface-container-low));" />
+          <path d="M68 75 Q77 68 86 75" fill="none" stroke-width="3.5" stroke-linecap="round" style="stroke: var(--poster-card, var(--surface-container-low));" />
+        </svg>`;
+      }
+      /* castle */
+      return `<svg ${common}>
+        <rect x="26" y="52" width="18" height="48" rx="3" style="fill: var(--poster-badge, var(--secondary));" />
+        <rect x="76" y="52" width="18" height="48" rx="3" style="fill: var(--poster-badge, var(--secondary));" />
+        <rect x="44" y="42" width="32" height="58" rx="3" style="fill: var(--poster-accent, var(--primary));" />
+        <polygon points="24,52 35,32 46,52" style="fill: var(--poster-ink, var(--on-surface));" />
+        <polygon points="74,52 85,32 96,52" style="fill: var(--poster-ink, var(--on-surface));" />
+        <polygon points="42,42 60,18 78,42" style="fill: var(--poster-ink, var(--on-surface));" />
+        <path d="M51 100 V78 C51 71, 69 71, 69 78 V100 Z" style="fill: var(--poster-card, var(--surface-container-low));" />
+      </svg>`;
+    }
+
+    function saveState() {
+      if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === `function`) {
+        window.notebookAppApi.setAppState(appState).catch(function() {});
+      }
+    }
+
+    function selectRule(ruleId) {
+      appState.activeRuleId = ruleId;
+      if (!appState.exploredRules.includes(ruleId)) {
+        appState.exploredRules.push(ruleId);
+      }
+      renderGuide();
+      renderMissionProgress();
+      saveState();
+    }
+
+    function setSampleMode(mode) {
+      appState.sampleMode = mode;
+      const btnGood = document.getElementById(`btn-sample-good`);
+      const btnBad = document.getElementById(`btn-sample-bad`);
+      const modeTag = document.getElementById(`sample-mode-tag`);
+      if (btnGood) btnGood.classList.toggle(`active`, mode === `good`);
+      if (btnBad) btnBad.classList.toggle(`active`, mode === `bad`);
+      if (modeTag) modeTag.textContent = mode === `good` ? `Klikni na plagát` : `Nájdi 3 chyby`;
+      renderSamplePoster();
+      saveState();
+    }
+
+    function spotBadClue(clueId) {
+      if (!appState.badCluesFound.includes(clueId)) {
+        appState.badCluesFound.push(clueId);
+      }
+      renderSamplePoster();
+      saveState();
+    }
+
+    function renderGuide() {
+      const listEl = document.getElementById(`guide-rules-list`);
+      const detailEl = document.getElementById(`guide-detail-box`);
+      const badgeEl = document.getElementById(`guide-explored-badge`);
+      if (!listEl || !detailEl) return;
+
+      listEl.innerHTML = GUIDE_RULES.map(function(rule) {
+        const active = rule.id === appState.activeRuleId ? `active` : ``;
+        const seen = appState.exploredRules.includes(rule.id);
+        return `<button type="button" class="rule-btn ${active}" role="tab" aria-selected="${rule.id === appState.activeRuleId}" onclick="selectRule('${rule.id}')">
+          <span class="rule-num">${rule.num}</span>
+          <span>
+            <span class="rule-btn-title">${escapeHtml(rule.title)}</span>
+            <span class="rule-btn-sub">${escapeHtml(rule.short)}</span>
+          </span>
+          <span class="badge ${seen ? `badge-ok` : `badge-grape`}">${seen ? `Prečítané` : `Otvoriť`}</span>
+        </button>`;
+      }).join(``);
+
+      const current = GUIDE_RULES.find(function(r) { return r.id === appState.activeRuleId; }) || GUIDE_RULES[0];
+      detailEl.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:var(--space-sm); flex-wrap:wrap;">
+          <span class="badge">Pravidlo ${current.num} z 7</span>
+          <span style="font-size:0.85rem; color:var(--on-surface-variant); font-weight:600;">Obrazovo-písaný text</span>
+        </div>
+        <h3 class="card-title" style="margin:0;">${escapeHtml(current.title)}</h3>
+        <p style="margin:0;">${escapeHtml(current.explain)}</p>
+        <p style="margin:0; padding:var(--space-sm) var(--space-md); background:var(--surface-container); border-radius:var(--rounded); font-weight:600; color:var(--secondary);">
+          ${escapeHtml(current.tip)}
+        </p>
+      `;
+
+      if (badgeEl) {
+        badgeEl.textContent = `Preskúmané: ${appState.exploredRules.length} / 7`;
+      }
+      renderSamplePoster();
+    }
+
+    function renderSamplePoster() {
+      const container = document.getElementById(`sample-poster-container`);
+      if (!container) return;
+
+      if (appState.sampleMode === `good`) {
+        const hl = appState.activeRuleId;
+        container.innerHTML = `
+          <div class="sample-poster">
+            <div class="poster-zone ${hl === `audience` ? `highlighted` : ``}" onclick="selectRule('audience')" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:var(--space-xs);">
+              <span class="badge">PRE ŽIAKOV 3. – 5. ROČNÍKA</span>
+              <span class="badge badge-grape">VZOROVÝ PLAGÁT</span>
+            </div>
+
+            <div class="poster-zone ${hl === `headline` ? `highlighted` : ``}" onclick="selectRule('headline')">
+              <h3 style="margin:0; font-size:1.75rem; font-weight:900; line-height:1.1; color:var(--p-sunny-accent); text-align:center;">
+                Vymeň knihu za nové dobrodružstvo!
+              </h3>
+            </div>
+
+            <div class="poster-zone ${hl === `symbol` ? `highlighted` : ``}" onclick="selectRule('symbol')" style="display:flex; justify-content:center; padding:var(--space-md); background:var(--p-sunny-soft); border-radius:var(--rounded);">
+              ${getIllustrationSvg(`books`, 88)}
+            </div>
+
+            <div class="poster-zone ${hl === `why` ? `highlighted` : ``}" onclick="selectRule('why')">
+              <p style="margin:0; font-weight:600; text-align:center;">
+                Daj prečítanej knižke druhý život, urob radosť spolužiakovi a odnes si nový príbeh na dlhé večery!
+              </p>
+            </div>
+
+            <div class="poster-facts-grid">
+              <div class="poster-zone poster-fact ${hl === `whowhat` ? `highlighted` : ``}" onclick="selectRule('whowhat')">
+                <span class="poster-fact-key" style="color:var(--p-sunny-accent);">KTO a ČO</span>
+                <span class="poster-fact-val">Žiacky parlament · Veľká výmena kníh</span>
+              </div>
+              <div class="poster-zone poster-fact ${hl === `wherewhen` ? `highlighted` : ``}" onclick="selectRule('wherewhen')">
+                <span class="poster-fact-key" style="color:var(--p-sunny-accent);">KDE a KEDY</span>
+                <span class="poster-fact-val">Školská knižnica · Piatok o 13:30</span>
+              </div>
+            </div>
+
+            <div class="poster-zone ${hl === `clarity` ? `highlighted` : ``}" onclick="selectRule('clarity')" style="text-align:center; font-size:0.85rem; color:var(--on-surface-variant); font-weight:600;">
+              Prehľadné rozloženie · Silný kontrast · Žiadne zbytočné podčiarkovanie
+            </div>
+          </div>
+        `;
+      } else {
+        const f1 = appState.badCluesFound.includes(`contrast`);
+        const f2 = appState.badCluesFound.includes(`missing`);
+        const f3 = appState.badCluesFound.includes(`wrongpic`);
+        container.innerHTML = `
+          <div class="sample-poster bad-mode">
+            <div class="poster-zone ${f1 ? `highlighted` : ``}" onclick="spotBadClue('contrast')">
+              <p class="bad-title" style="margin:0;">oznam o burze kníh ktorý sa možno uskutoční</p>
+            </div>
+
+            <div class="poster-zone ${f3 ? `highlighted` : ``}" onclick="spotBadClue('wrongpic')" style="display:flex; justify-content:center; padding:var(--space-sm);">
+              ${getIllustrationSvg(`trophy`, 72)}
+            </div>
+
+            <div class="poster-zone ${f2 ? `highlighted` : ``}" onclick="spotBadClue('missing')">
+              <p class="bad-wall" style="margin:0;">
+                Ahoj všetci, niekedy budúci týždeň prídite niekam na chodbu lebo sa budú meniť knihy ale nevieme ešte o koľkej ani kde presne a kto to vlastne organizuje a prečo by ste mali prísť tak sa príďte pozrieť a doneste si niečo...
+              </p>
+            </div>
+
+            <div class="bad-clues">
+              <button type="button" class="mini-chip ${f1 ? `active` : ``}" onclick="spotBadClue('contrast')">
+                ${f1 ? `Chyba 1 nájdená: Slabý kontrast a malý podčiarknutý nadpis` : `Skontroluj nadpis a farbu písma`}
+              </button>
+              <button type="button" class="mini-chip ${f2 ? `active` : ``}" onclick="spotBadClue('missing')">
+                ${f2 ? `Chyba 2 nájdená: Chýba KDE, KEDY, KTO aj PREČO` : `Skontroluj chýbajúce údaje`}
+              </button>
+              <button type="button" class="mini-chip ${f3 ? `active` : ``}" onclick="spotBadClue('wrongpic')">
+                ${f3 ? `Chyba 3 nájdená: Športový pohár nesúvisí s knihami` : `Skontroluj obrázok`}
+              </button>
+            </div>
+          </div>
+        `;
+      }
+      refreshIcons();
+    }
+
+    function selectTopic(topicId) {
+      appState.topicId = topicId;
+      loadTopicStarter(false);
+    }
+
+    function loadTopicStarter(forceOverwrite) {
+      const topic = TOPICS.find(function(t) { return t.id === appState.topicId; }) || TOPICS[0];
+      const st = topic.starter;
+      if (forceOverwrite || !appState.headline.trim()) {
+        appState.headline = st.headline;
+        appState.who = st.who;
+        appState.what = st.what;
+        appState.where = st.where;
+        appState.when = st.when;
+        appState.why = st.why;
+        appState.audience = st.audience;
+        appState.bodyText = st.bodyText;
+        appState.stampText = st.stampText;
+        appState.iconId = topic.defaultIcon;
+        appState.paletteId = topic.defaultPalette;
+      } else {
+        /* When switching topic cleanly, load its starter so kids immediately explore the new topic */
+        appState.headline = st.headline;
+        appState.who = st.who;
+        appState.what = st.what;
+        appState.where = st.where;
+        appState.when = st.when;
+        appState.why = st.why;
+        appState.audience = st.audience;
+        appState.bodyText = st.bodyText;
+        appState.stampText = st.stampText;
+        appState.iconId = topic.defaultIcon;
+        appState.paletteId = topic.defaultPalette;
+      }
+      syncStudioInputs();
+      renderAllDynamic();
+      saveState();
+    }
+
+    function clearPosterTexts() {
+      appState.headline = ``;
+      appState.who = ``;
+      appState.what = ``;
+      appState.where = ``;
+      appState.when = ``;
+      appState.why = ``;
+      appState.audience = ``;
+      appState.bodyText = ``;
+      syncStudioInputs();
+      renderAllDynamic();
+      saveState();
+    }
+
+    function updatePosterField(key, val) {
+      appState[key] = val;
+      updateCounters();
+      renderLivePoster();
+      renderAudit();
+      renderPresentationAndCert();
+      renderMissionProgress();
+      saveState();
+    }
+
+    function setHeadlineOption(key, val) {
+      appState[key] = val;
+      renderStudioPickers();
+      renderLivePoster();
+      saveState();
+    }
+
+    function toggleHeadlineBand() {
+      appState.headlineBand = !appState.headlineBand;
+      renderStudioPickers();
+      renderLivePoster();
+      saveState();
+    }
+
+    function pickAudience(text) {
+      appState.audience = text;
+      const inp = document.getElementById(`input-audience`);
+      if (inp) inp.value = text;
+      renderLivePoster();
+      renderAudit();
+      renderPresentationAndCert();
+      renderMissionProgress();
+      saveState();
+    }
+
+    function selectPalette(paletteId) {
+      appState.paletteId = paletteId;
+      renderStudioPickers();
+      renderLivePoster();
+      renderPresentationAndCert();
+      saveState();
+    }
+
+    function selectIcon(iconId) {
+      appState.iconId = iconId;
+      renderStudioPickers();
+      renderLivePoster();
+      renderAudit();
+      renderPresentationAndCert();
+      saveState();
+    }
+
+    function toggleZoneLabels() {
+      appState.showZones = !appState.showZones;
+      const btn = document.getElementById(`btn-toggle-zones`);
+      if (btn) btn.classList.toggle(`active`, appState.showZones);
+      renderLivePoster();
+      saveState();
+    }
+
+    function syncStudioInputs() {
+      const map = {
+        'input-student-name': appState.studentName,
+        'input-headline': appState.headline,
+        'input-who': appState.who,
+        'input-what': appState.what,
+        'input-where': appState.where,
+        'input-when': appState.when,
+        'input-why': appState.why,
+        'input-audience': appState.audience,
+        'input-body': appState.bodyText,
+        'select-frame': appState.frameId,
+        'select-stamp': appState.stampText
+      };
+      Object.keys(map).forEach(function(id) {
+        const el = document.getElementById(id);
+        if (el) el.value = map[id] || ``;
+      });
+      const zoneBtn = document.getElementById(`btn-toggle-zones`);
+      if (zoneBtn) zoneBtn.classList.toggle(`active`, !!appState.showZones);
+      updateCounters();
+    }
+
+    function updateCounters() {
+      const hCount = document.getElementById(`count-headline`);
+      const bCount = document.getElementById(`count-body`);
+      if (hCount) hCount.textContent = `${(appState.headline || ``).length} / 55`;
+      if (bCount) bCount.textContent = `${(appState.bodyText || ``).length} / 180`;
+    }
+
+    function renderStudioPickers() {
+      const topicEl = document.getElementById(`topic-selector`);
+      if (topicEl) {
+        topicEl.innerHTML = TOPICS.map(function(t) {
+          const sel = t.id === appState.topicId ? `selected` : ``;
+          return `<button type="button" class="topic-chip ${sel}" onclick="selectTopic('${t.id}')">
+            <i data-lucide="${t.iconName}" aria-hidden="true"></i>
+            <span>${escapeHtml(t.name)}</span>
+          </button>`;
+        }).join(``);
+      }
+
+      const sizeChips = document.querySelectorAll(`#headline-size-chips .mini-chip`);
+      sizeChips.forEach(function(btn) {
+        btn.classList.toggle(`active`, btn.dataset.size === appState.headlineSize);
+      });
+
+      const styleChips = document.querySelectorAll(`#headline-style-chips .mini-chip`);
+      styleChips.forEach(function(btn) {
+        if (btn.dataset.align) {
+          btn.classList.toggle(`active`, btn.dataset.align === appState.headlineAlign);
+        }
+        if (btn.dataset.band) {
+          btn.classList.toggle(`active`, !!appState.headlineBand);
+        }
+      });
+
+      const palEl = document.getElementById(`palette-picker`);
+      if (palEl) {
+        palEl.innerHTML = PALETTES.map(function(p) {
+          const act = p.id === appState.paletteId ? `active` : ``;
+          return `<button type="button" class="palette-btn ${act}" onclick="selectPalette('${p.id}')">
+            <span class="swatch-dot" style="background: var(${p.dotToken});"></span>
+            <span>${escapeHtml(p.name)}</span>
+          </button>`;
+        }).join(``);
+      }
+
+      const iconEl = document.getElementById(`icon-picker`);
+      if (iconEl) {
+        iconEl.innerHTML = ILLUSTRATIONS.map(function(ic) {
+          const act = ic.id === appState.iconId ? `active` : ``;
+          return `<button type="button" class="icon-choice ${act}" onclick="selectIcon('${ic.id}')">
+            ${getIllustrationSvg(ic.id, 44)}
+            <span>${escapeHtml(ic.name)}</span>
+          </button>`;
+        }).join(``);
+      }
+      refreshIcons();
+    }
+
+    function renderLivePoster() {
+      const posterEl = document.getElementById(`live-poster-canvas`);
+      if (!posterEl) return;
+
+      posterEl.className = `live-poster palette-${appState.paletteId} frame-${appState.frameId} ${appState.showZones ? `show-zones` : ``}`;
+
+      const headText = (appState.headline || ``).trim() || `Sem napíš chytľavý nadpis…`;
+      const audText = (appState.audience || ``).trim() || `Doplň adresáta (pre koho)`;
+      const bodyText = (appState.bodyText || ``).trim() || `Sem napíš krátku a pútavú pozvánku pre čitateľov.`;
+      const designer = (appState.studentName || ``).trim() || `Mladý dizajnér`;
+      const topicObj = TOPICS.find(function(t) { return t.id === appState.topicId; }) || TOPICS[0];
+
+      const stampHtml = appState.stampText
+        ? `<span class="poster-sticker-stamp">${escapeHtml(appState.stampText)}</span>`
+        : ``;
+
+      posterEl.innerHTML = `
+        <div class="poster-top-bar">
+          <div>
+            <span class="zone-tag">ADRESÁT</span>
+            <div class="poster-audience-pill">${escapeHtml(audText)}</div>
+          </div>
+          ${stampHtml}
+        </div>
+
+        <div>
+          <span class="zone-tag">CHYTĽAVÝ NADPIS</span>
+          <h3 class="poster-headline size-${appState.headlineSize} align-${appState.headlineAlign} ${appState.headlineBand ? `style-band` : ``}">
+            ${escapeHtml(headText)}
+          </h3>
+        </div>
+
+        <div>
+          <span class="zone-tag">HLAVNÝ SYMBOL</span>
+          <div class="poster-illustration-wrap">
+            ${getIllustrationSvg(appState.iconId, 96)}
+          </div>
+        </div>
+
+        <div>
+          <span class="zone-tag">SPRIEVODNÝ TEXT</span>
+          <p class="poster-body-text">${escapeHtml(bodyText)}</p>
+        </div>
+
+        <div class="poster-facts-grid">
+          <div class="poster-fact">
+            <span class="poster-fact-key">KTO organizuje</span>
+            <span class="poster-fact-val">${escapeHtml((appState.who || ``).trim() || `Doplň KTO`)}</span>
+          </div>
+          <div class="poster-fact">
+            <span class="poster-fact-key">ČO sa chystá</span>
+            <span class="poster-fact-val">${escapeHtml((appState.what || ``).trim() || `Doplň ČO`)}</span>
+          </div>
+          <div class="poster-fact">
+            <span class="poster-fact-key">KDE to bude</span>
+            <span class="poster-fact-val">${escapeHtml((appState.where || ``).trim() || `Doplň KDE`)}</span>
+          </div>
+          <div class="poster-fact">
+            <span class="poster-fact-key">KEDY prísť</span>
+            <span class="poster-fact-val">${escapeHtml((appState.when || ``).trim() || `Doplň KEDY`)}</span>
+          </div>
+          <div class="poster-fact poster-fact-wide">
+            <span class="poster-fact-key">PREČO prísť</span>
+            <span class="poster-fact-val">${escapeHtml((appState.why || ``).trim() || `Doplň PREČO`)}</span>
+          </div>
+        </div>
+
+        <div class="poster-footer">
+          <span>Téma: ${escapeHtml(topicObj.name)}</span>
+          <span>Navrhol/-a: ${escapeHtml(designer)}</span>
+        </div>
+      `;
+    }
+
+    function getPosterAuditResults() {
+      const checks = [
+        {
+          id: `c_headline`,
+          label: `Chytľavý nadpis (aspoň 5 znakov)`,
+          ok: (appState.headline || ``).trim().length >= 5,
+          hint: `Doplň pútavý nadpis`
+        },
+        {
+          id: `c_symbol`,
+          label: `Hlavný obrázok / symbol`,
+          ok: !!(appState.iconId && appState.iconId.trim()),
+          hint: `Vyber symbol`
+        },
+        {
+          id: `c_whowhat`,
+          label: `Údaje KTO a ČO`,
+          ok: (appState.who || ``).trim().length >= 2 && (appState.what || ``).trim().length >= 3,
+          hint: `Doplň kto a čo`
+        },
+        {
+          id: `c_wherewhen`,
+          label: `Údaje KDE a KEDY`,
+          ok: (appState.where || ``).trim().length >= 2 && (appState.when || ``).trim().length >= 3,
+          hint: `Doplň miesto a čas`
+        },
+        {
+          id: `c_why`,
+          label: `Údaj PREČO (dôvod prísť)`,
+          ok: (appState.why || ``).trim().length >= 4,
+          hint: `Doplň dôvod`
+        },
+        {
+          id: `c_audience`,
+          label: `Adresát (Pre koho je plagát)`,
+          ok: (appState.audience || ``).trim().length >= 3,
+          hint: `Urči adresáta`
+        },
+        {
+          id: `c_body`,
+          label: `Výstižný sprievodný text (min. 15 znakov)`,
+          ok: (appState.bodyText || ``).trim().length >= 15,
+          hint: `Napíš krátku pozvánku`
+        }
+      ];
+      const passedCount = checks.filter(function(c) { return c.ok; }).length;
+      return { checks: checks, passedCount: passedCount, total: checks.length };
+    }
+
+    function toggleSelfCheck(id) {
+      if (appState.selfChecks.includes(id)) {
+        appState.selfChecks = appState.selfChecks.filter(function(x) { return x !== id; });
+      } else {
+        appState.selfChecks.push(id);
+      }
+      renderAudit();
+      renderMissionProgress();
+      renderPresentationAndCert();
+      saveState();
+    }
+
+    function renderAudit() {
+      const auditEl = document.getElementById(`poster-audit-list`);
+      const selfEl = document.getElementById(`self-check-list`);
+      const readyBadge = document.getElementById(`studio-readiness-badge`);
+      const verdictEl = document.getElementById(`audit-verdict-text`);
+
+      const res = getPosterAuditResults();
+      if (readyBadge) {
+        readyBadge.textContent = `Pripravenosť: ${res.passedCount} / ${res.total}`;
+        readyBadge.className = `badge ${res.passedCount === res.total ? `badge-ok` : `badge-grape`}`;
+      }
+
+      if (auditEl) {
+        auditEl.innerHTML = res.checks.map(function(c) {
+          return `<div class="audit-item ${c.ok ? `pass` : `miss`}">
+            <span style="font-weight:700;">${escapeHtml(c.label)}</span>
+            <span class="badge ${c.ok ? `badge-ok` : `badge-warn`}">${c.ok ? `Splnené` : escapeHtml(c.hint)}</span>
+          </div>`;
+        }).join(``);
+      }
+
+      if (selfEl) {
+        selfEl.innerHTML = SELF_CHECK_ITEMS.map(function(item) {
+          const checked = appState.selfChecks.includes(item.id) ? `checked` : ``;
+          return `<label class="check-pill">
+            <input type="checkbox" ${checked} onchange="toggleSelfCheck('${item.id}')">
+            <span>${escapeHtml(item.label)}</span>
+          </label>`;
+        }).join(``);
+      }
+
+      if (verdictEl) {
+        if (res.passedCount === res.total && appState.selfChecks.length === SELF_CHECK_ITEMS.length) {
+          verdictEl.textContent = `Výborne! Plagát prešiel celou kontrolou na 100 %.`;
+        } else if (res.passedCount === res.total) {
+          verdictEl.textContent = `Všetkých 7 údajov je na mieste! Ešte zaškrtni svoje sebahodnotenie.`;
+        } else {
+          verdictEl.textContent = `Ešte chýba ${res.total - res.passedCount} údajov v štúdiu — doplň ich vyššie.`;
+        }
+      }
+    }
+
+    function answerQuiz(caseId, optIdx) {
+      appState.quizAnswers[caseId] = optIdx;
+      renderQuiz();
+      renderMissionProgress();
+      renderPresentationAndCert();
+      saveState();
+    }
+
+    function getQuizScore() {
+      let score = 0;
+      QUIZ_CASES.forEach(function(q) {
+        if (appState.quizAnswers[q.id] === q.correctIdx) score += 1;
+      });
+      return score;
+    }
+
+    function renderQuiz() {
+      const listEl = document.getElementById(`detective-quiz-list`);
+      const badgeEl = document.getElementById(`detective-summary-badge`);
+      if (!listEl) return;
+
+      const score = getQuizScore();
+      if (badgeEl) {
+        badgeEl.textContent = `Kvíz: ${score} / ${QUIZ_CASES.length}`;
+        badgeEl.className = `badge ${score === QUIZ_CASES.length ? `badge-ok` : `badge-grape`}`;
+      }
+
+      listEl.innerHTML = QUIZ_CASES.map(function(q) {
+        const chosen = appState.quizAnswers[q.id];
+        const answered = typeof chosen === `number`;
+        const isCorrect = answered && chosen === q.correctIdx;
+
+        const optsHtml = q.options.map(function(opt, idx) {
+          let cls = `quiz-opt`;
+          if (answered && idx === q.correctIdx) cls += ` correct`;
+          else if (answered && idx === chosen && idx !== q.correctIdx) cls += ` wrong`;
+          return `<button type="button" class="${cls}" onclick="answerQuiz('${q.id}', ${idx})">${escapeHtml(opt)}</button>`;
+        }).join(``);
+
+        const fbHtml = answered
+          ? `<div class="quiz-feedback" style="background:${isCorrect ? `var(--positive-bg)` : `var(--warning-bg)`}; color:${isCorrect ? `var(--positive)` : `var(--warning)`};">
+              ${isCorrect ? escapeHtml(q.explanation) : `Skús ešte raz! Zameraj sa na pravidlá zo sprievodcu.`}
+            </div>`
+          : ``;
+
+        return `<div class="quiz-case">
+          <strong style="color:var(--primary);">${escapeHtml(q.title)}</strong>
+          <p style="margin:0; font-size:0.95rem;">${escapeHtml(q.prompt)}</p>
+          <div class="quiz-options">${optsHtml}</div>
+          ${fbHtml}
+        </div>`;
+      }).join(``);
+    }
+
+    function renderPresentationAndCert() {
+      const speechEl = document.getElementById(`presentation-speech`);
+      const certNameEl = document.getElementById(`cert-student-name`);
+      const certSumEl = document.getElementById(`cert-poster-summary`);
+      const certBadgesEl = document.getElementById(`cert-badges`);
+      const certDateEl = document.getElementById(`cert-date-line`);
+
+      const designer = (appState.studentName || ``).trim() || `Mladý dizajnér`;
+      const topicObj = TOPICS.find(function(t) { return t.id === appState.topicId; }) || TOPICS[0];
+      const palObj = PALETTES.find(function(p) { return p.id === appState.paletteId; }) || PALETTES[0];
+      const iconObj = ILLUSTRATIONS.find(function(i) { return i.id === appState.iconId; }) || ILLUSTRATIONS[0];
+      const auditRes = getPosterAuditResults();
+      const quizScore = getQuizScore();
+
+      if (speechEl) {
+        const headline = (appState.headline || ``).trim() || `Môj plagát`;
+        const aud = (appState.audience || ``).trim() || `spolužiakov`;
+        const what = (appState.what || ``).trim() || `túto akciu`;
+        const who = (appState.who || ``).trim() || `naša trieda`;
+        const where = (appState.where || ``).trim() || `v škole`;
+        const when = (appState.when || ``).trim() || `čoskoro`;
+        const why = (appState.why || ``).trim() || `zažijeme niečo skvelé`;
+
+        speechEl.innerHTML = `
+          <div class="speech-step">
+            <span class="kicker" style="margin:0 0 0.2rem 0;">1. Predstavenie témy</span>
+            <p style="margin:0;">„Ahojte, volám sa <strong>${escapeHtml(designer)}</strong> a vytvoril/-a som plagát na tému <strong>${escapeHtml(topicObj.name)}</strong> s názvom <strong>${escapeHtml(headline)}</strong>.“</p>
+          </div>
+          <div class="speech-step">
+            <span class="kicker" style="margin:0 0 0.2rem 0;">2. Adresát a základné údaje</span>
+            <p style="margin:0;">„Plagát je určený <strong>${escapeHtml(aud)}</strong>. Pozýva na <strong>${escapeHtml(what)}</strong>, ktoré pripravuje <strong>${escapeHtml(who)}</strong>.“</p>
+          </div>
+          <div class="speech-step">
+            <span class="kicker" style="margin:0 0 0.2rem 0;">3. Výber farieb a symbolu</span>
+            <p style="margin:0;">„Vybral/-a som si symbol <strong>${escapeHtml(iconObj.name)}</strong> a farebnú paletu <strong>${escapeHtml(palObj.name)}</strong>, pretože sa hodia k téme a text sa dobre číta.“</p>
+          </div>
+          <div class="speech-step">
+            <span class="kicker" style="margin:0 0 0.2rem 0;">4. Kľúčová pozvánka</span>
+            <p style="margin:0;">„Akcia bude <strong>${escapeHtml(where)}</strong>, a to <strong>${escapeHtml(when)}</strong>. Príďte, pretože <strong>${escapeHtml(why)}</strong>!“</p>
+          </div>
+        `;
+      }
+
+      if (certNameEl) certNameEl.textContent = designer;
+      if (certSumEl) {
+        const hl = (appState.headline || ``).trim() || topicObj.name;
+        certSumEl.textContent = `za tvorbu plagátu „${hl}“ v téme ${topicObj.name}.`;
+      }
+      if (certBadgesEl) {
+        certBadgesEl.innerHTML = `
+          <span class="badge ${auditRes.passedCount === 7 ? `badge-ok` : ``}">Prvky plagátu: ${auditRes.passedCount} / 7</span>
+          <span class="badge badge-grape">Detektívna skúška: ${quizScore} / 5</span>
+          <span class="badge">Sebahodnotenie: ${appState.selfChecks.length} / 3</span>
+        `;
+      }
+      if (certDateEl) {
+        const now = new Date();
+        const skDate = `${now.getDate()}. ${now.getMonth() + 1}. ${now.getFullYear()}`;
+        certDateEl.textContent = `Vystavené dňa ${skDate} · 4. ročník ZŠ (ŠVP 2023)`;
+      }
+    }
+
+    function renderMissionProgress() {
+      const guideDone = appState.exploredRules.length >= 4;
+      const studioDone = getPosterAuditResults().passedCount === 7;
+      const detectiveDone = getQuizScore() >= 4 && appState.selfChecks.length >= 2;
+      const certDone = (appState.studentName || ``).trim().length >= 2 && studioDone;
+
+      const count = [guideDone, studioDone, detectiveDone, certDone].filter(Boolean).length;
+      const pct = Math.round((count / 4) * 100);
+
+      const labelEl = document.getElementById(`mission-score-label`);
+      const fillEl = document.getElementById(`mission-progress-fill`);
+      const hintEl = document.getElementById(`mission-hint`);
+
+      if (labelEl) labelEl.textContent = `${count} / 4 kroky`;
+      if (fillEl) fillEl.style.width = `${pct}%`;
+      if (hintEl) {
+        if (count === 4) {
+          hintEl.textContent = `Gratulujeme! Celá misia je splnená — tvoj plagát aj certifikát sú pripravené na stiahnutie.`;
+        } else if (!guideDone) {
+          hintEl.textContent = `1. krok: Preskúmaj aspoň 4 pravidlá v Sprievodcovi plagátu.`;
+        } else if (!studioDone) {
+          hintEl.textContent = `2. krok: Doplň v Štúdiu všetkých 7 prvkov svojho plagátu.`;
+        } else if (!detectiveDone) {
+          hintEl.textContent = `3. krok: Vyrieš aspoň 4 prípady v Detektívnom teste a potvrď sebahodnotenie.`;
+        } else {
+          hintEl.textContent = `4. krok: Dopíš svoje meno dizajnéra v Štúdiu, aby bol certifikát podpísaný.`;
+        }
+      }
+    }
+
+    /* High-DPI Canvas PNG helpers for reliable sandbox export */
+    function drawRoundRect(ctx, x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+      ctx.lineTo(x + w, y + h - r);
+      ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+      ctx.lineTo(x + r, y + h);
+      ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+      ctx.lineTo(x, y + r);
+      ctx.quadraticCurveTo(x, y, x + r, y);
+      ctx.closePath();
+    }
+
+    function wrapCanvasText(ctx, text, x, y, maxWidth, lineHeight, align) {
+      const words = (text || ``).split(/\s+/);
+      let line = ``;
+      let curY = y;
+      ctx.textAlign = align || `left`;
+      for (let i = 0; i < words.length; i += 1) {
+        const testLine = line + (line ? ` ` : ``) + words[i];
+        const metrics = ctx.measureText(testLine);
+        if (metrics.width > maxWidth && line) {
+          ctx.fillText(line, x, curY);
+          line = words[i];
+          curY += lineHeight;
+        } else {
+          line = testLine;
+        }
+      }
+      if (line) {
+        ctx.fillText(line, x, curY);
+        curY += lineHeight;
+      }
+      return curY;
+    }
+
+    function drawIllustrationOnCanvas(ctx, iconId, cx, cy, pal) {
+      ctx.save();
+      ctx.translate(cx - 60, cy - 60);
+      if (iconId === `books`) {
+        ctx.fillStyle = pal.accentHex;
+        drawRoundRect(ctx, 18, 68, 84, 22, 6); ctx.fill();
+        ctx.fillStyle = pal.badgeHex;
+        drawRoundRect(ctx, 24, 44, 72, 22, 6); ctx.fill();
+        ctx.fillStyle = pal.inkHex;
+        ctx.beginPath(); ctx.moveTo(40, 24); ctx.lineTo(80, 24); ctx.lineTo(86, 42); ctx.lineTo(34, 42); ctx.closePath(); ctx.fill();
+        ctx.fillStyle = pal.accentHex;
+        ctx.beginPath(); ctx.arc(94, 28, 9, 0, Math.PI * 2); ctx.fill();
+      } else if (iconId === `backpack`) {
+        ctx.strokeStyle = pal.inkHex; ctx.lineWidth = 7; ctx.lineCap = `round`;
+        ctx.beginPath(); ctx.moveTo(44, 24); ctx.quadraticCurveTo(60, 12, 76, 24); ctx.stroke();
+        ctx.fillStyle = pal.accentHex;
+        drawRoundRect(ctx, 26, 26, 68, 72, 18); ctx.fill();
+        ctx.fillStyle = pal.cardHex;
+        drawRoundRect(ctx, 36, 56, 48, 30, 10); ctx.fill();
+      } else if (iconId === `trophy`) {
+        ctx.fillStyle = pal.accentHex;
+        ctx.beginPath(); ctx.moveTo(36, 24); ctx.lineTo(84, 24); ctx.lineTo(84, 50); ctx.quadraticCurveTo(84, 76, 60, 76); ctx.quadraticCurveTo(36, 76, 36, 50); ctx.closePath(); ctx.fill();
+        ctx.fillStyle = pal.inkHex;
+        ctx.fillRect(54, 74, 12, 16);
+        ctx.fillStyle = pal.badgeHex;
+        drawRoundRect(ctx, 38, 88, 44, 12, 6); ctx.fill();
+      } else if (iconId === `runner`) {
+        ctx.fillStyle = pal.accentHex;
+        ctx.beginPath(); ctx.arc(68, 24, 10, 0, Math.PI * 2); ctx.fill();
+        ctx.strokeStyle = pal.inkHex; ctx.lineWidth = 9; ctx.lineCap = `round`; ctx.lineJoin = `round`;
+        ctx.beginPath(); ctx.moveTo(62, 40); ctx.lineTo(54, 66); ctx.lineTo(74, 78); ctx.lineTo(86, 98); ctx.stroke();
+        ctx.strokeStyle = pal.accentHex;
+        ctx.beginPath(); ctx.moveTo(54, 66); ctx.lineTo(36, 86); ctx.lineTo(24, 84); ctx.stroke();
+      } else if (iconId === `tree`) {
+        ctx.fillStyle = pal.inkHex;
+        drawRoundRect(ctx, 52, 66, 16, 36, 5); ctx.fill();
+        ctx.fillStyle = pal.accentHex;
+        ctx.beginPath(); ctx.arc(60, 42, 28, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(40, 54, 18, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = pal.badgeHex;
+        ctx.beginPath(); ctx.arc(80, 54, 18, 0, Math.PI * 2); ctx.fill();
+      } else if (iconId === `planet`) {
+        ctx.fillStyle = pal.badgeHex;
+        ctx.beginPath(); ctx.arc(60, 60, 38, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = pal.accentHex;
+        ctx.beginPath(); ctx.arc(50, 50, 14, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(76, 66, 12, 0, Math.PI * 2); ctx.fill();
+      } else if (iconId === `masks`) {
+        ctx.fillStyle = pal.accentHex;
+        drawRoundRect(ctx, 22, 28, 42, 50, 16); ctx.fill();
+        ctx.fillStyle = pal.badgeHex;
+        drawRoundRect(ctx, 56, 38, 42, 50, 16); ctx.fill();
+      } else {
+        ctx.fillStyle = pal.badgeHex;
+        ctx.fillRect(26, 52, 18, 48); ctx.fillRect(76, 52, 18, 48);
+        ctx.fillStyle = pal.accentHex;
+        ctx.fillRect(44, 42, 32, 58);
+        ctx.fillStyle = pal.inkHex;
+        ctx.beginPath(); ctx.moveTo(42, 42); ctx.lineTo(60, 18); ctx.lineTo(78, 42); ctx.closePath(); ctx.fill();
+      }
+      ctx.restore();
+    }
+
+    function exportPngFromCanvas(canvas, filename, statusMsg) {
+      if (!canvas || typeof canvas.toDataURL !== `function`) return;
+      const dataUrl = canvas.toDataURL(`image/png`);
+      if (!dataUrl || typeof dataUrl !== `string` || dataUrl.indexOf(`,`) === -1) return;
+      const base64 = dataUrl.split(`,`)[1];
+      const statusEl = document.getElementById(`export-status`);
+      if (window.notebookAppApi && typeof window.notebookAppApi.triggerFileDownload === `function`) {
+        window.notebookAppApi.triggerFileDownload({
+          content: base64,
+          contentType: `image/png`,
+          encoding: `base64`,
+          filename: filename
+        });
+      } else {
+        const link = document.createElement(`a`);
+        link.href = dataUrl;
+        link.download = filename;
+        link.click();
+      }
+      if (statusEl) statusEl.textContent = statusMsg;
+    }
+
+    function downloadPosterPng() {
+      const canvas = document.createElement(`canvas`);
+      canvas.width = 900;
+      canvas.height = 1200;
+      const ctx = canvas.getContext(`2d`);
+      if (!ctx) return;
+
+      const pal = PALETTES.find(function(p) { return p.id === appState.paletteId; }) || PALETTES[0];
+      const topicObj = TOPICS.find(function(t) { return t.id === appState.topicId; }) || TOPICS[0];
+
+      ctx.fillStyle = pal.bgHex;
+      ctx.fillRect(0, 0, 900, 1200);
+
+      if (appState.frameId !== `clean`) {
+        ctx.strokeStyle = pal.accentHex;
+        ctx.lineWidth = 10;
+        if (appState.frameId === `dots` || appState.frameId === `stars`) {
+          ctx.setLineDash([14, 14]);
+        }
+        drawRoundRect(ctx, 28, 28, 844, 1144, 36);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+
+      /* Audience pill */
+      ctx.fillStyle = pal.softHex;
+      drawRoundRect(ctx, 64, 68, 480, 46, 23);
+      ctx.fill();
+      ctx.fillStyle = pal.inkHex;
+      ctx.font = `700 21px "DM Sans", sans-serif`;
+      ctx.textAlign = `left`;
+      ctx.fillText((appState.audience || `Pre všetkých žiakov`).slice(0, 42), 86, 99);
+
+      if (appState.stampText) {
+        ctx.fillStyle = pal.badgeHex;
+        drawRoundRect(ctx, 620, 66, 216, 48, 24);
+        ctx.fill();
+        ctx.fillStyle = `#ffffff`;
+        ctx.font = `800 20px "DM Sans", sans-serif`;
+        ctx.textAlign = `center`;
+        ctx.fillText(appState.stampText, 728, 98);
+      }
+
+      /* Headline */
+      ctx.fillStyle = pal.accentHex;
+      ctx.font = `900 50px "DM Sans", sans-serif`;
+      const align = appState.headlineAlign === `left` ? `left` : `center`;
+      const hx = align === `center` ? 450 : 64;
+      const afterHeadY = wrapCanvasText(ctx, appState.headline || `Môj plagát`, hx, 190, 772, 60, align);
+
+      /* Illustration card */
+      const illTop = Math.max(afterHeadY + 14, 290);
+      ctx.fillStyle = pal.softHex;
+      drawRoundRect(ctx, 64, illTop, 772, 180, 24);
+      ctx.fill();
+      drawIllustrationOnCanvas(ctx, appState.iconId, 450, illTop + 90, pal);
+
+      /* Body text */
+      ctx.fillStyle = pal.inkHex;
+      ctx.font = `500 26px "DM Sans", sans-serif`;
+      const afterBodyY = wrapCanvasText(ctx, appState.bodyText || ``, 64, illTop + 230, 772, 36, `left`);
+
+      /* 5 facts grid */
+      const factTop = Math.max(afterBodyY + 20, 680);
+      const facts = [
+        { k: `KTO ORGANIZUJE`, v: appState.who || `-`, x: 64, y: factTop, w: 374 },
+        { k: `ČO SA CHYSTÁ`, v: appState.what || `-`, x: 462, y: factTop, w: 374 },
+        { k: `KDE TO BUDE`, v: appState.where || `-`, x: 64, y: factTop + 126, w: 374 },
+        { k: `KEDY PRÍSŤ`, v: appState.when || `-`, x: 462, y: factTop + 126, w: 374 },
+        { k: `PREČO PRÍSŤ`, v: appState.why || `-`, x: 64, y: factTop + 252, w: 772 }
+      ];
+      facts.forEach(function(f) {
+        ctx.fillStyle = pal.cardHex;
+        drawRoundRect(ctx, f.x, f.y, f.w, 108, 20);
+        ctx.fill();
+        ctx.fillStyle = pal.accentHex;
+        ctx.font = `800 17px "DM Sans", sans-serif`;
+        ctx.textAlign = `left`;
+        ctx.fillText(f.k, f.x + 22, f.y + 34);
+        ctx.fillStyle = pal.inkHex;
+        ctx.font = `700 22px "DM Sans", sans-serif`;
+        wrapCanvasText(ctx, f.v, f.x + 22, f.y + 68, f.w - 44, 28, `left`);
+      });
+
+      /* Footer */
+      ctx.fillStyle = pal.inkHex;
+      ctx.font = `600 20px "DM Sans", sans-serif`;
+      ctx.textAlign = `left`;
+      ctx.fillText(`Téma: ${topicObj.name}`, 64, 1135);
+      ctx.textAlign = `right`;
+      ctx.fillText(`Navrhol/-a: ${(appState.studentName || `Mladý dizajnér`).trim()}`, 836, 1135);
+
+      exportPngFromCanvas(canvas, `moj-plagat.png`, `Plagát bol stiahnutý ako obrázok moj-plagat.png!`);
+    }
+
+    function downloadCertificatePng() {
+      const canvas = document.createElement(`canvas`);
+      canvas.width = 1200;
+      canvas.height = 850;
+      const ctx = canvas.getContext(`2d`);
+      if (!ctx) return;
+
+      const designer = (appState.studentName || ``).trim() || `Mladý dizajnér`;
+      const topicObj = TOPICS.find(function(t) { return t.id === appState.topicId; }) || TOPICS[0];
+      const auditRes = getPosterAuditResults();
+      const quizScore = getQuizScore();
+      const now = new Date();
+      const skDate = `${now.getDate()}. ${now.getMonth() + 1}. ${now.getFullYear()}`;
+
+      ctx.fillStyle = `#fffdf7`;
+      ctx.fillRect(0, 0, 1200, 850);
+      ctx.strokeStyle = `#d97706`;
+      ctx.lineWidth = 14;
+      drawRoundRect(ctx, 36, 36, 1128, 778, 36);
+      ctx.stroke();
+
+      ctx.fillStyle = `#fef3c7`;
+      ctx.beginPath(); ctx.arc(600, 130, 52, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = `#b45309`;
+      ctx.font = `900 40px "DM Sans", sans-serif`;
+      ctx.textAlign = `center`;
+      ctx.fillText(`★`, 600, 144);
+
+      ctx.fillStyle = `#604868`;
+      ctx.font = `700 20px "DM Sans", sans-serif`;
+      ctx.fillText(`SLOVENSKÝ JAZYK A LITERATÚRA · 4. ROČNÍK ZŠ (ŠVP 2023)`, 600, 224);
+
+      ctx.fillStyle = `#2e1a28`;
+      ctx.font = `900 48px "DM Sans", sans-serif`;
+      ctx.fillText(`Certifikát mladého dizajnéra plagátov`, 600, 290);
+
+      ctx.fillStyle = `#604868`;
+      ctx.font = `500 26px "DM Sans", sans-serif`;
+      ctx.fillText(`Toto ocenenie s radosťou udeľujeme tvorcovi:`, 600, 360);
+
+      ctx.fillStyle = `#c2207f`;
+      ctx.font = `900 62px "DM Sans", sans-serif`;
+      ctx.fillText(designer, 600, 445);
+
+      ctx.fillStyle = `#2e1a28`;
+      ctx.font = `600 26px "DM Sans", sans-serif`;
+      wrapCanvasText(
+        ctx,
+        `za tvorbu obrazovo-písaného textu „${(appState.headline || topicObj.name).trim()}“ v téme ${topicObj.name}.`,
+        600,
+        520,
+        960,
+        36,
+        `center`
+      );
+
+      /* Stat pills */
+      const pills = [
+        `Prvky plagátu: ${auditRes.passedCount} / 7`,
+        `Detektívna skúška: ${quizScore} / 5`,
+        `Sebahodnotenie: ${appState.selfChecks.length} / 3`
+      ];
+      pills.forEach(function(text, i) {
+        const px = 175 + i * 290;
+        ctx.fillStyle = `#f8eef8`;
+        drawRoundRect(ctx, px, 610, 260, 56, 28);
+        ctx.fill();
+        ctx.fillStyle = `#2e1a28`;
+        ctx.font = `700 20px "DM Sans", sans-serif`;
+        ctx.fillText(text, px + 130, 646);
+      });
+
+      ctx.fillStyle = `#604868`;
+      ctx.font = `600 21px "DM Sans", sans-serif`;
+      ctx.fillText(`Vystavené dňa ${skDate} · 2. vzdelávací cyklus ŠVP 2023`, 600, 748);
+
+      exportPngFromCanvas(canvas, `certifikat-mlady-dizajner.png`, `Certifikát bol stiahnutý ako certifikat-mlady-dizajner.png!`);
+    }
+
+    function handleResetAll(btn) {
+      if (btn.dataset.armed !== `true`) {
+        btn.dataset.armed = `true`;
+        btn.textContent = `Klikni ešte raz pre vymazanie`;
+        return;
+      }
+      btn.dataset.armed = `false`;
+      btn.innerHTML = `<i data-lucide="rotate-ccw" aria-hidden="true"></i> Začať odznova`;
+      appState = {
+        activeRuleId: `headline`,
+        exploredRules: [`headline`],
+        sampleMode: `good`,
+        badCluesFound: [],
+        showZones: false,
+        studentName: ``,
+        topicId: `bazar`,
+        headline: TOPICS[0].starter.headline,
+        headlineSize: `lg`,
+        headlineAlign: `center`,
+        headlineBand: false,
+        who: TOPICS[0].starter.who,
+        what: TOPICS[0].starter.what,
+        where: TOPICS[0].starter.where,
+        when: TOPICS[0].starter.when,
+        why: TOPICS[0].starter.why,
+        audience: TOPICS[0].starter.audience,
+        bodyText: TOPICS[0].starter.bodyText,
+        paletteId: `berry`,
+        iconId: `books`,
+        frameId: `dots`,
+        stampText: `VSTUP VOĽNÝ`,
+        selfChecks: [],
+        quizAnswers: {}
+      };
+      syncStudioInputs();
+      renderAllDynamic();
+      saveState();
+    }
+
+    function refreshIcons() {
+      if (window.lucide && typeof window.lucide.createIcons === `function`) {
+        window.lucide.createIcons();
+      }
+    }
+
+    function renderAllDynamic() {
+      renderGuide();
+      renderStudioPickers();
+      renderLivePoster();
+      renderAudit();
+      renderQuiz();
+      renderPresentationAndCert();
+      renderMissionProgress();
+      refreshIcons();
+    }
+
+    async function initApp() {
+      try {
+        if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === `function`) {
+          const saved = await window.notebookAppApi.getAppState();
+          if (saved && typeof saved === `object`) {
+            appState = Object.assign({}, appState, saved);
+          }
+        }
+      } catch (e) {
+        /* Fallback to default initial state */
+      }
+
+      syncStudioInputs();
+      renderAllDynamic();
+
+      if (window.notebookAppApi && typeof window.notebookAppApi.notifyAppReady === `function`) {
+        window.notebookAppApi.notifyAppReady();
+      }
+    }
+
+    initApp();
+  </script>
+</body>
+</html>
