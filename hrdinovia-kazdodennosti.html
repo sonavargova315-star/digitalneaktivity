@@ -1,0 +1,2143 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="narrative">
+  <meta name="design-style" content="sticker">
+  <title>Hrdinovia každodennosti: Ťažké rozhodnutia</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@1.43.0/dist/umd/lucide.min.js"></script>
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* Sticker style tokens */
+      --background: #fef7ff;
+      --surface-container-low: #ffffff;
+      --surface-container: #f8eef8;
+      --surface-container-high: #f2e8f2;
+
+      --on-surface: #2e1a28;
+      --on-surface-variant: #604868;
+
+      --outline: #907898;
+      --outline-variant: #dcc8e0;
+
+      --primary: #c2207f;
+      --on-primary: #ffffff;
+      --primary-container: #fad4eb;
+      --on-primary-container: #2e1a28;
+      --secondary: #7c52aa;
+      --on-secondary: #ffffff;
+      --secondary-container: #ebe0fa;
+      --tertiary: #0096cc;
+      --tertiary-container: #d8f2fc;
+      --tangerine: #d96a00;
+      --tangerine-container: #ffe9d1;
+      --error: #c53030;
+      --on-error: #ffffff;
+
+      --data-1: #c2207f;
+      --data-2: #7c52aa;
+      --data-3: #0096cc;
+      --data-4: #d96a00;
+      --data-context: #c8b8d0;
+
+      --font-headline: 'DM Sans', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-label: 'DM Sans', sans-serif;
+
+      --rounded: 1.25rem;
+      --rounded-lg: 2rem;
+      --rounded-full: 9999px;
+
+      --shadow-pink: 0 6px 20px rgb(194 32 127 / 0.16);
+      --shadow-pink-deep: 0 12px 30px rgb(194 32 127 / 0.28);
+      --shadow-grape: 0 6px 20px rgb(124 82 170 / 0.16);
+      --shadow-grape-deep: 0 12px 30px rgb(124 82 170 / 0.26);
+      --shadow-sky: 0 6px 20px rgb(0 150 204 / 0.16);
+      --shadow-sky-deep: 0 12px 30px rgb(0 150 204 / 0.26);
+      --shadow-positive: 0 6px 20px rgb(21 122 76 / 0.16);
+
+      --pop-scale: scale(1.03);
+      --lift: translateY(-4px);
+      --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+      /* Shared tokens */
+      --positive: #157a4c;
+      --on-positive: #ffffff;
+      --positive-container: #d6f5e5;
+      --warning: #9a4a00;
+      --focus: #c2207f;
+
+      /* Narrative type scale (child-friendly large readability) */
+      --display-size: clamp(2.125rem, 1.4rem + 3.2vw, 3.5rem);
+      --headline-size: clamp(1.5rem, 1.2rem + 1.4vw, 2.25rem);
+      --subhead-size: clamp(1.1875rem, 1.08rem + 0.5vw, 1.4375rem);
+      --body-size: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+      --label-size: clamp(0.75rem, 0.72rem + 0.15vw, 0.875rem);
+
+      /* Spacing scale (4pt base) */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+      --space-3xl: 6rem;
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+      --dur-long: 420ms;
+
+      /* Tree illustration tokens */
+      --tree-trunk: #7c4d3a;
+      --tree-trunk-shade: #623b2b;
+      --tree-ground: #e5f5ec;
+      --sun-fill: #ffe08a;
+    }
+
+    /* Base reset */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+      background-color: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    header { position: static !important; }
+
+    button, input, select, textarea {
+      font-family: inherit;
+      font-size: inherit;
+      color: inherit;
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    .page-grid {
+      display: grid;
+      gap: var(--space-2xl);
+      padding: var(--space-lg);
+      max-width: 1120px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .page-grid * { min-width: 0; }
+
+    /* Typography */
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--secondary);
+      background: var(--secondary-container);
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--rounded-full);
+    }
+
+    .display {
+      font-family: var(--font-headline);
+      font-weight: 900;
+      font-size: var(--display-size);
+      letter-spacing: -0.03em;
+      line-height: 1.08;
+      margin: var(--space-md) 0 var(--space-md);
+      color: var(--on-surface);
+    }
+    .display em {
+      font-style: normal;
+      color: var(--primary);
+    }
+
+    h2.section-title {
+      font-family: var(--font-headline);
+      font-weight: 800;
+      font-size: var(--headline-size);
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin: var(--space-sm) 0 var(--space-sm);
+      color: var(--on-surface);
+    }
+    h2.section-title em {
+      font-style: normal;
+      color: var(--primary);
+    }
+
+    h3.card-title {
+      font-family: var(--font-headline);
+      font-weight: 800;
+      font-size: var(--subhead-size);
+      letter-spacing: -0.015em;
+      line-height: 1.25;
+      margin: 0 0 var(--space-sm);
+      color: var(--on-surface);
+    }
+
+    .prose-lead {
+      max-width: 65ch;
+      font-size: clamp(1.125rem, 1.04rem + 0.35vw, 1.25rem);
+      color: var(--on-surface-variant);
+      margin: 0 0 var(--space-lg);
+    }
+
+    .prose {
+      max-width: 65ch;
+      margin: 0 0 var(--space-md);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-lg);
+      border-radius: var(--rounded-full);
+      border: 0;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform var(--dur-short) var(--ease-bounce),
+                  box-shadow var(--dur-short) var(--ease-out),
+                  background-color var(--dur-short) var(--ease-out);
+    }
+    .btn:hover { transform: var(--pop-scale); }
+    .btn:active { transform: scale(0.97); }
+    .btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: var(--on-primary);
+      box-shadow: var(--shadow-pink);
+    }
+    .btn-primary:hover { box-shadow: var(--shadow-pink-deep); }
+
+    .btn-secondary {
+      background-color: var(--secondary);
+      color: var(--on-secondary);
+      box-shadow: var(--shadow-grape);
+    }
+    .btn-secondary:hover { box-shadow: var(--shadow-grape-deep); }
+
+    .btn-soft {
+      background-color: var(--surface-container);
+      color: var(--on-surface);
+    }
+    .btn-soft:hover {
+      background-color: var(--surface-container-high);
+    }
+
+    .btn-positive {
+      background-color: var(--positive);
+      color: var(--on-positive);
+      box-shadow: var(--shadow-positive);
+    }
+
+    /* Hero section */
+    .hero-panel {
+      background-color: var(--surface-container-low);
+      border-radius: var(--rounded-lg);
+      box-shadow: var(--shadow-pink);
+      padding: var(--space-xl);
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.9fr);
+      gap: var(--space-xl);
+      align-items: center;
+    }
+
+    .hero-story-box {
+      background-color: var(--surface-container);
+      border-radius: var(--rounded);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-lg);
+    }
+
+    .hero-story-box p {
+      margin: 0;
+      color: var(--on-surface);
+    }
+
+    .hero-illustration {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-md);
+    }
+
+    .hero-svg-wrap {
+      width: 100%;
+      max-width: 340px;
+      background: var(--primary-container);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Progress Bar Strip */
+    .progress-dashboard {
+      background-color: var(--surface-container-low);
+      border-radius: var(--rounded);
+      box-shadow: var(--shadow-sky);
+      padding: var(--space-lg);
+      display: grid;
+      gap: var(--space-md);
+    }
+
+    .progress-top-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
+
+    .progress-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      background-color: var(--tertiary-container);
+      color: var(--on-surface);
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--rounded-full);
+      font-weight: 700;
+      font-size: var(--label-size);
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 18px;
+      background-color: var(--surface-container-high);
+      border-radius: var(--rounded-full);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background-color: var(--tertiary);
+      border-radius: var(--rounded-full);
+      transition: width var(--dur-long) var(--ease-out);
+    }
+
+    .progress-milestones {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-md);
+    }
+
+    .milestone-chip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      background-color: var(--surface-container);
+      border-radius: var(--rounded);
+      padding: var(--space-sm) var(--space-md);
+      text-decoration: none;
+      color: var(--on-surface);
+      font-weight: 700;
+      font-size: 0.9375rem;
+      transition: transform var(--dur-short) var(--ease-bounce), background-color var(--dur-short) var(--ease-out);
+    }
+    .milestone-chip:hover {
+      transform: var(--lift);
+      background-color: var(--surface-container-high);
+    }
+
+    .milestone-count {
+      font-variant-numeric: tabular-nums;
+      background-color: var(--surface-container-low);
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--rounded-full);
+      font-size: var(--label-size);
+      color: var(--secondary);
+      white-space: nowrap;
+    }
+    .milestone-chip.is-complete .milestone-count {
+      background-color: var(--positive-container);
+      color: var(--positive);
+    }
+
+    /* Phase Sections */
+    .phase-section {
+      display: grid;
+      gap: var(--space-lg);
+    }
+
+    .phase-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
+
+    /* Friendly Class Rules Strip */
+    .rules-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      align-items: center;
+    }
+
+    .rule-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      background-color: var(--surface-container-low);
+      box-shadow: var(--shadow-grape);
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--rounded-full);
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: var(--on-surface-variant);
+    }
+
+    /* Phase 1: Brainstorming Board */
+    .brainstorm-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+
+    .board-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+      gap: var(--space-md);
+    }
+
+    .topic-card {
+      background-color: var(--surface-container-low);
+      border-radius: var(--rounded);
+      box-shadow: var(--shadow-pink);
+      padding: var(--space-lg);
+      border: 0;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+      min-height: 140px;
+      transition: transform var(--dur-short) var(--ease-bounce),
+                  box-shadow var(--dur-short) var(--ease-out),
+                  background-color var(--dur-short) var(--ease-out);
+    }
+    .topic-card:nth-child(3n+2) { box-shadow: var(--shadow-sky); }
+    .topic-card:nth-child(3n+3) { box-shadow: var(--shadow-grape); }
+    .topic-card:hover { transform: var(--lift); }
+    .topic-card.is-active {
+      background-color: var(--primary-container);
+      box-shadow: var(--shadow-pink-deep);
+    }
+    .topic-card.is-done {
+      background-color: var(--positive-container);
+    }
+
+    .topic-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      width: 100%;
+    }
+
+    .topic-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      font-size: var(--label-size);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--secondary);
+    }
+    .topic-card.is-done .topic-badge {
+      color: var(--positive);
+    }
+
+    .topic-title {
+      font-weight: 800;
+      font-size: 1.125rem;
+      line-height: 1.25;
+      color: var(--on-surface);
+    }
+
+    .topic-preview {
+      font-size: 0.9375rem;
+      color: var(--on-surface-variant);
+      margin-top: auto;
+    }
+
+    /* Active Brainstorming Discussion Panel */
+    .discussion-panel {
+      background-color: var(--surface-container-low);
+      border-radius: var(--rounded-lg);
+      box-shadow: var(--shadow-grape);
+      padding: var(--space-xl);
+      display: grid;
+      gap: var(--space-md);
+    }
+
+    .spark-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+
+    .spark-chip {
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--rounded-full);
+      border: 2px solid var(--outline-variant);
+      background-color: var(--surface-container);
+      color: var(--on-surface);
+      font-weight: 600;
+      font-size: 0.9375rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      transition: transform var(--dur-short) var(--ease-bounce),
+                  background-color var(--dur-short) var(--ease-out);
+    }
+    .spark-chip:hover { transform: var(--pop-scale); }
+    .spark-chip.is-selected {
+      background-color: var(--secondary);
+      border-color: var(--secondary);
+      color: var(--on-secondary);
+    }
+
+    /* Form labels & inputs */
+    .field-group {
+      display: grid;
+      gap: var(--space-xs);
+    }
+
+    .field-label {
+      font-weight: 700;
+      font-size: 0.9375rem;
+      color: var(--on-surface);
+    }
+
+    .pill-input, .pill-textarea {
+      width: 100%;
+      background-color: var(--surface-container);
+      border: 2px solid var(--outline);
+      border-radius: var(--rounded-full);
+      padding: var(--space-sm) var(--space-lg);
+      color: var(--on-surface);
+      min-height: 46px;
+      transition: background-color var(--dur-short) var(--ease-out),
+                  box-shadow var(--dur-short) var(--ease-out);
+    }
+    .pill-textarea {
+      border-radius: var(--rounded);
+      min-height: 84px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+    .pill-input:focus, .pill-textarea:focus {
+      outline: none;
+      background-color: var(--surface-container-low);
+      box-shadow: 0 0 0 3px var(--focus);
+    }
+
+    /* Phase 2: Situation Cards (Pair Work) */
+    .situation-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+
+    .sit-tab {
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded-full);
+      border: 0;
+      background-color: var(--surface-container-low);
+      box-shadow: var(--shadow-sky);
+      color: var(--on-surface);
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      transition: transform var(--dur-short) var(--ease-bounce),
+                  background-color var(--dur-short) var(--ease-out),
+                  box-shadow var(--dur-short) var(--ease-out);
+    }
+    .sit-tab:hover { transform: var(--pop-scale); }
+    .sit-tab.is-active {
+      background-color: var(--primary);
+      color: var(--on-primary);
+      box-shadow: var(--shadow-pink-deep);
+    }
+    .sit-tab.is-solved:not(.is-active) {
+      background-color: var(--positive-container);
+      color: var(--positive);
+    }
+
+    .situation-card {
+      background-color: var(--surface-container-low);
+      border-radius: var(--rounded-lg);
+      box-shadow: var(--shadow-pink);
+      padding: var(--space-xl);
+      display: grid;
+      gap: var(--space-lg);
+    }
+
+    .sit-top-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: stretch;
+    }
+
+    .story-well {
+      background-color: var(--surface-container);
+      border-radius: var(--rounded);
+      padding: var(--space-lg);
+      display: grid;
+      gap: var(--space-sm);
+    }
+
+    .conflict-well {
+      background-color: var(--tangerine-container);
+      border-radius: var(--rounded);
+      padding: var(--space-lg);
+      display: grid;
+      gap: var(--space-sm);
+      align-content: start;
+    }
+    .conflict-well-title {
+      font-weight: 800;
+      color: var(--warning);
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      font-size: 0.9375rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .choices-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
+      gap: var(--space-md);
+    }
+
+    .choice-btn {
+      background-color: var(--surface-container-low);
+      border: 2px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      box-shadow: var(--shadow-grape);
+      padding: var(--space-lg);
+      text-align: left;
+      cursor: pointer;
+      display: grid;
+      gap: var(--space-xs);
+      align-content: start;
+      min-height: 112px;
+      transition: transform var(--dur-short) var(--ease-bounce),
+                  background-color var(--dur-short) var(--ease-out),
+                  box-shadow var(--dur-short) var(--ease-out);
+    }
+    .choice-btn:hover {
+      transform: var(--lift);
+      box-shadow: var(--shadow-grape-deep);
+    }
+    .choice-btn.is-chosen {
+      background-color: var(--primary-container);
+      border-color: var(--primary);
+      box-shadow: var(--shadow-pink-deep);
+    }
+
+    .choice-letter {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: var(--rounded-full);
+      background-color: var(--secondary);
+      color: var(--on-secondary);
+      font-weight: 800;
+      font-size: 0.9375rem;
+      margin-bottom: var(--space-xs);
+    }
+    .choice-btn.is-chosen .choice-letter {
+      background-color: var(--primary);
+      color: var(--on-primary);
+    }
+
+    .choice-heading {
+      font-weight: 800;
+      font-size: 1.0625rem;
+      line-height: 1.3;
+      color: var(--on-surface);
+    }
+
+    .choice-sub {
+      font-size: 0.9375rem;
+      color: var(--on-surface-variant);
+    }
+
+    .feedback-panel {
+      background-color: var(--positive-container);
+      border-radius: var(--rounded);
+      padding: var(--space-lg);
+      display: grid;
+      gap: var(--space-md);
+      animation: popIn var(--dur-short) var(--ease-bounce);
+    }
+
+    .pair-questions-list {
+      margin: 0;
+      padding-left: var(--space-lg);
+      display: grid;
+      gap: var(--space-xs);
+    }
+
+    .sit-footer-nav {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
+
+    /* Phase 3: Strom dobrych skutkov */
+    .tree-workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+
+    .tree-canvas-card {
+      background-color: var(--surface-container-low);
+      border-radius: var(--rounded-lg);
+      box-shadow: var(--shadow-sky);
+      padding: var(--space-lg);
+      display: grid;
+      gap: var(--space-md);
+    }
+
+    .tree-svg-box {
+      width: 100%;
+      min-height: 380px;
+      background-color: var(--surface-container);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tree-svg {
+      width: 100%;
+      max-width: 500px;
+      height: auto;
+      overflow: visible;
+    }
+
+    .tree-leaf-node {
+      cursor: pointer;
+      transition: transform var(--dur-short) var(--ease-bounce);
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+    .tree-leaf-node:hover {
+      transform: scale(1.14);
+    }
+
+    .selected-leaf-card {
+      background-color: var(--tertiary-container);
+      border-radius: var(--rounded);
+      padding: var(--space-md) var(--space-lg);
+      display: grid;
+      gap: var(--space-xs);
+    }
+
+    .tree-controls-card {
+      background-color: var(--surface-container-low);
+      border-radius: var(--rounded-lg);
+      box-shadow: var(--shadow-pink);
+      padding: var(--space-xl);
+      display: grid;
+      gap: var(--space-lg);
+    }
+
+    .preset-deeds-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+
+    .deed-preset-btn {
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--rounded-full);
+      border: 0;
+      background-color: var(--surface-container);
+      color: var(--on-surface);
+      font-weight: 600;
+      font-size: 0.9375rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      transition: transform var(--dur-short) var(--ease-bounce),
+                  background-color var(--dur-short) var(--ease-out);
+    }
+    .deed-preset-btn:hover {
+      transform: var(--pop-scale);
+      background-color: var(--primary-container);
+    }
+
+    .deeds-list {
+      display: grid;
+      gap: var(--space-sm);
+      max-height: 260px;
+      overflow-y: auto;
+      padding-right: var(--space-xs);
+    }
+
+    .deed-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      background-color: var(--surface-container);
+      border-radius: var(--rounded);
+      padding: var(--space-sm) var(--space-md);
+    }
+
+    .deed-color-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: var(--rounded-full);
+      flex-shrink: 0;
+    }
+
+    .inline-form-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      align-items: flex-end;
+    }
+    .inline-form-row > .field-group {
+      flex: 1 1 200px;
+    }
+
+    .form-feedback {
+      font-size: 0.9375rem;
+      font-weight: 700;
+      color: var(--primary);
+      min-height: 1.4em;
+    }
+
+    /* Final Summary Banner */
+    .summary-banner {
+      background-color: var(--primary-container);
+      border-radius: var(--rounded-lg);
+      box-shadow: var(--shadow-pink);
+      padding: var(--space-xl);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-lg);
+    }
+
+    .summary-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+
+    .sources-note {
+      font-size: 0.875rem;
+      color: var(--on-surface-variant);
+      max-width: 65ch;
+      padding-bottom: var(--space-xl);
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: translateY(6px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 900px) {
+      .hero-panel,
+      .brainstorm-layout,
+      .sit-top-grid,
+      .tree-workspace {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page-grid {
+        grid-template-columns: 1fr;
+        padding: var(--space-md);
+        gap: var(--space-xl);
+      }
+      .progress-milestones {
+        grid-template-columns: 1fr;
+      }
+      .hero-panel,
+      .discussion-panel,
+      .situation-card,
+      .tree-controls-card,
+      .summary-banner {
+        padding: var(--space-lg);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page-grid">
+
+    <!-- ÚVOD / HERO -->
+    <header class="hero-panel" aria-labelledby="app-title">
+      <div>
+        <span class="kicker">
+          <i data-lucide="sun" aria-hidden="true" width="16" height="16"></i>
+          Etická výchova · Človek a spoločnosť
+        </span>
+        <h1 class="display" id="app-title">Hrdinovia každodennosti: <em>Ťažké</em> rozhodnutia</h1>
+        <p class="prose-lead">Aj ty môžeš byť hrdinom každého dňa!</p>
+        <div class="hero-story-box">
+          <p>
+            Na to, aby si bol skutočným hrdinom, nepotrebuješ lietať, mať čarovný plášť ani nepremožiteľnú silu.
+            Najväčšie hrdinstvá sa dejú úplne potichu okolo nás — na školskej chodbe, cez prestávku, v šatni po telocviku alebo doma.
+            Sú to chvíle, keď sa musíš rozhodnúť, čo je správne, aj keď máš trochu trému alebo sa ti to nezdá ľahké.
+          </p>
+        </div>
+        <div class="summary-actions">
+          <a href="#faza-1" class="btn btn-primary">
+            <i data-lucide="sparkles" aria-hidden="true" width="18" height="18"></i>
+            Začať hrdinskú cestu
+          </a>
+          <a href="#faza-2" class="btn btn-soft">
+            <i data-lucide="users" aria-hidden="true" width="18" height="18"></i>
+            Skočiť na situácie vo dvojici
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-illustration">
+        <div class="hero-svg-wrap" aria-hidden="true">
+          <svg viewBox="0 0 260 220" width="260" height="220" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="130" cy="110" r="88" fill="var(--surface-container-low)"/>
+            <circle cx="52" cy="48" r="14" fill="var(--sun-fill)"/>
+            <circle cx="212" cy="56" r="10" fill="var(--tertiary-container)"/>
+            <circle cx="204" cy="176" r="12" fill="var(--secondary-container)"/>
+            <!-- Heart-shield badge representing everyday kindness and courage -->
+            <path d="M130 42 L182 64 V112 C182 148 158 173 130 186 C102 173 78 148 78 112 V64 Z"
+                  fill="var(--primary)" stroke="var(--on-surface)" stroke-width="4" stroke-linejoin="round"/>
+            <path d="M130 144 C130 144 102 126 102 106 C102 95 111 87 121 87 C126 87 129 90 130 93 C131 90 134 87 139 87 C149 87 158 95 158 106 C158 126 130 144 130 144 Z"
+                  fill="var(--surface-container-low)"/>
+            <!-- Small stars -->
+            <circle cx="88" cy="166" r="5" fill="var(--tangerine)"/>
+            <circle cx="174" cy="166" r="5" fill="var(--tertiary)"/>
+          </svg>
+        </div>
+      </div>
+    </header>
+
+    <!-- PROGRESS TRACKER -->
+    <section class="progress-dashboard" aria-label="Postup na hrdinskej ceste">
+      <div class="progress-top-row">
+        <div>
+          <strong id="progress-headline">Tvoja hrdinská cesta sa práve začína</strong>
+          <div id="progress-subtext" style="color: var(--on-surface-variant); font-size: 0.9375rem;">
+            Preskúmaj nástenku nápadov, vyrieš situácie vo dvojici a rozkvitni náš spoločný strom.
+          </div>
+        </div>
+        <span class="progress-status-pill" id="hero-rank-pill">
+          <i data-lucide="compass" aria-hidden="true" width="16" height="16"></i>
+          <span id="hero-rank-text">0 % hotovo</span>
+        </span>
+      </div>
+
+      <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="main-progress-bar">
+        <div class="progress-fill" id="main-progress-fill"></div>
+      </div>
+
+      <div class="progress-milestones">
+        <a href="#faza-1" class="milestone-chip" id="milestone-1">
+          <span>1. Kto je skutočný hrdina?</span>
+          <span class="milestone-count" id="milestone-1-count">0 / 7</span>
+        </a>
+        <a href="#faza-2" class="milestone-chip" id="milestone-2">
+          <span>2. Situácie zo života</span>
+          <span class="milestone-count" id="milestone-2-count">0 / 5</span>
+        </a>
+        <a href="#faza-3" class="milestone-chip" id="milestone-3">
+          <span>3. Strom dobrých skutkov</span>
+          <span class="milestone-count" id="milestone-3-count">0 lístkov</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- FÁZA 1: NÁSTENKA NÁPADOV -->
+    <section class="phase-section" id="faza-1" aria-labelledby="phase-1-title">
+      <div class="phase-header">
+        <div>
+          <span class="kicker">
+            <i data-lucide="message-circle" aria-hidden="true" width="16" height="16"></i>
+            1. časť · Spoločné premýšľanie
+          </span>
+          <h2 class="section-title" id="phase-1-title">Nástenka nápadov: <em>Kto</em> je skutočný hrdina?</h2>
+          <p class="prose">
+            Vyberte si ľubovoľnú kartičku na nástenke, prečítajte si otázku a porozprávajte sa o nej spolu v triede alebo so susedom v lavici.
+          </p>
+        </div>
+      </div>
+
+      <!-- Safe class discussion rules -->
+      <div class="rules-strip" aria-label="Pravidlá nášho rozhovoru">
+        <span class="rule-pill"><i data-lucide="ear" aria-hidden="true" width="16" height="16"></i> Počúvame sa navzájom</span>
+        <span class="rule-pill"><i data-lucide="hand" aria-hidden="true" width="16" height="16"></i> Hlásime sa a neskáčeme si do reči</span>
+        <span class="rule-pill"><i data-lucide="heart" aria-hidden="true" width="16" height="16"></i> Hovoríme za seba („Ja si myslím…“)</span>
+        <span class="rule-pill"><i data-lucide="smile" aria-hidden="true" width="16" height="16"></i> Nevysmievame sa žiadnemu názoru</span>
+      </div>
+
+      <div class="brainstorm-layout">
+        <div class="board-grid" id="brainstorm-board" role="list"></div>
+
+        <aside class="discussion-panel" id="discussion-panel" aria-live="polite">
+          <div>
+            <span class="kicker" id="active-topic-badge">Otázka 1 zo 7</span>
+            <h3 class="card-title" id="active-topic-title" style="margin-top: var(--space-sm);"></h3>
+            <p class="prose" id="active-topic-question"></p>
+          </div>
+
+          <div>
+            <div class="field-label" style="margin-bottom: var(--space-sm);">
+              Klikni na nápady, s ktorými súhlasíš (pomôžu ti rozbehnúť debatu):
+            </div>
+            <div class="spark-chips" id="active-topic-sparks"></div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label" for="topic-note-input">Váš vlastný nápad z rozhovoru (nepovinné):</label>
+            <textarea class="pill-textarea" id="topic-note-input" placeholder="Napíšte sem krátku myšlienku, na ktorú ste prišli…" oninput="saveTopicNote(this.value)"></textarea>
+          </div>
+
+          <div class="summary-actions">
+            <button type="button" class="btn btn-primary" id="topic-done-btn" onclick="toggleTopicDone()">
+              <i data-lucide="check" aria-hidden="true" width="18" height="18"></i>
+              <span id="topic-done-label">Prediskutované!</span>
+            </button>
+            <button type="button" class="btn btn-soft" onclick="nextTopic()">
+              Ďalšia otázka
+              <i data-lucide="arrow-right" aria-hidden="true" width="18" height="18"></i>
+            </button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- FÁZA 2: SITUÁCIE ZO ŽIVOTA (PRÁCA VO DVOJICIACH) -->
+    <section class="phase-section" id="faza-2" aria-labelledby="phase-2-title">
+      <div>
+        <span class="kicker">
+          <i data-lucide="users" aria-hidden="true" width="16" height="16"></i>
+          2. časť · Práca vo dvojiciach
+        </span>
+        <h2 class="section-title" id="phase-2-title">Situácie zo života: <em>Ťažké</em> rozhodnutia</h2>
+        <p class="prose">
+          Čaká vás 5 príbehov zo školského života. Prečítajte si príbeh vo dvojici, pozrite sa, čo sa v hrdinovi bije, a vyberte spolu, ako by ste sa zachovali vy!
+        </p>
+      </div>
+
+      <div class="situation-nav" id="situation-nav" role="tablist" aria-label="Výber životnej situácie"></div>
+
+      <article class="situation-card" id="situation-card" aria-live="polite">
+        <div class="phase-header">
+          <div>
+            <span class="kicker" id="sit-kicker">Situácia 1 z 5</span>
+            <h3 class="card-title" id="sit-title" style="margin-top: var(--space-sm); font-size: clamp(1.35rem, 1.15rem + 0.8vw, 1.75rem);"></h3>
+          </div>
+          <span class="progress-status-pill" id="sit-status-badge">Čaká na vaše rozhodnutie</span>
+        </div>
+
+        <div class="sit-top-grid">
+          <div class="story-well">
+            <div class="field-label">
+              <i data-lucide="book-open" aria-hidden="true" width="16" height="16" style="vertical-align: text-bottom;"></i>
+              Čo sa stalo?
+            </div>
+            <p class="prose" id="sit-story" style="margin: 0;"></p>
+          </div>
+
+          <div class="conflict-well">
+            <div class="conflict-well-title">
+              <i data-lucide="scale" aria-hidden="true" width="18" height="18"></i>
+              Čo sa v tebe bije?
+            </div>
+            <p id="sit-conflict" style="margin: 0; font-weight: 600;"></p>
+          </div>
+        </div>
+
+        <div>
+          <div class="field-label" style="margin-bottom: var(--space-sm);">
+            Ako by si sa zachoval ty? Vyber jednu možnosť:
+          </div>
+          <div class="choices-grid" id="sit-choices"></div>
+        </div>
+
+        <div class="feedback-panel" id="sit-feedback" hidden>
+          <div>
+            <strong id="sit-feedback-title" style="font-size: 1.125rem; color: var(--positive);"></strong>
+            <p id="sit-feedback-text" style="margin: var(--space-xs) 0 0;"></p>
+          </div>
+          <div>
+            <strong style="color: var(--on-surface);">Otázky na rozhovor pre vašu dvojicu:</strong>
+            <ul class="pair-questions-list" id="sit-pair-questions"></ul>
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="sit-pair-note">Vaša spoločná odpoveď alebo rada pre kamaráta (nepovinné):</label>
+            <input type="text" class="pill-input" id="sit-pair-note" placeholder="Napríklad: Spolu by sme sa ho zastali a pozvali ho k nášmu stolu…" oninput="saveSituationNote(this.value)">
+          </div>
+        </div>
+
+        <div class="sit-footer-nav">
+          <button type="button" class="btn btn-soft" id="sit-prev-btn" onclick="changeSituation(-1)">
+            <i data-lucide="arrow-left" aria-hidden="true" width="18" height="18"></i>
+            Predchádzajúca situácia
+          </button>
+          <button type="button" class="btn btn-primary" id="sit-next-btn" onclick="changeSituation(1)">
+            Ďalšia situácia
+            <i data-lucide="arrow-right" aria-hidden="true" width="18" height="18"></i>
+          </button>
+        </div>
+      </article>
+    </section>
+
+    <!-- FÁZA 3: STROM DOBRÝCH SKUTKOV -->
+    <section class="phase-section" id="faza-3" aria-labelledby="phase-3-title">
+      <div>
+        <span class="kicker">
+          <i data-lucide="award" aria-hidden="true" width="16" height="16"></i>
+          3. časť · Spoločný odkaz triedy
+        </span>
+        <h2 class="section-title" id="phase-3-title">Náš <em>Strom</em> dobrých skutkov</h2>
+        <p class="prose">
+          Každý dobrý skutok, milé slovo alebo odvážne zastanie sa kamaráta je ako farebný lístok, vďaka ktorému náš strom ožije. Vyber si sľub alebo napíš vlastný dobrý skutok a sleduj, ako koruna rozkvitne!
+        </p>
+      </div>
+
+      <div class="tree-workspace">
+        <div class="tree-canvas-card">
+          <div class="progress-top-row">
+            <strong style="font-size: 1.125rem;">Koruna našej triedy</strong>
+            <span class="progress-status-pill" id="tree-leaf-counter">0 lístkov odvahy</span>
+          </div>
+
+          <div class="tree-svg-box">
+            <svg class="tree-svg" id="good-deeds-svg" viewBox="0 0 460 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Interaktívny Strom dobrých skutkov">
+              <!-- Ground -->
+              <ellipse cx="230" cy="332" rx="185" ry="20" fill="var(--tree-ground)"/>
+              <!-- Canopy soft backing cloud -->
+              <circle cx="165" cy="145" r="78" fill="var(--positive-container)" opacity="0.55"/>
+              <circle cx="295" cy="145" r="78" fill="var(--positive-container)" opacity="0.55"/>
+              <circle cx="230" cy="105" r="88" fill="var(--positive-container)" opacity="0.65"/>
+              <!-- Trunk and branches -->
+              <path d="M210 330 C214 265 212 220 198 185 C182 150 148 134 118 122 C136 116 172 130 198 156 C210 132 214 102 222 72 C230 72 234 104 240 136 C265 110 302 98 334 104 C308 118 274 138 256 172 C246 218 248 270 256 330 Z"
+                    fill="var(--tree-trunk)"/>
+              <path d="M230 198 C252 178 286 168 326 168 C294 176 266 190 246 214 Z"
+                    fill="var(--tree-trunk-shade)"/>
+              <path d="M216 214 C194 190 162 176 126 172 C164 184 190 198 210 226 Z"
+                    fill="var(--tree-trunk-shade)"/>
+              <!-- Dynamic leaves container -->
+              <g id="tree-leaves-layer"></g>
+            </svg>
+          </div>
+
+          <div class="selected-leaf-card" id="selected-leaf-info">
+            <strong id="selected-leaf-title">Klikni na lístok na strome</strong>
+            <span id="selected-leaf-desc" style="color: var(--on-surface-variant);">
+              Keď pridáš prvé lístky dobrých skutkov, po kliknutí sa ti tu zobrazí celý odkaz aj meno autora.
+            </span>
+          </div>
+        </div>
+
+        <div class="tree-controls-card">
+          <div>
+            <h3 class="card-title">Rýchle lístky na inšpiráciu</h3>
+            <p style="margin: 0 0 var(--space-sm); color: var(--on-surface-variant); font-size: 0.9375rem;">
+              Klikni na skutok, ktorý chceš tento týždeň vyskúšať:
+            </p>
+            <div class="preset-deeds-grid" id="preset-deeds-grid"></div>
+          </div>
+
+          <div style="display: grid; gap: var(--space-md);">
+            <h3 class="card-title" style="margin: 0;">Pridaj vlastný lístok dobrého skutku</h3>
+            <div class="field-group">
+              <label class="field-label" for="deed-text-input">Aký dobrý skutok urobíš alebo si si všimol?</label>
+              <input type="text" class="pill-input" id="deed-text-input" placeholder="Napríklad: Požičiam kamarátovi farbičky a povzbudím ho…">
+            </div>
+
+            <div class="inline-form-row">
+              <div class="field-group">
+                <label class="field-label" for="deed-author-input">Tvoje meno alebo dvojica (nepovinné):</label>
+                <input type="text" class="pill-input" id="deed-author-input" placeholder="Napríklad: Peťo a Mia">
+              </div>
+              <button type="button" class="btn btn-primary" onclick="addCustomDeed()">
+                <i data-lucide="plus" aria-hidden="true" width="18" height="18"></i>
+                Pridať na strom
+              </button>
+            </div>
+            <div class="form-feedback" id="deed-form-feedback" role="status" aria-live="polite"></div>
+          </div>
+
+          <div>
+            <div class="field-label" style="margin-bottom: var(--space-sm);">Pridané lístky na strome:</div>
+            <div class="deeds-list" id="deeds-list"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ZÁVEREČNÝ SÚHRN -->
+    <section class="summary-banner" aria-labelledby="summary-title">
+      <div style="max-width: 58ch;">
+        <h2 class="section-title" id="summary-title" style="margin-top: 0;">Každý deň prináša šancu pomôcť</h2>
+        <p id="summary-message" style="margin: 0; color: var(--on-surface);">
+          Skutočné hrdinstvo nie je o dokonalosti, ale o tom, že si všímame druhých, máme odvahu hovoriť pravdu a chránime tých, ktorí to práve potrebujú.
+        </p>
+      </div>
+
+      <div class="summary-actions">
+        <button type="button" class="btn btn-secondary" onclick="exportJourneySummary()">
+          <i data-lucide="download" aria-hidden="true" width="18" height="18"></i>
+          Stiahnuť kartu hrdinu
+        </button>
+        <button type="button" class="btn btn-soft" id="reset-all-btn" onclick="handleResetClick(this)">
+          <i data-lucide="rotate-ccw" aria-hidden="true" width="18" height="18"></i>
+          Začať odznova
+        </button>
+      </div>
+    </section>
+
+    <footer class="sources-note">
+      Inšpirované Štátnym vzdelávacím programom pre základné vzdelávanie (Etická výchova / Človek a spoločnosť, 2023) a metodickými odporúčaniami pre rozvoj empatie, bezpečného triedneho prostredia a digitálneho občianstva.
+    </footer>
+
+  </main>
+
+  <api-shim></api-shim>
+
+  <script>
+    const TOPICS = [
+      {
+        id: `t1`,
+        title: `Kto je hrdina?`,
+        question: `Čo ti ako prvé napadne, keď počuješ slovo hrdina? Je to len niekto z rozprávky či komiksu, alebo aj obyčajný človek z tvojho okolia?`,
+        sparks: [`Ten, kto pomôže, aj keď sa mu nechce`, `Niekto, kto hovorí pravdu`, `Človek, ktorý ochráni slabšieho`]
+      },
+      {
+        id: `t2`,
+        title: `Aké má vlastnosti?`,
+        question: `Ktoré vlastnosti podľa teba robia z človeka skutočného hrdinu? Musí byť vždy najrýchlejší a najsilnejší, alebo je dôležitejšie niečo iné?`,
+        sparks: [`Láskavé srdce`, `Odvaha ozvať sa`, `Čestnosť a férovosť`, `Všímavosť voči druhým`]
+      },
+      {
+        id: `t3`,
+        title: `Poznáš niekoho zo života?`,
+        question: `Spomenieš si na niekoho zo svojej rodiny, školy alebo ulice, kto urobil niečo hrdinské? Čím ti ten človek pomohol alebo ťa potešil?`,
+        sparks: [`Mamina alebo ocino`, `Spolužiak v triede`, `Starší súrodenec`, `Pani učiteľka či tréner`]
+      },
+      {
+        id: `t4`,
+        title: `Môže byť hrdina aj dieťa?`,
+        question: `Myslíš si, že deviatak alebo štvrták môže byť rovnakým hrdinom ako dospelý? Aký dobrý čin dokáže urobiť 9-ročné alebo 10-ročné dieťa?`,
+        sparks: [`Podať ruku smutnému kamarátovi`, `Vrátiť nájdenú vec`, `Priznať si chybu`]
+      },
+      {
+        id: `t5`,
+        title: `Rozprávka vs. skutočnosť`,
+        question: `V čom sa líši rozprávkový superhrdina od skutočného hrdinu v bežnom dni? Čo má skutočný hrdina niekedy ťažšie?`,
+        sparks: [`Nemá superschopnosti`, `Niekedy má tiež strach`, `Jeho činy menia skutočný svet`]
+      },
+      {
+        id: `t6`,
+        title: `Tichý hrdina`,
+        question: `Čo znamená byť „tichým hrdinom“? Je dobrý skutok stále rovnako cenný, aj keď o ňom nikto nevie a nikto ti zaň nezatlieska?`,
+        sparks: [`Pomoc bez chválenia sa`, `Upratanie neporiadku po inom`, `Konanie dobra, keď sa nikto nepozerá`]
+      },
+      {
+        id: `t7`,
+        title: `Odvaha pomôcť`,
+        question: `Kedy si naposledy cítil, že chceš niekomu pomôcť, ale mal si trochu trému alebo strach? Čo ti pomohlo ten strach prekonať?`,
+        sparks: [`Zhlboka sa nadýchnuť`, `Predstaviť si seba na jeho mieste`, `Spojiť sa s ďalším kamarátom`]
+      }
+    ];
+
+    const SITUATIONS = [
+      {
+        id: `s1`,
+        shortTitle: `1. Adam a Zuzka`,
+        title: `Pomoc kamarátovi vs. dodržanie pravidiel`,
+        story: `Cez veľkú prestávku za tebou pribehne najlepší kamarát Adam (alebo kamarátka Zuzka). Včera bol na športovom turnaji a nestihol si napísať domácu úlohu z matematiky. Pani učiteľka ju dnes prísne kontroluje. Adam ťa prosí: „Požičaj mi zošit, rýchlo si to odpíšem! Veď sme najlepší kamaráti, nenecháš ma v tom!“`,
+        conflict: `Chceš kamarátovi pomôcť a nechceš ho sklamať. Zároveň však vieš, že opisovanie nie je fér a matematika mu takto v hlave nezostane.`,
+        choices: [
+          {
+            letter: `A`,
+            label: `Dám mu zošit, nech si to rýchlo odpíše`,
+            sub: `„Nechcem, aby dostal poznámku a hneval sa na mňa.“`,
+            feedbackTitle: `Záleží ti na kamarátstve, no niečo tam chýba`,
+            feedback: `Adam sa vyhne poznámke, ale úlohu si nevyskúšal sám a zajtra mu bude učivo chýbať ešte viac. Skutočná pomoc občas znamená povedať aj nepríjemné „nie“ a hľadať lepšiu cestu.`
+          },
+          {
+            letter: `B`,
+            label: `Zošit mu nedám opísať, ale príklady mu rýchlo vysvetlím`,
+            sub: `„Pomôžem mu pochopiť postup, aj keď všetko nestihneme.“`,
+            feedbackTitle: `Skvelé riešenie pravého kamaráta!`,
+            feedback: `Ukázal si mu, že stojíš pri ňom, no zároveň rešpektuješ pravidlá. Keď sa niekto niečo naučí s tvojou pomocou, má z toho radosť aj čisté svedomie.`
+          },
+          {
+            letter: `C`,
+            label: `Poradím mu, aby úprimne vysvetlil situáciu pani učiteľke`,
+            sub: `„Pravda je síce ťažká, ale férová voči všetkým.“`,
+            feedbackTitle: `Odvaha hrať fér!`,
+            feedback: `Priateľstvo stojí na úprimnosti. Keď povieš kamarátovi pravdu s rešpektom a podporíš ho pred hodinou, pomôžeš mu viac než tajným opisovaním.`
+          }
+        ],
+        pairQuestions: [
+          `Aký je rozdiel medzi tým, keď prácu urobíš za kamaráta, a tým, keď mu pomôžeš pochopiť ju?`,
+          `Ako mu môžeš povedať „nie“, aby vedel, že ste stále dobrí kamaráti?`
+        ]
+      },
+      {
+        id: `s2`,
+        shortTitle: `2. Nina a plagát`,
+        title: `Priznanie chyby vs. strach z trestu`,
+        story: `Celá trieda týždeň maľovala veľký spoločný plagát na školskú výstavu. Nina cez prestávku niesla fľašu s vodou, zakopla o tašku a voda sa vyliala priamo na výkres. Keď sa ho snažila utrieť, papier sa v strede roztrhol! V triede nikto nebol. O chvíľu vojde pani učiteľka a smutne sa pýta: „Deti, kto pokazil náš plagát?“`,
+        conflict: `Bojíš sa, že sa na teba spolužiaci a pani učiteľka nahnevajú. Zároveň však vieš, že mlčať alebo to zvaliť na niekoho iného nie je čestné.`,
+        choices: [
+          {
+            letter: `A`,
+            label: `Zostanem ticho, veď ma nikto nevidel`,
+            sub: `„Možno sa na to zabudne a nikto sa na mňa nenahnevá.“`,
+            feedbackTitle: `Strach je silný, ale ticho býva ťažké`,
+            feedback: `Keď chybu zatajíme, trieda sa možno začne zbytočne hádať a podozrievať nevinných spolužiakov. Tajomstvo nás vnútri tlačí oveľa dlhšie než krátky rozhovor.`
+          },
+          {
+            letter: `B`,
+            label: `Priznám sa hneď a poviem, že to bola nehoda`,
+            sub: `„Bude mi to nepríjemné, ale nechcem klamať.“`,
+            feedbackTitle: `Veľká odvaha povedať pravdu!`,
+            feedback: `Priznať sa pred celou triedou chce poriadny kus hrdinstva. Každý občas urobí nehodu — úprimnosťou ukážeš, že sa na teba dá spoľahnúť.`
+          },
+          {
+            letter: `C`,
+            label: `Priznám sa a hneď navrhnem, že plagát pomôžem opraviť`,
+            sub: `„Prevezmem zodpovednosť a napravím, čo sa stalo.“`,
+            feedbackTitle: `Hrdinský prístup so srdcom!`,
+            feedback: `Nielenže si povedal pravdu, ale hneď si pridal ruku k dielu. Spolužiaci uvidia, že ti na spoločnom diele záleží, a radi ti s opravou pomôžu.`
+          }
+        ],
+        pairQuestions: [
+          `Prečo sa niekedy bojíme priznať chybu, aj keď sa stala úplne náhodou?`,
+          `Ako by sme sa mali v triede správať k spolužiakovi, ktorý naberie odvahu a prizná sa?`
+        ]
+      },
+      {
+        id: `s3`,
+        shortTitle: `3. Tomáš`,
+        title: `Obrana slabšieho vs. obava z výsmechu`,
+        story: `Do vašej triedy nastúpil nový spolužiak Tomáš. Nosí trochu nezvyčajnú čiapku a pri rozprávaní sa občas zakoktá. Počas obeda sa okolo neho zoskupia dvaja obľúbení spolužiaci a začnú sa mu posmievať: „Pozrite na tú čiapku, kde si ju našiel, na povale?“ Ostatní okolo sa začnú chichotať. Stojíš hneď vedľa.`,
+        conflict: `Chceš sa Tomáša zastať, lebo vidíš, ako mu je smutno. No trochu sa bojíš, že ak sa ozveš, začnú sa vysmievať aj tebe.`,
+        choices: [
+          {
+            letter: `A`,
+            label: `Sklopím oči a radšej rýchlo odídem`,
+            sub: `„Nechcem mať problémy s obľúbenými spolužiakmi.“`,
+            feedbackTitle: `Je normálne cítiť strach, no skúsme ešte krok ďalej`,
+            feedback: `Mnohí ľudia odídu zo strachu. Pre Tomáša však ticho okolia znamená, že s výsmechom všetci súhlasia. Skús nabudúce aspoň požiadať o pomoc kamaráta alebo pani učiteľku.`
+          },
+          {
+            letter: `B`,
+            label: `Pokojne sa ho zastanem: „Nechajte ho tak, nie je to vtipné.“`,
+            sub: `„Aj jedna odvážna veta dokáže výsmech zastaviť.“`,
+            feedbackTitle: `Skutočná sila tvojho hlasu!`,
+            feedback: `Zastať sa niekoho zoči-voči skupine chce veľkú odvahu. Často stačí jediný človek, ktorý povie „dosť“, a pridajú sa k nemu aj ostatní.`
+          },
+          {
+            letter: `C`,
+            label: `Prisadnem si k Tomášovi a pozvem ho do našej partie`,
+            sub: `„Ukážem mu, že v tom nie je sám.“`,
+            feedbackTitle: `Láskavosť, ktorá mení deň!`,
+            feedback: `Nemusíš sa ani hádať — tým, že si sadneš vedľa neho a priateľsky sa s ním porozprávaš, zoberieš posmievačom všetku moc a Tomáš získa kamaráta.`
+          }
+        ],
+        pairQuestions: [
+          `Ako sa asi cíti nový žiak, keď sa mu niekto posmieva a ostatní len mlčky pozerajú?`,
+          `Prečo je ľahšie zastať sa niekoho vtedy, keď sa dohodneme dvaja alebo traja kamaráti naraz?`
+        ]
+      },
+      {
+        id: `s4`,
+        shortTitle: `4. Martin a Peter`,
+        title: `Udržanie tajomstva vs. bezpečnosť kamaráta`,
+        story: `Tvoj kamarát Martin ťa po škole potichu odvedie nabok a nadšene zašepká: „S Petrom sme našli dieru v plote pri starej opustenej stavbe! Dnes popoludní vylezieme po rozbitých schodoch na strechu. Ale nikomu to nesmieš povedať — sľúb mi to na čestné slovo!“ Vieš, že na tej stavbe sú hrdzavé klince a padajú tam tehly.`,
+        conflict: `Chceš dodržať daný sľub a nebyť „zradca“. Na druhej strane máš o Martina a Petra veľký strach, lebo sa im môže stať vážny úraz.`,
+        choices: [
+          {
+            letter: `A`,
+            label: `Dodržím tajomstvo a nikomu nič nepoviem`,
+            sub: `„Sľub je sľub, nechcem stratiť kamaráta.“`,
+            feedbackTitle: `Pozor — bezpečie je vždy na prvom mieste`,
+            feedback: `Dobré tajomstvo nikomu neubližuje (napríklad narodeninové prekvapenie). Ak však ide o zdravie a nebezpečenstvo, mlčanie môže viesť k nešťastiu.`
+          },
+          {
+            letter: `B`,
+            label: `Pokúsim sa ich odhovoriť a navrhnem bezpečnejšiu hru`,
+            sub: `„Presvedčím ich, aby sme šli radšej na ihrisko alebo do parku.“`,
+            feedbackTitle: `Múdry pokus dobrého kamaráta!`,
+            feedback: `Skúsiť kamaráta zastaviť priamo je výborný prvý krok. Ak by si však videl, že tam naozaj chcú ísť, určite to povedz dospelému.`
+          },
+          {
+            letter: `C`,
+            label: `Poviem to rodičom alebo pani učiteľke, aby im pomohli`,
+            sub: `„Ich zdravie je oveľa dôležitejšie ako nebezpečný sľub.“`,
+            feedbackTitle: `Najväčšia odvaha zodpovedného priateľstva!`,
+            feedback: `Možno sa Martin na chvíľu nahnevá, no zachránil si ho pred vážnym úrazom. Chrániť kamaráta pred nebezpečenstvom nie je žalovanie, ale starostlivosť.`
+          }
+        ],
+        pairQuestions: [
+          `Kedy je správne udržať tajomstvo a kedy ho musíme povedať dospelému?`,
+          `Ako by si kamarátovi po tom všetkom vysvetlil, prečo si ho ochránil?`
+        ]
+      },
+      {
+        id: `s5`,
+        shortTitle: `5. Ema a náramok`,
+        title: `Nález stratenej veci vs. pokušenie nechať si ju`,
+        story: `Po telocviku odchádzaš zo šatne ako posledný. Na lavičke pod uterákom zbadáš krásny modrý smart náramok, po akom už celé mesiace túžiš. Šatňa je prázdna, nikto ťa nevidí. O chvíľu na chodbe začuješ tretiačku Emu, ako s plačom hľadá svoj náramok, ktorý dostala na narodeniny.`,
+        conflict: `Veľmi by si taký náramok chcel a nikto by nezistil, že si ho našiel. No počuješ Emu plakať a vieš, komu patrí.`,
+        choices: [
+          {
+            letter: `A`,
+            label: `Schovám si ho do tašky — veď si ho mala strážiť`,
+            sub: `„Aspoň raz budem mať niečo, po čom tak túžim.“`,
+            feedbackTitle: `Pokušenie je veľké, ale radosť by netrvala dlho`,
+            feedback: `Náramok by ti zakaždým pripomínal Emin plač a bál by si sa ho nosiť do školy. Cudzia vec nikdy neprinesie skutočnú radosť.`
+          },
+          {
+            letter: `B`,
+            label: `Hneď ho prinesiem Eme alebo pani učiteľke na vrátnici`,
+            sub: `„Vrátim jej ho a budem mať dobrý pocit.“`,
+            feedbackTitle: `Čisté srdce tichého hrdinu!`,
+            feedback: `Urobil si správnu vec aj vo chvíli, keď sa na teba nikto nepozeral. Úsmev a úľava na Eminej tvári sú cennejšie ako akýkoľvek darček.`
+          },
+          {
+            letter: `C`,
+            label: `Prídem za Emou a overím si opis náramku, aby som ho vrátil správne`,
+            sub: `„Pomôžem skutočnej majiteľke bez zbytočných pochybností.“`,
+            feedbackTitle: `Múdre a veľmi čestné rozhodnutie!`,
+            feedback: `Zachoval si sa férovo a rozvážne. Eme si vrátil nielen náramok, ale aj vieru, že okolo nej sú dobrí ľudia.`
+          }
+        ],
+        pairQuestions: [
+          `Ako sa človek cíti, keď urobí dobrú vec, aj keď ho za to nikto nevidí a neodmení?`,
+          `Čo by si odkázal niekomu, kto našiel cudziu vec a váha, či ju má vrátiť?`
+        ]
+      }
+    ];
+
+    const PRESET_DEEDS = [
+      { text: `Zastanem sa spolužiaka, keď sa mu niekto vysmieva`, color: `--data-1` },
+      { text: `Pomôžem kamarátovi pochopiť učivo namiesto opisovania`, color: `--data-2` },
+      { text: `Priznám si chybu a pomôžem ju napraviť`, color: `--data-3` },
+      { text: `Vrátim nájdenú vec tomu, komu patrí`, color: `--data-4` },
+      { text: `Pochválim alebo povzbudím niekoho, kto je dnes smutný`, color: `--data-1` },
+      { text: `Ochránim kamaráta pred nebezpečným nápadom`, color: `--data-3` }
+    ];
+
+    const LEAF_SLOTS = [
+      { x: 165, y: 120, rot: -25 },
+      { x: 225, y: 78, rot: 5 },
+      { x: 288, y: 112, rot: 28 },
+      { x: 132, y: 165, rot: -45 },
+      { x: 196, y: 148, rot: -10 },
+      { x: 262, y: 148, rot: 14 },
+      { x: 326, y: 158, rot: 42 },
+      { x: 156, y: 90, rot: -18 },
+      { x: 266, y: 84, rot: 22 },
+      { x: 230, y: 126, rot: 0 },
+      { x: 108, y: 134, rot: -35 },
+      { x: 348, y: 126, rot: 36 },
+      { x: 185, y: 66, rot: -8 },
+      { x: 298, y: 74, rot: 18 },
+      { x: 205, y: 182, rot: -15 },
+      { x: 256, y: 182, rot: 15 },
+      { x: 142, y: 196, rot: -30 },
+      { x: 316, y: 192, rot: 32 }
+    ];
+
+    const COLOR_POOL = [`--data-1`, `--data-2`, `--data-3`, `--data-4`];
+
+    let appState = {
+      activeTopicId: `t1`,
+      topicsDone: {},
+      topicSparks: {},
+      topicNotes: {},
+      activeSitIdx: 0,
+      sitChoices: {},
+      sitNotes: {},
+      deeds: [],
+      selectedDeedIndex: null
+    };
+
+    function createEmptyState() {
+      return {
+        activeTopicId: `t1`,
+        topicsDone: {},
+        topicSparks: {},
+        topicNotes: {},
+        activeSitIdx: 0,
+        sitChoices: {},
+        sitNotes: {},
+        deeds: [],
+        selectedDeedIndex: null
+      };
+    }
+
+    async function persistState() {
+      if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === `function`) {
+        try {
+          await window.notebookAppApi.setAppState(appState);
+        } catch (err) {
+          // Graceful fallback if host rejects transient update
+        }
+      }
+    }
+
+    function renderBrainstormBoard() {
+      const board = document.getElementById(`brainstorm-board`);
+      if (!board) return;
+      board.innerHTML = TOPICS.map((topic, idx) => {
+        const isActive = topic.id === appState.activeTopicId;
+        const isDone = Boolean(appState.topicsDone[topic.id]);
+        const classes = [`topic-card`];
+        if (isActive) classes.push(`is-active`);
+        if (isDone) classes.push(`is-done`);
+
+        const badgeLabel = isDone ? `Prediskutované` : `Otázka ${idx + 1}`;
+        const iconName = isDone ? `check-circle-2` : `sparkles`;
+
+        return `
+          <button type="button"
+                  role="listitem"
+                  class="${classes.join(' ')}"
+                  onclick="selectTopic('${topic.id}')"
+                  aria-pressed="${isActive}">
+            <div class="topic-card-top">
+              <span class="topic-badge">
+                <i data-lucide="${iconName}" aria-hidden="true" width="16" height="16"></i>
+                ${badgeLabel}
+              </span>
+            </div>
+            <div class="topic-title">${topic.title}</div>
+            <div class="topic-preview">${isActive ? `Práve otvorené vpravo` : `Klikni a premýšľaj`}</div>
+          </button>
+        `;
+      }).join(``);
+
+      renderDiscussionPanel();
+      refreshIcons();
+    }
+
+    function renderDiscussionPanel() {
+      const topicIndex = TOPICS.findIndex(t => t.id === appState.activeTopicId);
+      const safeIndex = topicIndex >= 0 ? topicIndex : 0;
+      const topic = TOPICS[safeIndex];
+
+      const badge = document.getElementById(`active-topic-badge`);
+      const title = document.getElementById(`active-topic-title`);
+      const question = document.getElementById(`active-topic-question`);
+      const sparksEl = document.getElementById(`active-topic-sparks`);
+      const noteInput = document.getElementById(`topic-note-input`);
+      const doneBtn = document.getElementById(`topic-done-btn`);
+      const doneLabel = document.getElementById(`topic-done-label`);
+
+      if (badge) badge.textContent = `Otázka ${safeIndex + 1} zo ${TOPICS.length}`;
+      if (title) title.textContent = topic.title;
+      if (question) question.textContent = topic.question;
+
+      const selectedSparks = appState.topicSparks[topic.id] || [];
+      if (sparksEl) {
+        sparksEl.innerHTML = topic.sparks.map((spark, sIdx) => {
+          const isSelected = selectedSparks.includes(spark);
+          return `
+            <button type="button"
+                    class="spark-chip ${isSelected ? `is-selected` : ``}"
+                    onclick="toggleSpark('${topic.id}', ${sIdx})"
+                    aria-pressed="${isSelected}">
+              <i data-lucide="${isSelected ? `check` : `plus`}" aria-hidden="true" width="15" height="15"></i>
+              ${spark}
+            </button>
+          `;
+        }).join(``);
+      }
+
+      if (noteInput) {
+        noteInput.value = appState.topicNotes[topic.id] || ``;
+      }
+
+      const isDone = Boolean(appState.topicsDone[topic.id]);
+      if (doneBtn && doneLabel) {
+        doneBtn.className = isDone ? `btn btn-positive` : `btn btn-primary`;
+        doneLabel.textContent = isDone ? `Hotovo (odznačiť)` : `Prediskutované!`;
+      }
+    }
+
+    function selectTopic(topicId) {
+      appState.activeTopicId = topicId;
+      renderBrainstormBoard();
+      persistState();
+    }
+
+    function toggleSpark(topicId, sparkIdx) {
+      const topic = TOPICS.find(t => t.id === topicId);
+      if (!topic) return;
+      const sparkText = topic.sparks[sparkIdx];
+      if (!sparkText) return;
+
+      const list = appState.topicSparks[topicId] ? [...appState.topicSparks[topicId]] : [];
+      const pos = list.indexOf(sparkText);
+      if (pos >= 0) {
+        list.splice(pos, 1);
+      } else {
+        list.push(sparkText);
+      }
+      appState.topicSparks[topicId] = list;
+      renderDiscussionPanel();
+      refreshIcons();
+      persistState();
+    }
+
+    function saveTopicNote(val) {
+      appState.topicNotes[appState.activeTopicId] = val;
+      persistState();
+    }
+
+    function toggleTopicDone() {
+      const id = appState.activeTopicId;
+      appState.topicsDone[id] = !appState.topicsDone[id];
+      renderBrainstormBoard();
+      updateProgress();
+      persistState();
+    }
+
+    function nextTopic() {
+      const currentIdx = TOPICS.findIndex(t => t.id === appState.activeTopicId);
+      const nextIdx = (currentIdx + 1) % TOPICS.length;
+      appState.activeTopicId = TOPICS[nextIdx].id;
+      renderBrainstormBoard();
+      persistState();
+    }
+
+    function renderSituationsNav() {
+      const nav = document.getElementById(`situation-nav`);
+      if (!nav) return;
+
+      nav.innerHTML = SITUATIONS.map((sit, idx) => {
+        const isActive = idx === appState.activeSitIdx;
+        const isSolved = Boolean(appState.sitChoices[sit.id]);
+        const classes = [`sit-tab`];
+        if (isActive) classes.push(`is-active`);
+        if (isSolved) classes.push(`is-solved`);
+
+        const iconName = isSolved ? `check-circle-2` : `circle`;
+        return `
+          <button type="button"
+                  role="tab"
+                  class="${classes.join(' ')}"
+                  aria-selected="${isActive}"
+                  onclick="selectSituation(${idx})">
+            <i data-lucide="${iconName}" aria-hidden="true" width="16" height="16"></i>
+            ${sit.shortTitle}
+          </button>
+        `;
+      }).join(``);
+    }
+
+    function renderActiveSituation() {
+      renderSituationsNav();
+      const sit = SITUATIONS[appState.activeSitIdx] || SITUATIONS[0];
+      const chosenLetter = appState.sitChoices[sit.id] || null;
+
+      const kicker = document.getElementById(`sit-kicker`);
+      const title = document.getElementById(`sit-title`);
+      const statusBadge = document.getElementById(`sit-status-badge`);
+      const story = document.getElementById(`sit-story`);
+      const conflict = document.getElementById(`sit-conflict`);
+      const choicesEl = document.getElementById(`sit-choices`);
+      const feedbackEl = document.getElementById(`sit-feedback`);
+      const fbTitle = document.getElementById(`sit-feedback-title`);
+      const fbText = document.getElementById(`sit-feedback-text`);
+      const pairQsEl = document.getElementById(`sit-pair-questions`);
+      const noteEl = document.getElementById(`sit-pair-note`);
+      const prevBtn = document.getElementById(`sit-prev-btn`);
+      const nextBtn = document.getElementById(`sit-next-btn`);
+
+      if (kicker) kicker.textContent = `Situácia ${appState.activeSitIdx + 1} z ${SITUATIONS.length}`;
+      if (title) title.textContent = sit.title;
+      if (story) story.textContent = sit.story;
+      if (conflict) conflict.textContent = sit.conflict;
+
+      if (statusBadge) {
+        statusBadge.textContent = chosenLetter ? `Vybrali ste možnosť ${chosenLetter}` : `Čaká na vaše rozhodnutie`;
+        statusBadge.style.backgroundColor = chosenLetter ? `var(--positive-container)` : `var(--tertiary-container)`;
+        statusBadge.style.color = chosenLetter ? `var(--positive)` : `var(--on-surface)`;
+      }
+
+      if (choicesEl) {
+        choicesEl.innerHTML = sit.choices.map(choice => {
+          const isChosen = choice.letter === chosenLetter;
+          return `
+            <button type="button"
+                    class="choice-btn ${isChosen ? `is-chosen` : ``}"
+                    onclick="chooseSituationOption('${sit.id}', '${choice.letter}')"
+                    aria-pressed="${isChosen}">
+              <span class="choice-letter">${choice.letter}</span>
+              <span class="choice-heading">${choice.label}</span>
+              <span class="choice-sub">${choice.sub}</span>
+            </button>
+          `;
+        }).join(``);
+      }
+
+      if (feedbackEl) {
+        if (chosenLetter) {
+          const selectedChoice = sit.choices.find(c => c.letter === chosenLetter);
+          feedbackEl.hidden = false;
+          if (fbTitle && selectedChoice) fbTitle.textContent = selectedChoice.feedbackTitle;
+          if (fbText && selectedChoice) fbText.textContent = selectedChoice.feedback;
+          if (pairQsEl) {
+            pairQsEl.innerHTML = sit.pairQuestions.map(q => `<li>${q}</li>`).join(``);
+          }
+          if (noteEl) {
+            noteEl.value = appState.sitNotes[sit.id] || ``;
+          }
+        } else {
+          feedbackEl.hidden = true;
+        }
+      }
+
+      if (prevBtn) prevBtn.disabled = appState.activeSitIdx === 0;
+      if (nextBtn) nextBtn.disabled = appState.activeSitIdx === SITUATIONS.length - 1;
+
+      refreshIcons();
+    }
+
+    function selectSituation(idx) {
+      if (idx < 0 || idx >= SITUATIONS.length) return;
+      appState.activeSitIdx = idx;
+      renderActiveSituation();
+      persistState();
+    }
+
+    function changeSituation(delta) {
+      selectSituation(appState.activeSitIdx + delta);
+    }
+
+    function chooseSituationOption(sitId, letter) {
+      appState.sitChoices[sitId] = letter;
+      renderActiveSituation();
+      updateProgress();
+      persistState();
+    }
+
+    function saveSituationNote(val) {
+      const sit = SITUATIONS[appState.activeSitIdx];
+      if (!sit) return;
+      appState.sitNotes[sit.id] = val;
+      persistState();
+    }
+
+    function renderPresetDeeds() {
+      const grid = document.getElementById(`preset-deeds-grid`);
+      if (!grid) return;
+
+      grid.innerHTML = PRESET_DEEDS.map((preset, idx) => `
+        <button type="button" class="deed-preset-btn" onclick="addPresetDeed(${idx})">
+          <i data-lucide="plus" aria-hidden="true" width="15" height="15"></i>
+          ${preset.text}
+        </button>
+      `).join(``);
+    }
+
+    function addPresetDeed(idx) {
+      const preset = PRESET_DEEDS[idx];
+      if (!preset) return;
+      const authorInput = document.getElementById(`deed-author-input`);
+      const author = authorInput && authorInput.value.trim() ? authorInput.value.trim() : `Naša dvojica`;
+
+      const alreadyExists = appState.deeds.some(d => d.text === preset.text && d.author === author);
+      const fb = document.getElementById(`deed-form-feedback`);
+      if (alreadyExists) {
+        if (fb) fb.textContent = `Tento lístok od vás už na strome svieti! Skús napísať vlastný dobrý skutok.`;
+        return;
+      }
+
+      appState.deeds.push({
+        text: preset.text,
+        author: author,
+        color: preset.color
+      });
+      appState.selectedDeedIndex = appState.deeds.length - 1;
+      if (fb) fb.textContent = `Paráda! Na strome rozkvitol nový lístok dobrého skutku.`;
+
+      renderTreeSection();
+      updateProgress();
+      persistState();
+    }
+
+    function addCustomDeed() {
+      const textInput = document.getElementById(`deed-text-input`);
+      const authorInput = document.getElementById(`deed-author-input`);
+      const fb = document.getElementById(`deed-form-feedback`);
+      if (!textInput) return;
+
+      const text = textInput.value.trim();
+      if (text.length < 4) {
+        if (fb) fb.textContent = `Napíš prosím aspoň krátku vetu (minimálne 4 znaky), aby ostatní vedeli, aký dobrý skutok pridávaš.`;
+        textInput.focus();
+        return;
+      }
+
+      const author = authorInput && authorInput.value.trim() ? authorInput.value.trim() : `Hrdina z triedy`;
+      const colorVar = COLOR_POOL[appState.deeds.length % COLOR_POOL.length];
+
+      appState.deeds.push({
+        text: text,
+        author: author,
+        color: colorVar
+      });
+      appState.selectedDeedIndex = appState.deeds.length - 1;
+      textInput.value = ``;
+      if (fb) fb.textContent = `Ďakujeme! Tvoj lístok práve rozkvitol v korune stromu.`;
+
+      renderTreeSection();
+      updateProgress();
+      persistState();
+    }
+
+    function removeDeed(idx) {
+      if (idx < 0 || idx >= appState.deeds.length) return;
+      appState.deeds.splice(idx, 1);
+      if (appState.deeds.length === 0) {
+        appState.selectedDeedIndex = null;
+      } else if (appState.selectedDeedIndex >= appState.deeds.length) {
+        appState.selectedDeedIndex = appState.deeds.length - 1;
+      }
+      renderTreeSection();
+      updateProgress();
+      persistState();
+    }
+
+    function selectLeaf(idx) {
+      appState.selectedDeedIndex = idx;
+      renderSelectedLeafInfo();
+      persistState();
+    }
+
+    function renderSelectedLeafInfo() {
+      const titleEl = document.getElementById(`selected-leaf-title`);
+      const descEl = document.getElementById(`selected-leaf-desc`);
+      if (!titleEl || !descEl) return;
+
+      if (appState.deeds.length === 0) {
+        titleEl.textContent = `Strom čaká na prvé lístky odvahy`;
+        descEl.textContent = `Vyber si niektorý z rýchlych nápadov vpravo alebo napíš vlastný dobrý skutok.`;
+        return;
+      }
+
+      const idx = appState.selectedDeedIndex !== null && appState.deeds[appState.selectedDeedIndex]
+        ? appState.selectedDeedIndex
+        : appState.deeds.length - 1;
+      const deed = appState.deeds[idx];
+      titleEl.textContent = `Lístok č. ${idx + 1} · ${deed.author}`;
+      descEl.textContent = `„${deed.text}“`;
+    }
+
+    function renderTreeSection() {
+      const counter = document.getElementById(`tree-leaf-counter`);
+      if (counter) {
+        const count = appState.deeds.length;
+        const unit = count === 1 ? `lístok` : (count >= 2 && count <= 4 ? `lístky` : `lístkov`);
+        counter.textContent = `${count} ${unit} odvahy`;
+      }
+
+      const leavesLayer = document.getElementById(`tree-leaves-layer`);
+      if (leavesLayer) {
+        leavesLayer.innerHTML = appState.deeds.map((deed, idx) => {
+          const slot = LEAF_SLOTS[idx % LEAF_SLOTS.length];
+          const ringOffset = Math.floor(idx / LEAF_SLOTS.length) * 10;
+          const cx = slot.x + (idx % 2 === 0 ? ringOffset : -ringOffset);
+          const cy = slot.y - ringOffset;
+          const isSelected = idx === appState.selectedDeedIndex;
+
+          return `
+            <g class="tree-leaf-node"
+               transform="translate(${cx}, ${cy}) rotate(${slot.rot})"
+               onclick="selectLeaf(${idx})"
+               role="button"
+               tabindex="0"
+               aria-label="Lístok ${idx + 1}: ${deed.text}">
+              <path d="M0 -18 C12 -14 18 -2 12 10 C6 18 -6 18 -12 10 C-18 -2 -12 -14 0 -18 Z"
+                    fill="var(${deed.color})"
+                    stroke="${isSelected ? `var(--on-surface)` : `var(--surface-container-low)`}"
+                    stroke-width="${isSelected ? `3` : `2`}"/>
+              <path d="M0 -12 L0 12" stroke="var(--surface-container-low)" stroke-width="1.6" stroke-linecap="round"/>
+            </g>
+          `;
+        }).join(``);
+      }
+
+      const listEl = document.getElementById(`deeds-list`);
+      if (listEl) {
+        if (appState.deeds.length === 0) {
+          listEl.innerHTML = `
+            <div style="background: var(--surface-container); border-radius: var(--rounded); padding: var(--space-md); color: var(--on-surface-variant);">
+              Zatiaľ tu nie je žiadny lístok. Pridaj prvý dobrý skutok a sleduj, ako strom ožije!
+            </div>
+          `;
+        } else {
+          listEl.innerHTML = appState.deeds.map((deed, idx) => `
+            <div class="deed-item">
+              <div style="display: flex; align-items: center; gap: var(--space-sm); min-width: 0;">
+                <span class="deed-color-dot" style="background-color: var(${deed.color});"></span>
+                <div style="min-width: 0;">
+                  <div style="font-weight: 700; line-height: 1.3;">${escapeHtml(deed.text)}</div>
+                  <div style="font-size: 0.85rem; color: var(--on-surface-variant);">Od: ${escapeHtml(deed.author)}</div>
+                </div>
+              </div>
+              <button type="button"
+                      class="btn btn-soft"
+                      style="min-height: 36px; padding: var(--space-xs) var(--space-sm);"
+                      onclick="removeDeed(${idx})"
+                      aria-label="Odstrániť lístok ${idx + 1}">
+                <i data-lucide="x" aria-hidden="true" width="16" height="16"></i>
+              </button>
+            </div>
+          `).join(``);
+        }
+      }
+
+      renderSelectedLeafInfo();
+      refreshIcons();
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, `&amp;`)
+        .replace(/</g, `&lt;`)
+        .replace(/>/g, `&gt;`)
+        .replace(/"/g, `&quot;`)
+        .replace(/'/g, `&#39;`);
+    }
+
+    function updateProgress() {
+      const doneTopics = TOPICS.filter(t => appState.topicsDone[t.id]).length;
+      const solvedSits = SITUATIONS.filter(s => appState.sitChoices[s.id]).length;
+      const deedsCount = appState.deeds.length;
+
+      const m1 = document.getElementById(`milestone-1`);
+      const m1c = document.getElementById(`milestone-1-count`);
+      const m2 = document.getElementById(`milestone-2`);
+      const m2c = document.getElementById(`milestone-2-count`);
+      const m3 = document.getElementById(`milestone-3`);
+      const m3c = document.getElementById(`milestone-3-count`);
+
+      if (m1c) m1c.textContent = `${doneTopics} / ${TOPICS.length}`;
+      if (m1) m1.classList.toggle(`is-complete`, doneTopics === TOPICS.length);
+
+      if (m2c) m2c.textContent = `${solvedSits} / ${SITUATIONS.length}`;
+      if (m2) m2.classList.toggle(`is-complete`, solvedSits === SITUATIONS.length);
+
+      const leafWord = deedsCount === 1 ? `lístok` : (deedsCount >= 2 && deedsCount <= 4 ? `lístky` : `lístkov`);
+      if (m3c) m3c.textContent = `${deedsCount} ${leafWord}`;
+      if (m3) m3.classList.toggle(`is-complete`, deedsCount >= 1);
+
+      const totalPoints = TOPICS.length + SITUATIONS.length + 1;
+      const earnedPoints = doneTopics + solvedSits + (deedsCount > 0 ? 1 : 0);
+      const pct = Math.round((earnedPoints / totalPoints) * 100);
+
+      const bar = document.getElementById(`main-progress-bar`);
+      const fill = document.getElementById(`main-progress-fill`);
+      const rankText = document.getElementById(`hero-rank-text`);
+      const headline = document.getElementById(`progress-headline`);
+
+      if (bar) bar.setAttribute(`aria-valuenow`, String(pct));
+      if (fill) fill.style.width = `${pct}%`;
+      if (rankText) rankText.textContent = `${pct} % hotovo`;
+
+      if (headline) {
+        if (pct === 0) {
+          headline.textContent = `Tvoja hrdinská cesta sa práve začína`;
+        } else if (pct < 45) {
+          headline.textContent = `Skvelý štart! Objavuješ, čo znamená byť hrdinom`;
+        } else if (pct < 100) {
+          headline.textContent = `Výborne pokračuješ — odvaha a láskavosť ti svedčia`;
+        } else {
+          headline.textContent = `Gratulujeme! Si skutočný hrdina každodennosti!`;
+        }
+      }
+    }
+
+    function exportJourneySummary() {
+      const lines = [
+        `MOJA KARTA HRDINU KAŽDODENNOSTI`,
+        `==================================`,
+        ``,
+        `1. NÁSTENKA NÁPADOV (Kto je skutočný hrdina?):`
+      ];
+
+      TOPICS.forEach((t, idx) => {
+        const done = appState.topicsDone[t.id] ? `[Hotovo]` : `[Rozpracované]`;
+        const sparks = (appState.topicSparks[t.id] || []).join(`, `);
+        const note = appState.topicNotes[t.id] || ``;
+        lines.push(`${idx + 1}. ${t.title} ${done}`);
+        if (sparks) lines.push(`   Vybrané nápady: ${sparks}`);
+        if (note) lines.push(`   Naša poznámka: ${note}`);
+      });
+
+      lines.push(``);
+      lines.push(`2. SITUÁCIE ZO ŽIVOTA (Ako sme sa rozhodli vo dvojici):`);
+      SITUATIONS.forEach((s, idx) => {
+        const chosen = appState.sitChoices[s.id];
+        const choiceObj = s.choices.find(c => c.letter === chosen);
+        const note = appState.sitNotes[s.id] || ``;
+        lines.push(`${idx + 1}. ${s.title}`);
+        lines.push(`   Rozhodnutie: ${choiceObj ? `${choiceObj.letter}) ${choiceObj.label}` : `Zatiaľ nevybrané`}`);
+        if (note) lines.push(`   Rada z dvojice: ${note}`);
+      });
+
+      lines.push(``);
+      lines.push(`3. STROM DOBRÝCH SKUTKOV (${appState.deeds.length} pridaných lístkov):`);
+      if (appState.deeds.length === 0) {
+        lines.push(`   Zatiaľ bez pridaných lístkov.`);
+      } else {
+        appState.deeds.forEach((d, idx) => {
+          lines.push(`   - ${idx + 1}. ${d.text} (od: ${d.author})`);
+        });
+      }
+
+      const content = lines.join(`\n`);
+      if (window.notebookAppApi && typeof window.notebookAppApi.triggerFileDownload === `function`) {
+        window.notebookAppApi.triggerFileDownload({
+          content: content,
+          contentType: `text/plain`,
+          encoding: `UTF-8`,
+          filename: `Moja_karta_hrdinu.txt`
+        });
+      }
+    }
+
+    function handleResetClick(btn) {
+      if (!btn) return;
+      if (btn.dataset.armed !== `true`) {
+        btn.dataset.armed = `true`;
+        btn.textContent = `Klikni ešte raz pre vynulovanie`;
+        return;
+      }
+      btn.dataset.armed = `false`;
+      btn.innerHTML = `<i data-lucide="rotate-ccw" aria-hidden="true" width="18" height="18"></i> Začať odznova`;
+      appState = createEmptyState();
+      const deedInput = document.getElementById(`deed-text-input`);
+      const authorInput = document.getElementById(`deed-author-input`);
+      const fb = document.getElementById(`deed-form-feedback`);
+      if (deedInput) deedInput.value = ``;
+      if (authorInput) authorInput.value = ``;
+      if (fb) fb.textContent = `Všetko je pripravené na nový začiatok!`;
+
+      renderAll();
+      persistState();
+    }
+
+    function refreshIcons() {
+      if (window.lucide && typeof window.lucide.createIcons === `function`) {
+        window.lucide.createIcons();
+      }
+    }
+
+    function renderAll() {
+      renderBrainstormBoard();
+      renderActiveSituation();
+      renderPresetDeeds();
+      renderTreeSection();
+      updateProgress();
+      refreshIcons();
+    }
+
+    async function initApp() {
+      if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === `function`) {
+        try {
+          const saved = await window.notebookAppApi.getAppState();
+          if (saved && typeof saved === `object`) {
+            appState = Object.assign(createEmptyState(), saved);
+          }
+        } catch (err) {
+          // Proceed with fresh default state
+        }
+      }
+
+      renderAll();
+
+      if (window.notebookAppApi && typeof window.notebookAppApi.notifyAppReady === `function`) {
+        window.notebookAppApi.notifyAppReady();
+      }
+    }
+
+    if (document.readyState === `loading`) {
+      document.addEventListener(`DOMContentLoaded`, initApp);
+    } else {
+      initApp();
+    }
+  </script>
+</body>
+</html>
