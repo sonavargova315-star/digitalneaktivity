@@ -1,0 +1,1587 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="tool">
+  <meta name="design-style" content="sticker">
+  <title>Hudobné koleso šťastia — 4. ročník</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@1.43.0/dist/umd/lucide.min.js"></script>
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* Page and surfaces (Sticker style) */
+      --background: #fef7ff;
+      --surface-container-low: #ffffff;
+      --surface-container: #f8eef8;
+      --surface-container-high: #f2e8f2;
+
+      /* Ink */
+      --on-surface: #2e1a28;
+      --on-surface-variant: #604868;
+
+      /* Rules */
+      --outline: #907898;
+      --outline-variant: #dcc8e0;
+
+      /* Accents */
+      --primary: #c2207f;
+      --on-primary: #ffffff;
+      --primary-container: #f080c0;
+      --on-primary-container: #2e1a28;
+      --secondary: #7c52aa;
+      --on-secondary: #ffffff;
+      --tertiary: #0096cc;
+      --error: #c53030;
+      --on-error: #ffffff;
+
+      /* Data series */
+      --data-1: #c2207f;
+      --data-2: #7c52aa;
+      --data-3: #0096cc;
+      --data-4: #d96a00;
+      --data-context: #c8b8d0;
+
+      /* Vibrant wheel slice palette (all contrast-checked >= 4.5:1) */
+      --slice-pink: #c82282;
+      --slice-sun: #ffd23f;
+      --slice-sky: #38bdf8;
+      --slice-mint: #34d399;
+      --slice-orange: #ff8533;
+      --slice-grape: #7c52aa;
+      --slice-lime: #a3e635;
+      --slice-berry: #d62858;
+      --wheel-rim: #2e1a28;
+      --wheel-rim-ring: #f8eef8;
+      --confetti-gold: #ffd23f;
+      --confetti-pink: #c2207f;
+      --confetti-sky: #0096cc;
+      --confetti-mint: #34d399;
+      --confetti-grape: #7c52aa;
+
+      /* Semantic */
+      --positive: #15803d;
+      --warning: #d96a00;
+      --focus: #c2207f;
+
+      /* Fonts */
+      --font-headline: 'DM Sans', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-label: 'DM Sans', sans-serif;
+
+      /* Type scale (Focused Tool) */
+      --display-size: clamp(1.85rem, 1.35rem + 1.8vw, 2.65rem);
+      --headline-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+      --subhead-size: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+      --body-size: clamp(0.9375rem, 0.9rem + 0.15vw, 1rem);
+      --label-size: 0.75rem;
+
+      /* Shape */
+      --rounded: 1rem;
+      --rounded-lg: 2rem;
+      --rounded-full: 9999px;
+
+      /* Style effects */
+      --shadow-pink: 0 4px 16px rgb(224 64 160 / 0.2);
+      --shadow-pink-deep: 0 10px 28px rgb(224 64 160 / 0.34);
+      --shadow-grape: 0 4px 16px rgb(124 82 170 / 0.2);
+      --shadow-grape-deep: 0 10px 28px rgb(124 82 170 / 0.34);
+      --shadow-sky: 0 4px 16px rgb(0 150 204 / 0.22);
+      --shadow-wheel: 0 12px 30px rgb(46 26 40 / 0.16);
+      --pop-scale: scale(1.03);
+      --press-scale: scale(0.97);
+      --lift: translateY(-4px);
+
+      /* Spacing scale (4pt base) */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+      --space-3xl: 6rem;
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+      --dur-long: 420ms;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+      background-color: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    header {
+      position: static !important;
+    }
+
+    .page-grid {
+      position: relative;
+      display: grid;
+      gap: var(--space-lg);
+      padding: var(--space-lg);
+      max-width: 1180px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    .page-grid * {
+      min-width: 0;
+    }
+
+    /* Decorative subtle musical sticker doodles in background */
+    .bg-doodles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .doodle {
+      position: absolute;
+      opacity: 0.14;
+    }
+
+    .doodle--note-1 { top: 4%; left: 3%; color: var(--primary); transform: rotate(-14deg); }
+    .doodle--note-2 { top: 14%; right: 4%; color: var(--tertiary); transform: rotate(16deg); }
+    .doodle--star-1 { bottom: 18%; left: 2%; color: var(--secondary); transform: rotate(12deg); }
+    .doodle--note-3 { bottom: 6%; right: 3%; color: var(--data-4); transform: rotate(-10deg); }
+
+    .app-shell {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: var(--space-lg);
+    }
+
+    /* Top Header */
+    .hero-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md) var(--space-lg);
+    }
+
+    .hero-title-group {
+      display: grid;
+      gap: var(--space-xs);
+      max-width: 65ch;
+    }
+
+    .kicker-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .badge-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      background-color: var(--primary-container);
+      color: var(--on-primary-container);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--rounded-full);
+    }
+
+    .display {
+      margin: 0;
+      font-family: var(--font-headline);
+      font-weight: 900;
+      font-size: var(--display-size);
+      letter-spacing: -0.03em;
+      line-height: 1.08;
+      color: var(--on-surface);
+    }
+
+    .display em {
+      font-style: normal;
+      color: var(--primary);
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--on-surface-variant);
+      font-size: var(--subhead-size);
+      font-weight: 500;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    /* Buttons (Sticker pills) */
+    .btn {
+      font-family: inherit;
+      font-size: var(--body-size);
+      font-weight: 700;
+      line-height: 1.2;
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-lg);
+      border-radius: var(--rounded-full);
+      border: 2px solid transparent;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+      text-decoration: none;
+      transition: transform var(--dur-short) var(--ease-bounce),
+                  box-shadow var(--dur-short) var(--ease-out),
+                  background-color var(--dur-micro) var(--ease-out),
+                  opacity var(--dur-micro) var(--ease-out);
+    }
+
+    .btn:focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    .btn:hover:not(:disabled) {
+      transform: var(--pop-scale);
+    }
+
+    .btn:active:not(:disabled) {
+      transform: var(--press-scale);
+    }
+
+    .btn:disabled {
+      opacity: 0.58;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: var(--on-primary);
+      box-shadow: var(--shadow-pink);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      box-shadow: var(--shadow-pink-deep);
+    }
+
+    .btn-secondary {
+      background-color: var(--secondary);
+      color: var(--on-secondary);
+      box-shadow: var(--shadow-grape);
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      box-shadow: var(--shadow-grape-deep);
+    }
+
+    .btn-soft {
+      background-color: var(--surface-container-low);
+      color: var(--on-surface);
+      border-color: var(--outline-variant);
+      box-shadow: var(--shadow-sky);
+    }
+
+    .btn-soft[aria-pressed="true"] {
+      background-color: var(--surface-container);
+      border-color: var(--secondary);
+      color: var(--secondary);
+    }
+
+    .btn-quiet {
+      background-color: transparent;
+      color: var(--primary);
+      padding: var(--space-xs) var(--space-md);
+      min-height: 44px;
+    }
+
+    .btn-quiet:hover:not(:disabled) {
+      background-color: var(--surface-container);
+    }
+
+    /* Two Wheels Grid */
+    .wheels-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-lg);
+      align-items: start;
+    }
+
+    .wheel-card-wrap {
+      container-type: inline-size;
+    }
+
+    .wheel-card {
+      background-color: var(--surface-container-low);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      display: grid;
+      gap: var(--space-md);
+      justify-items: center;
+      transition: transform var(--dur-short) var(--ease-bounce),
+                  box-shadow var(--dur-short) var(--ease-out);
+    }
+
+    .wheel-card--topics {
+      box-shadow: var(--shadow-pink);
+    }
+
+    .wheel-card--genres {
+      box-shadow: var(--shadow-sky);
+    }
+
+    .wheel-card-header {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+    }
+
+    .wheel-title-block {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .step-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: var(--rounded-full);
+      font-weight: 900;
+      font-size: var(--body-size);
+      flex-shrink: 0;
+    }
+
+    .step-pill--topics {
+      background-color: var(--primary);
+      color: var(--on-primary);
+    }
+
+    .step-pill--genres {
+      background-color: var(--tertiary);
+      color: var(--on-primary);
+    }
+
+    .card-heading {
+      margin: 0;
+      font-family: var(--font-headline);
+      font-weight: 800;
+      font-size: var(--headline-size);
+      letter-spacing: -0.02em;
+      color: var(--on-surface);
+    }
+
+    .tag-count {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--secondary);
+      border: 2px solid var(--secondary);
+      border-radius: var(--rounded-full);
+      padding: var(--space-xs) var(--space-sm);
+    }
+
+    /* Interactive Wheel Stage */
+    .wheel-stage {
+      position: relative;
+      width: 100%;
+      max-width: 440px;
+      aspect-ratio: 1 / 1;
+      display: grid;
+      place-items: center;
+    }
+
+    .wheel-svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      overflow: visible;
+      filter: drop-shadow(0 10px 22px rgb(46 26 40 / 0.14));
+      user-select: none;
+    }
+
+    .wheel-pointer-group {
+      transform-origin: 260px 26px;
+      transition: transform var(--dur-micro) var(--ease-bounce);
+    }
+
+    .wheel-pointer-group.is-ticking {
+      transform: rotate(-14deg);
+    }
+
+    .wheel-hub-btn {
+      cursor: pointer;
+    }
+
+    .wheel-hub-btn:focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 4px;
+    }
+
+    .wheel-slice-label {
+      font-family: var(--font-body);
+      font-weight: 800;
+      font-size: 13.5px;
+      pointer-events: none;
+    }
+
+    .wheel-footer {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+    }
+
+    .status-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      background-color: var(--surface-container);
+      color: var(--on-surface-variant);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--rounded-full);
+    }
+
+    .status-chip.is-spinning {
+      background-color: var(--primary-container);
+      color: var(--on-primary-container);
+    }
+
+    .status-chip.is-done {
+      background-color: var(--surface-container-high);
+      color: var(--positive);
+    }
+
+    /* Results Display */
+    .results-section {
+      display: grid;
+      gap: var(--space-md);
+    }
+
+    .results-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+    }
+
+    .results-heading {
+      margin: 0;
+      font-family: var(--font-headline);
+      font-weight: 800;
+      font-size: var(--headline-size);
+      letter-spacing: -0.02em;
+      color: var(--on-surface);
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-lg);
+    }
+
+    .result-card {
+      background-color: var(--surface-container-low);
+      border-radius: var(--rounded);
+      padding: var(--space-lg);
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      min-height: 108px;
+      transition: transform var(--dur-short) var(--ease-bounce),
+                  box-shadow var(--dur-short) var(--ease-out);
+    }
+
+    .result-card--topic {
+      box-shadow: var(--shadow-grape);
+    }
+
+    .result-card--genre {
+      box-shadow: var(--shadow-pink);
+    }
+
+    .result-card.is-winner {
+      animation: popCelebrate var(--dur-long) var(--ease-bounce);
+    }
+
+    @keyframes popCelebrate {
+      0% { transform: scale(0.95); }
+      55% { transform: scale(1.04); }
+      100% { transform: scale(1); }
+    }
+
+    .result-icon-badge {
+      width: 64px;
+      height: 64px;
+      border-radius: var(--rounded);
+      background-color: var(--surface-container);
+      color: var(--on-surface-variant);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      transition: background-color var(--dur-short) var(--ease-out),
+                  color var(--dur-short) var(--ease-out),
+                  transform var(--dur-short) var(--ease-bounce);
+    }
+
+    .result-text-block {
+      display: grid;
+      gap: var(--space-xs);
+    }
+
+    .result-label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--on-surface-variant);
+    }
+
+    .result-value {
+      font-family: var(--font-headline);
+      font-weight: 900;
+      font-size: clamp(1.25rem, 1.05rem + 0.7vw, 1.65rem);
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--on-surface);
+    }
+
+    .result-value.is-empty {
+      font-weight: 600;
+      font-size: var(--body-size);
+      color: var(--on-surface-variant);
+    }
+
+    .result-hint {
+      font-size: var(--label-size);
+      font-weight: 600;
+      color: var(--secondary);
+    }
+
+    /* Confetti Layer */
+    .confetti-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 20;
+      overflow: hidden;
+    }
+
+    .confetti-piece {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-radius: var(--rounded-full);
+      opacity: 0;
+      animation: confettiFall 1100ms var(--ease-out) forwards;
+    }
+
+    @keyframes confettiFall {
+      0% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(0.7) rotate(0deg);
+      }
+      100% {
+        opacity: 0;
+        transform: translate3d(var(--tx, 0px), var(--ty, 180px), 0) scale(1.1) rotate(260deg);
+      }
+    }
+
+    /* Container-level responsiveness */
+    @container (max-width: 390px) {
+      .wheel-card {
+        padding: var(--space-md);
+      }
+      .wheel-footer {
+        justify-content: center;
+      }
+      .wheel-footer .btn {
+        width: 100%;
+      }
+    }
+
+    /* Mobile / narrow viewport breakpoint */
+    @media (max-width: 820px) {
+      .wheels-grid,
+      .results-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page-grid {
+        padding: var(--space-md);
+        gap: var(--space-md);
+      }
+      .hero-actions {
+        width: 100%;
+      }
+      .hero-actions .btn-primary {
+        flex: 1 1 auto;
+      }
+      .result-card {
+        padding: var(--space-md);
+      }
+      .result-icon-badge {
+        width: 54px;
+        height: 54px;
+      }
+    }
+
+    /* Reduced motion compliance */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Subtle playful musical doodles -->
+  <div class="bg-doodles" aria-hidden="true">
+    <svg class="doodle doodle--note-1" width="72" height="72" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z"/>
+    </svg>
+    <svg class="doodle doodle--note-2" width="84" height="84" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M9 18V5l12-2v13"/>
+      <circle cx="6" cy="18" r="3"/>
+      <circle cx="18" cy="16" r="3"/>
+    </svg>
+    <svg class="doodle doodle--star-1" width="68" height="68" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2l2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l7.1-1.01L12 2z"/>
+    </svg>
+    <svg class="doodle doodle--note-3" width="76" height="76" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z"/>
+    </svg>
+  </div>
+
+  <div class="confetti-layer" id="confetti-layer" aria-hidden="true"></div>
+
+  <div class="page-grid">
+    <div class="app-shell">
+      <header class="hero-header">
+        <div class="hero-title-group">
+          <div class="kicker-row">
+            <span class="badge-kicker">
+              <i data-lucide="music" style="width:14px;height:14px;" aria-hidden="true"></i>
+              Hudobná výchova • 4. ročník ZŠ
+            </span>
+          </div>
+          <h1 class="display">Hudobné <em>koleso</em> šťastia</h1>
+          <p class="subtitle">Roztoč obe kolesá a vylosuj si veselú tému piesne aj hudobný žáner!</p>
+        </div>
+
+        <div class="hero-actions">
+          <button type="button" class="btn btn-primary" id="btn-spin-both" onclick="spinBothWheels()">
+            <i data-lucide="sparkles" style="width:20px;height:20px;" aria-hidden="true"></i>
+            Roztočiť obe kolesá!
+          </button>
+          <button type="button" class="btn btn-soft" id="btn-sound-toggle" aria-pressed="true" onclick="toggleSound()">
+            <i data-lucide="volume-2" id="sound-icon" style="width:18px;height:18px;" aria-hidden="true"></i>
+            <span id="sound-label">Zvuk zapnutý</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="app-shell">
+        <!-- Two interactive spinning wheels -->
+        <section class="wheels-grid" aria-label="Interaktívne kolesá šťastia">
+          <!-- Wheel 1: Song Topic -->
+          <div class="wheel-card-wrap">
+            <article class="wheel-card wheel-card--topics">
+              <div class="wheel-card-header">
+                <div class="wheel-title-block">
+                  <span class="step-pill step-pill--topics" aria-hidden="true">1</span>
+                  <h2 class="card-heading">Téma piesne</h2>
+                </div>
+                <span class="tag-count">7 tém</span>
+              </div>
+
+              <div class="wheel-stage">
+                <svg class="wheel-svg" id="svg-wheel-topics" viewBox="0 0 520 520" role="img" aria-label="Koleso šťastia pre losovanie témy piesne">
+                  <!-- Outer decorative frame -->
+                  <circle cx="260" cy="260" r="244" fill="var(--wheel-rim)" />
+                  <circle cx="260" cy="260" r="230" fill="var(--wheel-rim-ring)" />
+                  <g id="rim-dots-topics" aria-hidden="true"></g>
+                  <!-- Rotating wheel slices -->
+                  <g id="wheel-group-topics"></g>
+                  <!-- Center hub button -->
+                  <g class="wheel-hub-btn" id="hub-btn-topics" role="button" tabindex="0" aria-label="Roztočiť koleso tém piesne" onclick="spinWheel('topics')" onkeydown="handleHubKey(event, 'topics')">
+                    <circle cx="260" cy="260" r="44" fill="var(--surface-container-low)" stroke="var(--wheel-rim)" stroke-width="5" />
+                    <circle cx="260" cy="260" r="34" fill="var(--primary)" />
+                    <text x="260" y="264" text-anchor="middle" fill="var(--on-primary)" font-family="DM Sans, sans-serif" font-weight="900" font-size="13">ŠTART</text>
+                  </g>
+                  <!-- Top pointer -->
+                  <g class="wheel-pointer-group" id="pointer-topics" aria-hidden="true">
+                    <path d="M 240 8 Q 260 0 280 8 L 265 48 Q 260 56 255 48 Z" fill="var(--primary)" stroke="var(--surface-container-low)" stroke-width="4" stroke-linejoin="round" />
+                    <circle cx="260" cy="18" r="6" fill="var(--on-primary)" />
+                  </g>
+                </svg>
+              </div>
+
+              <div class="wheel-footer">
+                <span class="status-chip" id="status-topics">Pripravené</span>
+                <button type="button" class="btn btn-primary" id="btn-spin-topics" onclick="spinWheel('topics')">
+                  <i data-lucide="rotate-cw" style="width:18px;height:18px;" aria-hidden="true"></i>
+                  Roztočiť tému
+                </button>
+              </div>
+            </article>
+          </div>
+
+          <!-- Wheel 2: Music Genre -->
+          <div class="wheel-card-wrap">
+            <article class="wheel-card wheel-card--genres">
+              <div class="wheel-card-header">
+                <div class="wheel-title-block">
+                  <span class="step-pill step-pill--genres" aria-hidden="true">2</span>
+                  <h2 class="card-heading">Hudobný žáner</h2>
+                </div>
+                <span class="tag-count">8 žánrov</span>
+              </div>
+
+              <div class="wheel-stage">
+                <svg class="wheel-svg" id="svg-wheel-genres" viewBox="0 0 520 520" role="img" aria-label="Koleso šťastia pre losovanie hudobného žánru">
+                  <!-- Outer decorative frame -->
+                  <circle cx="260" cy="260" r="244" fill="var(--wheel-rim)" />
+                  <circle cx="260" cy="260" r="230" fill="var(--wheel-rim-ring)" />
+                  <g id="rim-dots-genres" aria-hidden="true"></g>
+                  <!-- Rotating wheel slices -->
+                  <g id="wheel-group-genres"></g>
+                  <!-- Center hub button -->
+                  <g class="wheel-hub-btn" id="hub-btn-genres" role="button" tabindex="0" aria-label="Roztočiť koleso hudobných žánrov" onclick="spinWheel('genres')" onkeydown="handleHubKey(event, 'genres')">
+                    <circle cx="260" cy="260" r="44" fill="var(--surface-container-low)" stroke="var(--wheel-rim)" stroke-width="5" />
+                    <circle cx="260" cy="260" r="34" fill="var(--secondary)" />
+                    <text x="260" y="264" text-anchor="middle" fill="var(--on-secondary)" font-family="DM Sans, sans-serif" font-weight="900" font-size="13">ŠTART</text>
+                  </g>
+                  <!-- Top pointer -->
+                  <g class="wheel-pointer-group" id="pointer-genres" aria-hidden="true">
+                    <path d="M 240 8 Q 260 0 280 8 L 265 48 Q 260 56 255 48 Z" fill="var(--secondary)" stroke="var(--surface-container-low)" stroke-width="4" stroke-linejoin="round" />
+                    <circle cx="260" cy="18" r="6" fill="var(--on-secondary)" />
+                  </g>
+                </svg>
+              </div>
+
+              <div class="wheel-footer">
+                <span class="status-chip" id="status-genres">Pripravené</span>
+                <button type="button" class="btn btn-secondary" id="btn-spin-genres" onclick="spinWheel('genres')">
+                  <i data-lucide="rotate-cw" style="width:18px;height:18px;" aria-hidden="true"></i>
+                  Roztočiť žáner
+                </button>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Clear display of drawn result -->
+        <section class="results-section" aria-live="polite" aria-label="Vylosovaný výsledok">
+          <div class="results-header">
+            <h2 class="results-heading">Vylosovaný výsledok</h2>
+            <button type="button" class="btn btn-quiet" id="btn-reset-results" onclick="resetResults()" hidden>
+              Vymazať výber
+            </button>
+          </div>
+
+          <div class="results-grid">
+            <div class="result-card result-card--topic" id="result-card-topics">
+              <div class="result-icon-badge" id="result-icon-topics" aria-hidden="true">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M9.5 9.5a2.5 2.5 0 0 1 5 0c0 1.5-2.5 2-2.5 3.5" />
+                  <circle cx="12" cy="17" r="0.6" fill="currentColor" />
+                </svg>
+              </div>
+              <div class="result-text-block">
+                <span class="result-label">Vylosovaná téma piesne</span>
+                <div class="result-value is-empty" id="result-value-topics">Zatiaľ nevyžrebované — roztoč 1. koleso!</div>
+              </div>
+            </div>
+
+            <div class="result-card result-card--genre" id="result-card-genres">
+              <div class="result-icon-badge" id="result-icon-genres" aria-hidden="true">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 18V5l12-2v13" />
+                  <circle cx="6" cy="18" r="3" />
+                  <circle cx="18" cy="16" r="3" />
+                </svg>
+              </div>
+              <div class="result-text-block">
+                <span class="result-label">Vylosovaný hudobný žáner</span>
+                <div class="result-value is-empty" id="result-value-genres">Zatiaľ nevyžrebované — roztoč 2. koleso!</div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <api-shim></api-shim>
+  <script>
+    (function () {
+      'use strict';
+    })();
+
+    const SVG_NS = `http://www.w3.org/2000/svg`;
+    const CENTER = 260;
+    const WHEEL_RADIUS = 224;
+    const RIM_DOT_RADIUS = 235;
+    const SPIN_DURATION_MS = 1850;
+
+    // Exact 7 children's song topics requested
+    const TOPIC_ITEMS = [
+      {
+        label: `Prázdniny u babky`,
+        lines: [`Prázdniny`, `u babky`],
+        bg: `var(--slice-pink)`,
+        fg: `var(--on-primary)`,
+        icon: `house`
+      },
+      {
+        label: `Tajný život domáceho miláčika`,
+        lines: [`Tajný život`, `domáceho`, `miláčika`],
+        bg: `var(--slice-sun)`,
+        fg: `var(--on-surface)`,
+        icon: `paw`
+      },
+      {
+        label: `Stratený v škole po zotmení`,
+        lines: [`Stratený v škole`, `po zotmení`],
+        bg: `var(--slice-sky)`,
+        fg: `var(--on-surface)`,
+        icon: `moon`
+      },
+      {
+        label: `Najlepšia desiata na svete`,
+        lines: [`Najlepšia desiata`, `na svete`],
+        bg: `var(--slice-mint)`,
+        fg: `var(--on-surface)`,
+        icon: `apple`
+      },
+      {
+        label: `Superhrdinovia zo 4. triedy`,
+        lines: [`Superhrdinovia`, `zo 4. triedy`],
+        bg: `var(--slice-orange)`,
+        fg: `var(--on-surface)`,
+        icon: `bolt`
+      },
+      {
+        label: `Cesta do školy`,
+        lines: [`Cesta`, `do školy`],
+        bg: `var(--slice-grape)`,
+        fg: `var(--on-primary)`,
+        icon: `backpack`
+      },
+      {
+        label: `Písomka z matematiky`,
+        lines: [`Písomka`, `z matematiky`],
+        bg: `var(--slice-lime)`,
+        fg: `var(--on-surface)`,
+        icon: `math`
+      }
+    ];
+
+    // Exact 8 music genres requested
+    const GENRE_ITEMS = [
+      {
+        label: `klasická hudba`,
+        lines: [`klasická`, `hudba`],
+        bg: `var(--slice-grape)`,
+        fg: `var(--on-primary)`,
+        icon: `clef`
+      },
+      {
+        label: `pop`,
+        lines: [`pop`],
+        bg: `var(--slice-pink)`,
+        fg: `var(--on-primary)`,
+        icon: `mic`
+      },
+      {
+        label: `jazz`,
+        lines: [`jazz`],
+        bg: `var(--slice-sun)`,
+        fg: `var(--on-surface)`,
+        icon: `sax`
+      },
+      {
+        label: `rock`,
+        lines: [`rock`],
+        bg: `var(--slice-berry)`,
+        fg: `var(--on-primary)`,
+        icon: `guitar`
+      },
+      {
+        label: `ľudová hudba`,
+        lines: [`ľudová`, `hudba`],
+        bg: `var(--slice-sky)`,
+        fg: `var(--on-surface)`,
+        icon: `folk`
+      },
+      {
+        label: `rap/hip-hop`,
+        lines: [`rap /`, `hip-hop`],
+        bg: `var(--slice-orange)`,
+        fg: `var(--on-surface)`,
+        icon: `headphones`
+      },
+      {
+        label: `country`,
+        lines: [`country`],
+        bg: `var(--slice-lime)`,
+        fg: `var(--on-surface)`,
+        icon: `star`
+      },
+      {
+        label: `elektronická hudba`,
+        lines: [`elektronická`, `hudba`],
+        bg: `var(--slice-mint)`,
+        fg: `var(--on-surface)`,
+        icon: `wave`
+      }
+    ];
+
+    const DOT_COLORS = [
+      `var(--slice-sun)`,
+      `var(--slice-pink)`,
+      `var(--slice-sky)`,
+      `var(--slice-mint)`,
+      `var(--slice-orange)`,
+      `var(--slice-lime)`
+    ];
+
+    const CONFETTI_COLORS = [
+      `var(--confetti-pink)`,
+      `var(--confetti-gold)`,
+      `var(--confetti-sky)`,
+      `var(--confetti-mint)`,
+      `var(--confetti-grape)`
+    ];
+
+    const wheelState = {
+      topics: {
+        items: TOPIC_ITEMS,
+        rotation: 0,
+        spinning: false,
+        winnerIndex: null,
+        animId: null
+      },
+      genres: {
+        items: GENRE_ITEMS,
+        rotation: 0,
+        spinning: false,
+        winnerIndex: null,
+        animId: null
+      }
+    };
+
+    let soundEnabled = true;
+    let audioCtx = null;
+
+    function isReducedMotion() {
+      return window.matchMedia && window.matchMedia(`(prefers-reduced-motion: reduce)`).matches;
+    }
+
+    function ensureAudioContext() {
+      if (!soundEnabled) return null;
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      if (!Ctx) return null;
+      if (!audioCtx) {
+        audioCtx = new Ctx();
+      }
+      if (audioCtx.state === `suspended`) {
+        audioCtx.resume().catch(function () {});
+      }
+      return audioCtx;
+    }
+
+    function playTickSound() {
+      const ctx = ensureAudioContext();
+      if (!ctx) return;
+      try {
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = `triangle`;
+        osc.frequency.setValueAtTime(660, now);
+        osc.frequency.exponentialRampToValueAtTime(320, now + 0.035);
+        gain.gain.setValueAtTime(0.08, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.045);
+      } catch (e) {
+        // Ignore audio errors in headless environments
+      }
+    }
+
+    function playWinFanfare() {
+      const ctx = ensureAudioContext();
+      if (!ctx) return;
+      try {
+        const notes = [523.25, 659.25, 783.99, 1046.5];
+        const base = ctx.currentTime;
+        notes.forEach(function (freq, idx) {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          const start = base + idx * 0.075;
+          osc.type = `sine`;
+          osc.frequency.setValueAtTime(freq, start);
+          gain.gain.setValueAtTime(0.001, start);
+          gain.gain.linearRampToValueAtTime(0.12, start + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.001, start + 0.28);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(start);
+          osc.stop(start + 0.3);
+        });
+      } catch (e) {
+        // Ignore audio errors in headless environments
+      }
+    }
+
+    function createSvgEl(tag, attrs) {
+      const el = document.createElementNS(SVG_NS, tag);
+      if (attrs) {
+        Object.keys(attrs).forEach(function (k) {
+          el.setAttribute(k, String(attrs[k]));
+        });
+      }
+      return el;
+    }
+
+    function appendIconPaths(parentGroup, iconName, color) {
+      const strokeAttrs = {
+        fill: `none`,
+        stroke: color,
+        'stroke-width': `2.2`,
+        'stroke-linecap': `round`,
+        'stroke-linejoin': `round`
+      };
+
+      if (iconName === `house`) {
+        parentGroup.appendChild(createSvgEl(`path`, Object.assign({}, strokeAttrs, { d: `M3 10.5L12 3l9 7.5` })));
+        parentGroup.appendChild(createSvgEl(`path`, Object.assign({}, strokeAttrs, { d: `M5 9.5V20h14V9.5` })));
+        parentGroup.appendChild(createSvgEl(`path`, Object.assign({}, strokeAttrs, { d: `M10 20v-5h4v5` })));
+      } else if (iconName === `paw`) {
+        parentGroup.appendChild(createSvgEl(`circle`, { cx: `7`, cy: `8`, r: `2.1`, fill: color }));
+        parentGroup.appendChild(createSvgEl(`circle`, { cx: `12`, cy: `6`, r: `2.1`, fill: color }));
+        parentGroup.appendChild(createSvgEl(`circle`, { cx: `17`, cy: `8`, r: `2.1`, fill: color }));
+        parentGroup.appendChild(createSvgEl(`path`, { d: `M12 11.5c-3 0-5.5 2.3-5.5 4.8 0 1.8 1.5 2.7 3 2.7 1 0 1.7-.5 2.5-.5s1.5.5 2.5.5c1.5 0 3-.9 3-2.7 0-2.5-2.5-4.8-5.5-4.8z`, fill: color }));
+      } else if (iconName === `moon`) {
+        parentGroup.appendChild(createSvgEl(`path`, Object.assign({}, strokeAttrs, { d: `M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z` })));
+        parentGroup.appendChild(createSvgEl(`circle`, { cx: `17`, cy: `6`, r: `1.5`, fill: color }));
+      } else if (iconName === `apple`) {
+        parentGroup.appendChild(createSvgEl(`path`, Object.assign({}, strokeAttrs, { d: `M12 7c-3.5-1.5-7 1-7 5.5C5 16.8 8 21 10.5 21c1 0 1.5-.5 1.5-.5s.5.5 1.5.5C16 21 19 16.8 19 12.5 19 8 15.5 5.5 12 7z` })));
+        parentGroup.appendChild(createSvgEl(`path`, Object.assign({}, strokeAttrs, { d: `M12 6.5c0-2 1.5-3.5 3.5-3.5` })));
+      } else if (iconName === `bolt`) {
+        parentGroup.appendChild(createSvgEl(`polygon`, { points: `13 2 4 14 11 14 10 22 20 10 13 10 13 2`, fill: color }));
+      } else if (iconName === `backpack`) {
+        parentGroup.appendChild(createSvgEl(`rect`, Object.assign({}, strokeAttrs, { x: `5`, y: `7`, width: `14`, height: `14`, rx: `4` })));
+        parentGroup.appendChild(createSvgEl(`path`, Object.assign({}, strokeAttrs, { d: `M9 7V5a3 3 0 0 1 6 0v2` })));
+        parentGroup.appendChild(createSvgEl(`path`, Object.assign({}, strokeAttrs, { d: `M8 14h8` })));
+      } else if (iconName === `math`) {
+        parentGroup.appendChild(createSvgEl(`path`, Object.assign({}, strokeAttrs, { d: `M6 8h5M8.5 5.5v5` })));
+        parentGroup.appendChild(createSvgEl(`path`, Object.assign({}, strokeAttrs, { d: `M14 16h5` })));
+        parentGroup.appendChild(createSvgEl(`path`, Object.assign({}, strokeAttrs, { d: `M14.5 6.5l4 4M18.5 6.5l-4 4` })));
+        parentGroup.appendChild(createSvgEl(`path`, Object.assign({}, strokeAttrs, { d: `M6 15h5M6 18h5` })));
+      } else if (iconName === `clef`) {
+        parentGroup.appendChild(createSvgEl(`path`, Object.assign({}, strokeAttrs, { d: `M13 20V5c0-2 3-2 3 0 0 2.5-7 4-7 9a4 4 0 0 0 8 0c0-2.5-2-4-4-4` })));
+      } else if (iconName === `mic`) {
+        parentGroup.appendChild(createSvgEl(`rect`, Object.assign({}, strokeAttrs, { x: `9`, y: `3`, width: `6`, height: `10`, rx: `3` })));
+        parentGroup.appendChild(createSvgEl(`path`, Object.assign({}, strokeAttrs, { d: `M6 11a6 6 0 0 0 12 0` })));
+        parentGroup.appendChild(createSvgEl(`path`, Object.assign({}, strokeAttrs, { d: `M12 17v4M9 21h6` })));
+      } else if (iconName === `sax`) {
+        parentGroup.appendChild(createSvgEl(`path`, Object.assign({}, strokeAttrs, { d: `M7 4h3l4 11a3 3 0 0 0 6 0v-2h-3` })));
+        parentGroup.appendChild(createSvgEl(`circle`, { cx: `17`, cy: `11`, r: `1.5`, fill: color }));
+      } else if (iconName === `guitar`) {
+        parentGroup.appendChild(createSvgEl(`path`, Object.assign({}, strokeAttrs, { d: `M19 5l-7 7` })));
+        parentGroup.appendChild(createSvgEl(`circle`, Object.assign({}, strokeAttrs, { cx: `9`, cy: `15`, r: `4.5` })));
+        parentGroup.appendChild(createSvgEl(`circle`, { cx: `9`, cy: `15`, r: `1.5`, fill: color }));
+      } else if (iconName === `folk`) {
+        parentGroup.appendChild(createSvgEl(`circle`, { cx: `12`, cy: `12`, r: `2.5`, fill: color }));
+        parentGroup.appendChild(createSvgEl(`circle`, Object.assign({}, strokeAttrs, { cx: `12`, cy: `6`, r: `2.5` })));
+        parentGroup.appendChild(createSvgEl(`circle`, Object.assign({}, strokeAttrs, { cx: `18`, cy: `12`, r: `2.5` })));
+        parentGroup.appendChild(createSvgEl(`circle`, Object.assign({}, strokeAttrs, { cx: `12`, cy: `18`, r: `2.5` })));
+        parentGroup.appendChild(createSvgEl(`circle`, Object.assign({}, strokeAttrs, { cx: `6`, cy: `12`, r: `2.5` })));
+      } else if (iconName === `headphones`) {
+        parentGroup.appendChild(createSvgEl(`path`, Object.assign({}, strokeAttrs, { d: `M4 15v-3a8 8 0 0 1 16 0v3` })));
+        parentGroup.appendChild(createSvgEl(`rect`, Object.assign({}, strokeAttrs, { x: `3`, y: `14`, width: `4`, height: `6`, rx: `1.5` })));
+        parentGroup.appendChild(createSvgEl(`rect`, Object.assign({}, strokeAttrs, { x: `17`, y: `14`, width: `4`, height: `6`, rx: `1.5` })));
+      } else if (iconName === `star`) {
+        parentGroup.appendChild(createSvgEl(`polygon`, { points: `12 2 15 8.5 22 9.5 17 14.5 18.2 21.5 12 18 5.8 21.5 7 14.5 2 9.5 9 8.5 12 2`, fill: color }));
+      } else if (iconName === `wave`) {
+        parentGroup.appendChild(createSvgEl(`path`, Object.assign({}, strokeAttrs, { d: `M4 15v-6M8 18V6M12 14v-4M16 19V5M20 15v-6` })));
+      }
+    }
+
+    function buildWheel(key) {
+      const state = wheelState[key];
+      const group = document.getElementById(`wheel-group-` + key);
+      const dotsGroup = document.getElementById(`rim-dots-` + key);
+      if (!group || !dotsGroup) return;
+
+      group.innerHTML = ``;
+      dotsGroup.innerHTML = ``;
+
+      const items = state.items;
+      const n = items.length;
+      const sliceDeg = 360 / n;
+
+      // Decorative dots around outer bezel
+      const dotCount = n * 2;
+      for (let d = 0; d < dotCount; d++) {
+        const deg = (360 / dotCount) * d - 90;
+        const rad = (deg * Math.PI) / 180;
+        const dx = CENTER + RIM_DOT_RADIUS * Math.cos(rad);
+        const dy = CENTER + RIM_DOT_RADIUS * Math.sin(rad);
+        dotsGroup.appendChild(createSvgEl(`circle`, {
+          cx: dx.toFixed(2),
+          cy: dy.toFixed(2),
+          r: `5`,
+          fill: DOT_COLORS[d % DOT_COLORS.length]
+        }));
+      }
+
+      for (let i = 0; i < n; i++) {
+        const item = items[i];
+        const startDeg = i * sliceDeg - 90;
+        const endDeg = (i + 1) * sliceDeg - 90;
+        const startRad = (startDeg * Math.PI) / 180;
+        const endRad = (endDeg * Math.PI) / 180;
+
+        const x1 = CENTER + WHEEL_RADIUS * Math.cos(startRad);
+        const y1 = CENTER + WHEEL_RADIUS * Math.sin(startRad);
+        const x2 = CENTER + WHEEL_RADIUS * Math.cos(endRad);
+        const y2 = CENTER + WHEEL_RADIUS * Math.sin(endRad);
+
+        const pathData = `M ${CENTER} ${CENTER} L ${x1.toFixed(2)} ${y1.toFixed(2)} A ${WHEEL_RADIUS} ${WHEEL_RADIUS} 0 0 1 ${x2.toFixed(2)} ${y2.toFixed(2)} Z`;
+
+        group.appendChild(createSvgEl(`path`, {
+          d: pathData,
+          fill: item.bg,
+          stroke: `var(--surface-container-low)`,
+          'stroke-width': `3`
+        }));
+
+        const midDeg = startDeg + sliceDeg / 2;
+        const midRad = (midDeg * Math.PI) / 180;
+
+        // Place icon near outer rim where wedge is widest
+        const iconRadius = 192;
+        const iconX = CENTER + iconRadius * Math.cos(midRad);
+        const iconY = CENTER + iconRadius * Math.sin(midRad);
+        const iconWrap = createSvgEl(`g`, {
+          transform: `translate(${iconX.toFixed(2)}, ${iconY.toFixed(2)}) rotate(${(midDeg + 90).toFixed(2)}) translate(-12, -12)`
+        });
+        appendIconPaths(iconWrap, item.icon, item.fg);
+        group.appendChild(iconWrap);
+
+        // Place radial label text from r=58 to r=168
+        const textRadius = 114;
+        const textX = CENTER + textRadius * Math.cos(midRad);
+        const textY = CENTER + textRadius * Math.sin(midRad);
+
+        // Flip text on left side so resting wheel is easy to read
+        const normMid = ((midDeg % 360) + 360) % 360;
+        const flip = normMid > 90 && normMid < 270;
+        const textRot = flip ? midDeg + 180 : midDeg;
+
+        const textEl = createSvgEl(`text`, {
+          x: `0`,
+          y: `0`,
+          fill: item.fg,
+          'text-anchor': `middle`,
+          'dominant-baseline': `central`,
+          class: `wheel-slice-label`,
+          transform: `translate(${textX.toFixed(2)}, ${textY.toFixed(2)}) rotate(${textRot.toFixed(2)})`
+        });
+
+        const lineCount = item.lines.length;
+        const lineHeight = 15;
+        const startOffset = -((lineCount - 1) * lineHeight) / 2;
+
+        item.lines.forEach(function (lineText, lineIdx) {
+          const tspan = createSvgEl(`tspan`, {
+            x: `0`,
+            y: (startOffset + lineIdx * lineHeight).toFixed(1)
+          });
+          tspan.textContent = lineText;
+          textEl.appendChild(tspan);
+        });
+
+        group.appendChild(textEl);
+
+        // Rim peg dot at slice boundary for visual clarity
+        const pegX = CENTER + (WHEEL_RADIUS - 7) * Math.cos(startRad);
+        const pegY = CENTER + (WHEEL_RADIUS - 7) * Math.sin(startRad);
+        group.appendChild(createSvgEl(`circle`, {
+          cx: pegX.toFixed(2),
+          cy: pegY.toFixed(2),
+          r: `4`,
+          fill: `var(--surface-container-low)`,
+          stroke: `var(--wheel-rim)`,
+          'stroke-width': `1.5`
+        }));
+      }
+
+      applyWheelRotation(key, state.rotation);
+    }
+
+    function applyWheelRotation(key, deg) {
+      const group = document.getElementById(`wheel-group-` + key);
+      if (group) {
+        group.setAttribute(`transform`, `rotate(${deg.toFixed(2)}, ${CENTER}, ${CENTER})`);
+      }
+    }
+
+    function computeWinnerIndex(key, deg) {
+      const n = wheelState[key].items.length;
+      const sliceDeg = 360 / n;
+      const norm = ((360 - (deg % 360)) % 360 + 360) % 360;
+      return Math.floor(norm / sliceDeg) % n;
+    }
+
+    function triggerPointerTick(key) {
+      const pointer = document.getElementById(`pointer-` + key);
+      if (!pointer) return;
+      pointer.classList.add(`is-ticking`);
+      setTimeout(function () {
+        if (pointer) pointer.classList.remove(`is-ticking`);
+      }, 65);
+      playTickSound();
+    }
+
+    function setSpinningUI(key, spinning) {
+      const btn = document.getElementById(`btn-spin-` + key);
+      const status = document.getElementById(`status-` + key);
+      const bothBtn = document.getElementById(`btn-spin-both`);
+
+      if (btn) btn.disabled = spinning;
+      if (status) {
+        status.classList.remove(`is-spinning`, `is-done`);
+        if (spinning) {
+          status.classList.add(`is-spinning`);
+          status.textContent = `Točí sa…`;
+        } else if (wheelState[key].winnerIndex !== null) {
+          status.classList.add(`is-done`);
+          status.textContent = `Vylosované!`;
+        } else {
+          status.textContent = `Pripravené`;
+        }
+      }
+      if (bothBtn) {
+        bothBtn.disabled = wheelState.topics.spinning || wheelState.genres.spinning;
+      }
+    }
+
+    function renderResultCard(key, animatePop) {
+      const state = wheelState[key];
+      const cardEl = document.getElementById(`result-card-` + key);
+      const iconBox = document.getElementById(`result-icon-` + key);
+      const valueEl = document.getElementById(`result-value-` + key);
+      const resetBtn = document.getElementById(`btn-reset-results`);
+
+      if (!cardEl || !iconBox || !valueEl) return;
+
+      if (state.winnerIndex === null) {
+        iconBox.style.backgroundColor = `var(--surface-container)`;
+        iconBox.style.color = `var(--on-surface-variant)`;
+        iconBox.innerHTML = key === `topics`
+          ? `<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 0 1 5 0c0 1.5-2.5 2-2.5 3.5"/><circle cx="12" cy="17" r="0.6" fill="currentColor"/></svg>`
+          : `<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>`;
+        valueEl.className = `result-value is-empty`;
+        valueEl.textContent = key === `topics`
+          ? `Zatiaľ nevyžrebované — roztoč 1. koleso!`
+          : `Zatiaľ nevyžrebované — roztoč 2. koleso!`;
+      } else {
+        const item = state.items[state.winnerIndex];
+        iconBox.style.backgroundColor = item.bg;
+        iconBox.style.color = item.fg;
+        iconBox.innerHTML = ``;
+        const svg = createSvgEl(`svg`, {
+          width: `32`,
+          height: `32`,
+          viewBox: `0 0 24 24`
+        });
+        appendIconPaths(svg, item.icon, item.fg);
+        iconBox.appendChild(svg);
+
+        valueEl.className = `result-value`;
+        valueEl.textContent = item.label;
+
+        if (animatePop && !isReducedMotion()) {
+          cardEl.classList.remove(`is-winner`);
+          void cardEl.offsetWidth;
+          cardEl.classList.add(`is-winner`);
+        }
+      }
+
+      if (resetBtn) {
+        const anyDrawn = wheelState.topics.winnerIndex !== null || wheelState.genres.winnerIndex !== null;
+        resetBtn.hidden = !anyDrawn;
+      }
+    }
+
+    function launchConfetti(sourceId) {
+      if (isReducedMotion()) return;
+      const layer = document.getElementById(`confetti-layer`);
+      const anchor = document.getElementById(sourceId);
+      if (!layer || !anchor) return;
+
+      const rect = anchor.getBoundingClientRect();
+      const originX = rect.left + rect.width / 2;
+      const originY = rect.top + 36;
+
+      for (let i = 0; i < 18; i++) {
+        const piece = document.createElement(`span`);
+        piece.className = `confetti-piece`;
+        const angle = (Math.PI * 2 * i) / 18 + (Math.random() - 0.5) * 0.4;
+        const dist = 60 + Math.random() * 110;
+        const tx = Math.cos(angle) * dist;
+        const ty = Math.sin(angle) * dist + 40;
+        piece.style.left = `${originX}px`;
+        piece.style.top = `${originY}px`;
+        piece.style.backgroundColor = CONFETTI_COLORS[i % CONFETTI_COLORS.length];
+        piece.style.setProperty(`--tx`, `${tx.toFixed(0)}px`);
+        piece.style.setProperty(`--ty`, `${ty.toFixed(0)}px`);
+        layer.appendChild(piece);
+        setTimeout(function () {
+          if (piece.parentNode) piece.parentNode.removeChild(piece);
+        }, 1200);
+      }
+    }
+
+    function persistState() {
+      if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === `function`) {
+        window.notebookAppApi.setAppState({
+          topicIndex: wheelState.topics.winnerIndex,
+          genreIndex: wheelState.genres.winnerIndex,
+          topicRotation: wheelState.topics.rotation,
+          genreRotation: wheelState.genres.rotation,
+          soundEnabled: soundEnabled
+        }).catch(function () {});
+      }
+    }
+
+    function spinWheel(key) {
+      const state = wheelState[key];
+      if (!state || state.spinning) return;
+
+      ensureAudioContext();
+      if (state.animId) {
+        cancelAnimationFrame(state.animId);
+        state.animId = null;
+      }
+
+      const n = state.items.length;
+      const sliceDeg = 360 / n;
+      const targetIndex = Math.floor(Math.random() * n);
+      const jitter = (Math.random() - 0.5) * (sliceDeg * 0.56);
+      const targetMod = ((360 - ((targetIndex + 0.5) * sliceDeg + jitter)) % 360 + 360) % 360;
+
+      const startRot = state.rotation;
+      const currentMod = ((startRot % 360) + 360) % 360;
+      const deltaMod = (targetMod - currentMod + 360) % 360;
+      const extraSpins = 4 * 360;
+      const totalDelta = extraSpins + deltaMod;
+      const finalRot = startRot + totalDelta;
+
+      state.spinning = true;
+      setSpinningUI(key, true);
+
+      if (isReducedMotion()) {
+        state.rotation = finalRot % 360;
+        applyWheelRotation(key, state.rotation);
+        state.spinning = false;
+        state.winnerIndex = computeWinnerIndex(key, state.rotation);
+        setSpinningUI(key, false);
+        renderResultCard(key, false);
+        playWinFanfare();
+        persistState();
+        return;
+      }
+
+      const startTime = performance.now();
+      let lastPegStep = Math.floor(startRot / sliceDeg);
+
+      function step(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / SPIN_DURATION_MS, 1);
+        const eased = 1 - Math.pow(1 - progress, 4);
+        const currentRot = startRot + totalDelta * eased;
+
+        state.rotation = currentRot;
+        applyWheelRotation(key, currentRot);
+
+        const pegStep = Math.floor(currentRot / sliceDeg);
+        if (pegStep > lastPegStep) {
+          lastPegStep = pegStep;
+          triggerPointerTick(key);
+        }
+
+        if (progress < 1) {
+          state.animId = requestAnimationFrame(step);
+        } else {
+          state.animId = null;
+          state.rotation = finalRot % 360;
+          applyWheelRotation(key, state.rotation);
+          state.spinning = false;
+          state.winnerIndex = computeWinnerIndex(key, state.rotation);
+          setSpinningUI(key, false);
+          renderResultCard(key, true);
+          playWinFanfare();
+          launchConfetti(`svg-wheel-` + key);
+          persistState();
+        }
+      }
+
+      state.animId = requestAnimationFrame(step);
+    }
+
+    function spinBothWheels() {
+      spinWheel(`topics`);
+      setTimeout(function () {
+        spinWheel(`genres`);
+      }, 140);
+    }
+
+    function handleHubKey(event, key) {
+      if (event.key === `Enter` || event.key === ` `) {
+        event.preventDefault();
+        spinWheel(key);
+      }
+    }
+
+    function resetResults() {
+      if (wheelState.topics.spinning || wheelState.genres.spinning) return;
+      wheelState.topics.winnerIndex = null;
+      wheelState.genres.winnerIndex = null;
+      setSpinningUI(`topics`, false);
+      setSpinningUI(`genres`, false);
+      renderResultCard(`topics`, false);
+      renderResultCard(`genres`, false);
+      persistState();
+    }
+
+    function updateSoundButtonUI() {
+      const btn = document.getElementById(`btn-sound-toggle`);
+      const label = document.getElementById(`sound-label`);
+      const icon = document.getElementById(`sound-icon`);
+      if (btn) btn.setAttribute(`aria-pressed`, soundEnabled ? `true` : `false`);
+      if (label) label.textContent = soundEnabled ? `Zvuk zapnutý` : `Zvuk vypnutý`;
+      if (icon) {
+        icon.setAttribute(`data-lucide`, soundEnabled ? `volume-2` : `volume-x`);
+        if (window.lucide && typeof window.lucide.createIcons === `function`) {
+          window.lucide.createIcons();
+        }
+      }
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      updateSoundButtonUI();
+      if (soundEnabled) {
+        playTickSound();
+      }
+      persistState();
+    }
+
+    async function initApp() {
+      buildWheel(`topics`);
+      buildWheel(`genres`);
+      renderResultCard(`topics`, false);
+      renderResultCard(`genres`, false);
+
+      if (window.lucide && typeof window.lucide.createIcons === `function`) {
+        window.lucide.createIcons();
+      }
+
+      if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === `function`) {
+        try {
+          const saved = await window.notebookAppApi.getAppState();
+          if (saved && typeof saved === `object`) {
+            if (typeof saved.soundEnabled === `boolean`) {
+              soundEnabled = saved.soundEnabled;
+              updateSoundButtonUI();
+            }
+            if (typeof saved.topicRotation === `number`) {
+              wheelState.topics.rotation = saved.topicRotation;
+              applyWheelRotation(`topics`, saved.topicRotation);
+            }
+            if (typeof saved.genreRotation === `number`) {
+              wheelState.genres.rotation = saved.genreRotation;
+              applyWheelRotation(`genres`, saved.genreRotation);
+            }
+            if (typeof saved.topicIndex === `number` && saved.topicIndex >= 0 && saved.topicIndex < TOPIC_ITEMS.length) {
+              wheelState.topics.winnerIndex = saved.topicIndex;
+              setSpinningUI(`topics`, false);
+              renderResultCard(`topics`, false);
+            }
+            if (typeof saved.genreIndex === `number` && saved.genreIndex >= 0 && saved.genreIndex < GENRE_ITEMS.length) {
+              wheelState.genres.winnerIndex = saved.genreIndex;
+              setSpinningUI(`genres`, false);
+              renderResultCard(`genres`, false);
+            }
+          }
+        } catch (e) {
+          // Ignore state restore error
+        }
+      }
+
+      if (window.notebookAppApi && typeof window.notebookAppApi.notifyAppReady === `function`) {
+        window.notebookAppApi.notifyAppReady();
+      }
+    }
+
+    document.addEventListener(`DOMContentLoaded`, initApp);
+  </script>
+</body>
+</html>
