@@ -1,0 +1,3214 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="narrative">
+  <meta name="design-style" content="sticker">
+  <title>Vizuálna hudba: Kandinský, zvuky a farby</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@1.43.0/dist/umd/lucide.min.js"></script>
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* Page and surfaces (Sticker style) */
+      --background: #fef7ff;
+      --surface-container-low: #ffffff;
+      --surface-container: #f8eef8;
+      --surface-container-high: #f2e8f2;
+
+      /* Ink */
+      --on-surface: #2e1a28;
+      --on-surface-variant: #604868;
+
+      /* Rules */
+      --outline: #907898;
+      --outline-variant: #dcc8e0;
+
+      /* Accents */
+      --primary: #c2207f;
+      --on-primary: #ffffff;
+      --primary-container: #f080c0;
+      --on-primary-container: #2e1a28;
+      --secondary: #7c52aa;
+      --on-secondary: #ffffff;
+      --tertiary: #0096cc;
+      --error: #c53030;
+      --on-error: #ffffff;
+
+      /* Data series */
+      --data-1: #c2207f;
+      --data-2: #7c52aa;
+      --data-3: #0096cc;
+      --data-4: #d96a00;
+      --data-context: #c8b8d0;
+
+      /* Fonts */
+      --font-headline: 'DM Sans', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-label: 'DM Sans', sans-serif;
+
+      /* Shape */
+      --rounded: 1rem;
+      --rounded-lg: 2rem;
+      --rounded-full: 9999px;
+
+      /* Style effects */
+      --shadow-pink: 0 4px 16px rgb(224 64 160 / 0.2);
+      --shadow-pink-deep: 0 10px 28px rgb(224 64 160 / 0.32);
+      --shadow-grape: 0 4px 16px rgb(124 82 170 / 0.2);
+      --shadow-grape-deep: 0 10px 28px rgb(124 82 170 / 0.32);
+      --shadow-sky: 0 4px 16px rgb(0 150 204 / 0.2);
+      --shadow-sky-deep: 0 10px 28px rgb(0 150 204 / 0.32);
+      --pop-scale: scale(1.03);
+      --lift: translateY(-4px);
+      --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+      /* Shared semantic & focus tokens */
+      --positive: #15803d;
+      --positive-bg: #dcfce7;
+      --warning: #b45309;
+      --warning-bg: #fef3c7;
+      --focus: #c2207f;
+
+      /* Kandinsky artboard & musical pigment tokens */
+      --art-paper: #fffdf9;
+      --art-ink: #251724;
+      --art-yellow: #ffd21f;
+      --art-yellow-soft: #fff5c4;
+      --art-red: #e63946;
+      --art-red-soft: #ffe2e5;
+      --art-blue: #1d63dc;
+      --art-blue-soft: #e0edff;
+      --art-green: #18a34b;
+      --art-green-soft: #dcfce7;
+      --art-orange: #f97316;
+      --art-orange-soft: #ffedd5;
+      --art-violet: #7c3aed;
+      --art-violet-soft: #ede9fe;
+      --art-grid: #ece4ee;
+
+      /* Type scale (Narrative) */
+      --display-size: clamp(2.35rem, 1.4rem + 3.5vw, 4.25rem);
+      --headline-size: clamp(1.65rem, 1.2rem + 1.8vw, 2.35rem);
+      --subhead-size: clamp(1.15rem, 1.05rem + 0.5vw, 1.4rem);
+      --body-size: clamp(1.02rem, 0.98rem + 0.2vw, 1.125rem);
+      --label-size: clamp(0.75rem, 0.72rem + 0.12vw, 0.8125rem);
+
+      /* Spacing scale (4pt base) */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+      --space-3xl: 6rem;
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+      --dur-long: 420ms;
+    }
+
+    /* Base reset */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+    }
+    header { position: static !important; }
+
+    body {
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.62;
+      color: var(--on-surface);
+      background-color: var(--background);
+    }
+
+    button, input, select, textarea {
+      font-family: inherit;
+      font-size: inherit;
+    }
+
+    a {
+      color: var(--primary);
+      font-weight: 600;
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 3px;
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    .page-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-2xl);
+      padding: var(--space-lg);
+      max-width: 1160px;
+      margin: 0 auto;
+    }
+    .page-grid * { min-width: 0; }
+
+    /* Typography */
+    .display {
+      font-family: var(--font-headline);
+      font-weight: 900;
+      font-size: var(--display-size);
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      color: var(--on-surface);
+      margin: 0;
+    }
+    .display em {
+      font-style: normal;
+      color: var(--primary);
+    }
+
+    h2 {
+      font-family: var(--font-headline);
+      font-weight: 800;
+      font-size: var(--headline-size);
+      letter-spacing: -0.02em;
+      line-height: 1.12;
+      color: var(--on-surface);
+      margin: 0 0 var(--space-sm) 0;
+    }
+
+    h3 {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: var(--subhead-size);
+      letter-spacing: -0.01em;
+      line-height: 1.25;
+      color: var(--on-surface);
+      margin: 0 0 var(--space-sm) 0;
+    }
+
+    p {
+      margin: 0 0 var(--space-md) 0;
+      max-width: 65ch;
+    }
+    p:last-child { margin-bottom: 0; }
+
+    .label-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--on-primary-container);
+      background: var(--primary-container);
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--rounded-full);
+      margin-bottom: var(--space-md);
+    }
+
+    .label-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--secondary);
+      border: 2px solid var(--secondary);
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--rounded-full);
+    }
+
+    /* Cards & Surfaces */
+    .hero-panel {
+      background: var(--surface-container-low);
+      border-radius: var(--rounded-lg);
+      box-shadow: var(--shadow-pink);
+      padding: var(--space-xl);
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+      gap: var(--space-xl);
+      align-items: center;
+    }
+
+    .card {
+      background: var(--surface-container-low);
+      border-radius: var(--rounded);
+      box-shadow: var(--shadow-pink);
+      padding: var(--space-lg);
+    }
+    .card-sky { box-shadow: var(--shadow-sky); }
+    .card-grape { box-shadow: var(--shadow-grape); }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+      gap: var(--space-lg);
+    }
+    .card-grid > .card:nth-child(3n+2) { box-shadow: var(--shadow-sky); }
+    .card-grid > .card:nth-child(3n+3) { box-shadow: var(--shadow-grape); }
+
+    .asymmetric-split {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+
+    .asymmetric-split-reverse {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+
+    /* Buttons & Interactive Pills */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-lg);
+      border-radius: var(--rounded-full);
+      border: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform var(--dur-short) var(--ease-bounce),
+                  box-shadow var(--dur-short) var(--ease-out),
+                  background-color var(--dur-micro) var(--ease-out);
+    }
+    .btn:hover { transform: var(--pop-scale); }
+    .btn:active { transform: scale(0.97); }
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: var(--on-primary);
+      box-shadow: var(--shadow-pink);
+    }
+    .btn-primary:hover { box-shadow: var(--shadow-pink-deep); }
+
+    .btn-secondary {
+      background: var(--secondary);
+      color: var(--on-secondary);
+      box-shadow: var(--shadow-grape);
+    }
+    .btn-secondary:hover { box-shadow: var(--shadow-grape-deep); }
+
+    .btn-soft {
+      background: var(--surface-container);
+      color: var(--on-surface);
+      border: 2px solid var(--outline-variant);
+    }
+    .btn-soft:hover {
+      background: var(--surface-container-high);
+      border-color: var(--primary);
+    }
+
+    .btn-quiet {
+      background: transparent;
+      color: var(--primary);
+      padding: var(--space-sm) var(--space-md);
+    }
+    .btn-quiet:hover {
+      background: var(--surface-container);
+    }
+
+    .btn-sm {
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      font-size: 0.875rem;
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      align-items: center;
+    }
+
+    /* Nav Jump Strip */
+    .chapter-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-top: var(--space-lg);
+    }
+
+    .chapter-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--rounded-full);
+      background: var(--surface-container);
+      color: var(--on-surface);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 700;
+      transition: transform var(--dur-short) var(--ease-bounce), background-color var(--dur-micro) var(--ease-out);
+    }
+    .chapter-pill:hover {
+      background: var(--primary-container);
+      transform: var(--pop-scale);
+    }
+
+    /* Hero SVG Stage */
+    .hero-illustration {
+      background: var(--surface-container);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md);
+      text-align: center;
+    }
+    .hero-illustration svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .hero-shape-hit {
+      cursor: pointer;
+      transition: transform var(--dur-short) var(--ease-bounce);
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+    .hero-shape-hit:hover {
+      transform: scale(1.08);
+    }
+
+    /* Sound Status Bar */
+    .sound-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--rounded-full);
+      background: var(--surface-container);
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--on-surface-variant);
+    }
+    .sound-badge.is-ready {
+      background: var(--positive-bg);
+      color: var(--positive);
+    }
+
+    /* Section Headers */
+    .section-block {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-lg);
+    }
+    .section-header {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .section-lede {
+      font-size: 1.08rem;
+      color: var(--on-surface-variant);
+      max-width: 65ch;
+    }
+
+    /* Section 1: Play a Kandinsky Interactive Painting */
+    .painting-stage {
+      background: var(--art-paper);
+      border-radius: var(--rounded);
+      border: 3px solid var(--outline-variant);
+      padding: var(--space-md);
+      box-shadow: var(--shadow-sky);
+    }
+    .painting-stage svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: var(--rounded);
+    }
+    .k-element {
+      cursor: pointer;
+      transition: transform var(--dur-short) var(--ease-bounce), filter var(--dur-micro) var(--ease-out);
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+    .k-element:hover, .k-element:focus-visible {
+      transform: scale(1.04);
+      filter: drop-shadow(0 6px 10px rgb(46 26 40 / 0.2));
+      outline: none;
+    }
+    .k-element.is-playing {
+      transform: scale(1.08);
+      filter: drop-shadow(0 0 14px rgb(194 32 127 / 0.55));
+    }
+
+    .story-readout {
+      background: var(--surface-container-low);
+      border-radius: var(--rounded);
+      box-shadow: var(--shadow-grape);
+      padding: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+    .swatch-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--rounded-full);
+      background: var(--surface-container);
+      font-weight: 700;
+      font-size: 0.9rem;
+      width: fit-content;
+    }
+    .swatch-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: var(--rounded-full);
+      border: 2px solid var(--art-ink);
+      flex-shrink: 0;
+    }
+    .discovery-progress {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .progress-track {
+      width: 100%;
+      height: 12px;
+      background: var(--surface-container-high);
+      border-radius: var(--rounded-full);
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--tertiary);
+      border-radius: var(--rounded-full);
+      width: 0%;
+      transition: width var(--dur-long) var(--ease-out);
+    }
+
+    /* Section 1 bottom color trio */
+    .color-sound-card {
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+      transition: transform var(--dur-short) var(--ease-bounce);
+      text-align: left;
+      border: none;
+      width: 100%;
+    }
+    .color-sound-card:hover { transform: var(--lift); }
+    .color-sound-card .shape-badge {
+      width: 52px;
+      height: 52px;
+      border-radius: var(--rounded);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--surface-container);
+    }
+
+    /* Section 2: Chrome Music Lab Kandinsky Canvas */
+    .lab-card {
+      background: var(--surface-container-low);
+      border-radius: var(--rounded-lg);
+      box-shadow: var(--shadow-sky);
+      padding: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .toolbar-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+      align-items: end;
+      justify-content: space-between;
+    }
+
+    .segmented {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+      background: var(--surface-container-high);
+      padding: var(--space-xs);
+      border-radius: var(--rounded-full);
+    }
+
+    .seg-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--rounded-full);
+      border: none;
+      background: transparent;
+      color: var(--on-surface);
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background-color var(--dur-micro) var(--ease-out), transform var(--dur-short) var(--ease-bounce);
+    }
+    .seg-btn:hover { transform: var(--pop-scale); }
+    .seg-btn.is-active {
+      background: var(--surface-container-low);
+      color: var(--primary);
+      box-shadow: var(--shadow-pink);
+    }
+
+    .palette-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--rounded-full);
+      border: 2px solid var(--outline-variant);
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      font-weight: 700;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: transform var(--dur-short) var(--ease-bounce), border-color var(--dur-micro) var(--ease-out);
+    }
+    .palette-chip:hover { transform: var(--pop-scale); }
+    .palette-chip.is-active {
+      border-color: var(--primary);
+      background: var(--surface-container);
+    }
+    .palette-dots {
+      display: inline-flex;
+      gap: 3px;
+    }
+    .palette-dots span {
+      width: 11px;
+      height: 11px;
+      border-radius: var(--rounded-full);
+    }
+
+    .canvas-shell {
+      position: relative;
+      width: 100%;
+      min-height: 360px;
+      background: var(--art-paper);
+      border-radius: var(--rounded);
+      border: 3px solid var(--outline-variant);
+      overflow: hidden;
+    }
+
+    .canvas-shell canvas {
+      display: block;
+      width: 100%;
+      height: 360px;
+      cursor: crosshair;
+      touch-action: none;
+    }
+
+    .pitch-legend {
+      position: absolute;
+      left: var(--space-sm);
+      top: var(--space-sm);
+      bottom: var(--space-sm);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      pointer-events: none;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--on-surface-variant);
+      background: var(--surface-container);
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--rounded);
+      opacity: 0.92;
+    }
+
+    .control-field {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .control-field label {
+      font-size: var(--label-size);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--on-surface-variant);
+    }
+
+    input[type="text"],
+    textarea,
+    select {
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded-full);
+      border: 2px solid var(--outline);
+      background: var(--surface-container);
+      color: var(--on-surface);
+      font-weight: 600;
+      width: 100%;
+    }
+    textarea {
+      border-radius: var(--rounded);
+      min-height: 92px;
+      resize: vertical;
+    }
+    select {
+      padding-right: var(--space-xl);
+    }
+    input[type="text"]:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 3px rgb(194 32 127 / 0.2);
+    }
+
+    input[type="range"] {
+      accent-color: var(--primary);
+      min-height: 44px;
+      cursor: pointer;
+    }
+
+    .status-strip {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+      background: var(--surface-container);
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--on-surface);
+    }
+
+    /* Section 3: Workshop 'Môj hudobný obraz' */
+    .workshop-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+
+    .workshop-panel {
+      background: var(--surface-container-low);
+      border-radius: var(--rounded-lg);
+      box-shadow: var(--shadow-pink);
+      padding: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .shape-picker-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .shape-group-label {
+      font-size: var(--label-size);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--on-surface-variant);
+    }
+    .tool-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+
+    .shape-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--rounded-full);
+      border: 2px solid var(--outline-variant);
+      background: var(--surface-container);
+      color: var(--on-surface);
+      font-weight: 700;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: transform var(--dur-short) var(--ease-bounce), border-color var(--dur-micro) var(--ease-out);
+    }
+    .shape-chip:hover { transform: var(--pop-scale); }
+    .shape-chip.is-active {
+      background: var(--primary-container);
+      border-color: var(--primary);
+      color: var(--on-primary-container);
+    }
+
+    .color-swatch-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--rounded-full);
+      border: 3px solid var(--surface-container-low);
+      box-shadow: 0 0 0 2px var(--outline-variant);
+      cursor: pointer;
+      transition: transform var(--dur-short) var(--ease-bounce), box-shadow var(--dur-micro) var(--ease-out);
+      padding: 0;
+    }
+    .color-swatch-btn:hover { transform: var(--pop-scale); }
+    .color-swatch-btn.is-active {
+      box-shadow: 0 0 0 3px var(--on-surface);
+      transform: scale(1.08);
+    }
+
+    .workshop-canvas-wrap {
+      position: relative;
+      width: 100%;
+      min-height: 360px;
+      border-radius: var(--rounded);
+      border: 3px solid var(--outline-variant);
+      background: var(--art-paper);
+      overflow: hidden;
+    }
+    .workshop-canvas-wrap canvas {
+      display: block;
+      width: 100%;
+      height: 360px;
+      cursor: pointer;
+      touch-action: none;
+    }
+
+    .sensory-key-panel {
+      background: var(--surface-container-low);
+      border-radius: var(--rounded-lg);
+      box-shadow: var(--shadow-grape);
+      padding: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+      container-type: inline-size;
+    }
+
+    .key-rule-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    .key-rule-row {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: var(--space-sm);
+      align-items: center;
+      background: var(--surface-container);
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+    }
+    .key-rule-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      font-weight: 700;
+      font-size: 0.92rem;
+    }
+    .key-rule-actions {
+      display: flex;
+      gap: var(--space-xs);
+      align-items: center;
+    }
+
+    .add-rule-box {
+      background: var(--surface-container);
+      padding: var(--space-md);
+      border-radius: var(--rounded);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+    .add-rule-controls {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-sm);
+      align-items: end;
+    }
+
+    @container (max-width: 420px) {
+      .add-rule-controls {
+        grid-template-columns: 1fr;
+      }
+      .key-rule-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Section 4: Listening Riddle + Self Reflection */
+    .riddle-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-md);
+    }
+
+    .riddle-option {
+      background: var(--surface-container);
+      border: 3px solid transparent;
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-sm);
+      text-align: center;
+      font-weight: 700;
+      color: var(--on-surface);
+      transition: transform var(--dur-short) var(--ease-bounce), border-color var(--dur-micro) var(--ease-out);
+      min-height: 44px;
+    }
+    .riddle-option:hover {
+      transform: var(--lift);
+      border-color: var(--secondary);
+    }
+    .riddle-option.is-correct {
+      background: var(--positive-bg);
+      border-color: var(--positive);
+    }
+    .riddle-option.is-wrong {
+      background: var(--art-red-soft);
+      border-color: var(--error);
+    }
+
+    .mood-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(130px, 100%), 1fr));
+      gap: var(--space-sm);
+    }
+    .mood-btn {
+      background: var(--surface-container);
+      border: 2px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      padding: var(--space-md) var(--space-sm);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-xs);
+      font-weight: 700;
+      color: var(--on-surface);
+      min-height: 44px;
+      transition: transform var(--dur-short) var(--ease-bounce), border-color var(--dur-micro) var(--ease-out);
+    }
+    .mood-btn:hover { transform: var(--pop-scale); }
+    .mood-btn.is-selected {
+      background: var(--primary-container);
+      border-color: var(--primary);
+    }
+
+    .reflect-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--rounded-full);
+      border: 2px solid var(--outline-variant);
+      background: var(--surface-container);
+      color: var(--on-surface);
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform var(--dur-short) var(--ease-bounce), background-color var(--dur-micro) var(--ease-out);
+    }
+    .reflect-chip:hover { transform: var(--pop-scale); }
+    .reflect-chip.is-checked {
+      background: var(--secondary);
+      border-color: var(--secondary);
+      color: var(--on-secondary);
+    }
+
+    .certificate-card {
+      background: var(--surface-container);
+      border: 3px solid var(--primary);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+    .certificate-card[hidden] { display: none; }
+
+    .feedback-banner {
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      font-weight: 600;
+      font-size: 0.95rem;
+      background: var(--surface-container);
+      color: var(--on-surface);
+    }
+    .feedback-banner.is-positive {
+      background: var(--positive-bg);
+      color: var(--positive);
+    }
+    .feedback-banner.is-warning {
+      background: var(--warning-bg);
+      color: var(--warning);
+    }
+
+    .site-footer {
+      background: var(--surface-container);
+      border-radius: var(--rounded);
+      padding: var(--space-lg);
+      font-size: 0.9rem;
+      color: var(--on-surface-variant);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: var(--space-md);
+      align-items: center;
+    }
+
+    /* Color helpers mapped strictly to :root tokens */
+    .swatch-yellow { background: var(--art-yellow); }
+    .swatch-blue { background: var(--art-blue); }
+    .swatch-red { background: var(--art-red); }
+    .swatch-green { background: var(--art-green); }
+    .swatch-orange { background: var(--art-orange); }
+    .swatch-violet { background: var(--art-violet); }
+    .swatch-ink { background: var(--art-ink); }
+    .swatch-pink { background: var(--primary); }
+    .swatch-sky { background: var(--tertiary); }
+    .swatch-grape { background: var(--secondary); }
+
+    /* Responsive breakpoints */
+    @media (max-width: 900px) {
+      .hero-panel,
+      .asymmetric-split,
+      .asymmetric-split-reverse,
+      .workshop-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page-grid {
+        padding: var(--space-md);
+        gap: var(--space-xl);
+      }
+      .hero-panel {
+        padding: var(--space-lg);
+      }
+      .riddle-grid {
+        grid-template-columns: 1fr;
+      }
+      .toolbar-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .pitch-legend {
+        display: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page-grid">
+    <!-- HERO -->
+    <header class="hero-panel">
+      <div>
+        <span class="label-kicker">
+          <i data-lucide="sparkles" aria-hidden="true"></i>
+          Hudobná výchova • 3. a 4. ročník
+        </span>
+        <h1 class="display">Vizuálna hudba: Kandinský, zvuky a <em>farby</em></h1>
+        <p class="section-lede" style="margin-top: var(--space-md);">
+          Ahoj mladý umelec a skladateľ! Dokážeš si predstaviť, ako znie žltý trojuholník alebo akú farbu má tichý spev violončela? Spoznaj maliara, ktorý počul obrazy, vyskúšaj kresliť melódie a vytvor si vlastný hudobný obraz.
+        </p>
+
+        <div class="btn-row" style="margin-top: var(--space-lg);">
+          <button type="button" class="btn btn-primary" id="unlock-audio-btn" onclick="unlockStudioAudio()">
+            <i data-lucide="volume-2" aria-hidden="true"></i>
+            Zapnúť zvukové štúdio
+          </button>
+          <span class="sound-badge" id="audio-status-badge" aria-live="polite">
+            <i data-lucide="music" aria-hidden="true"></i>
+            Klikni na ľubovoľný tvar a zvuk sa prebudí
+          </span>
+        </div>
+
+        <nav class="chapter-nav" aria-label="Časti hodiny">
+          <a class="chapter-pill" href="#pribeh">1. Príbeh Kandinského</a>
+          <a class="chapter-pill" href="#laboratorium">2. Zvukové kreslenie</a>
+          <a class="chapter-pill" href="#dielna">3. Môj hudobný obraz</a>
+          <a class="chapter-pill" href="#reflexia">4. Hra a sebareflexia</a>
+        </nav>
+      </div>
+
+      <div class="hero-illustration">
+        <svg viewBox="0 0 360 300" role="img" aria-label="Ilustrácia hrajúcich tvarov Kandinského: žltý trojuholník, modrý kruh a červená vlnovka">
+          <rect x="8" y="8" width="344" height="284" rx="24" fill="var(--art-paper)" stroke="var(--outline-variant)" stroke-width="3" />
+          <line x1="36" y1="242" x2="324" y2="242" stroke="var(--outline-variant)" stroke-width="2" stroke-dasharray="6 6" />
+          <line x1="36" y1="162" x2="324" y2="162" stroke="var(--outline-variant)" stroke-width="2" stroke-dasharray="6 6" />
+          <line x1="36" y1="82" x2="324" y2="82" stroke="var(--outline-variant)" stroke-width="2" stroke-dasharray="6 6" />
+
+          <!-- Modrý kruh (Violončelo) -->
+          <g class="hero-shape-hit" tabindex="0" role="button" aria-label="Zahrať modrý kruh ako violončelo" onclick="playHeroShape('circle')" onkeydown="handleKeyPlay(event, function(){ playHeroShape('circle'); })">
+            <circle cx="115" cy="185" r="54" fill="var(--art-blue)" stroke="var(--art-ink)" stroke-width="3" />
+            <circle cx="115" cy="185" r="24" fill="var(--art-paper)" opacity="0.28" />
+          </g>
+
+          <!-- Žltý trojuholník (Trúbka) -->
+          <g class="hero-shape-hit" tabindex="0" role="button" aria-label="Zahrať žltý trojuholník ako trúbku" onclick="playHeroShape('triangle')" onkeydown="handleKeyPlay(event, function(){ playHeroShape('triangle'); })">
+            <polygon points="230,42 308,166 152,166" fill="var(--art-yellow)" stroke="var(--art-ink)" stroke-width="3" stroke-linejoin="round" />
+          </g>
+
+          <!-- Červená rytmická vlna a štvorec (Bicie) -->
+          <g class="hero-shape-hit" tabindex="0" role="button" aria-label="Zahrať červenú čiaru ako bicie" onclick="playHeroShape('line')" onkeydown="handleKeyPlay(event, function(){ playHeroShape('line'); })">
+            <path d="M 48 92 Q 90 48, 134 92 T 218 92" fill="none" stroke="var(--art-red)" stroke-width="10" stroke-linecap="round" />
+            <rect x="242" y="198" width="44" height="44" rx="8" fill="var(--art-red)" stroke="var(--art-ink)" stroke-width="3" />
+          </g>
+
+          <!-- Noty ako malé ozdoby -->
+          <circle cx="64" cy="212" r="7" fill="var(--art-ink)" />
+          <line x1="71" y1="212" x2="71" y2="176" stroke="var(--art-ink)" stroke-width="3" stroke-linecap="round" />
+          <path d="M 71 176 L 90 170" stroke="var(--art-ink)" stroke-width="4" stroke-linecap="round" />
+          <circle cx="292" cy="70" r="6" fill="var(--primary)" />
+          <circle cx="312" cy="90" r="4" fill="var(--secondary)" />
+        </svg>
+        <p style="margin-top: var(--space-sm); font-size: 0.88rem; color: var(--on-surface-variant); font-weight: 600;">
+          Klikni na kruh, trojuholník alebo čiaru a vypočuj si ich zvuk!
+        </p>
+      </div>
+    </header>
+
+    <!-- SECTION 1: GOOGLE ARTS & CULTURE / PLAY A KANDINSKY -->
+    <section id="pribeh" class="section-block">
+      <div class="section-header">
+        <span class="label-tag">1. Motivácia • Google Arts &amp; Culture</span>
+        <h2>Wassily Kandinský a tajomstvo počutých farieb</h2>
+        <p class="section-lede">
+          Pred sto rokmi žil ruský maliar Wassily Kandinský. Keď počúval hudbu orchestra, nevidel len nástroje — pred očami sa mu rozsvietili farby a tvary. Tento zázračný dar sa volá <strong>synestézia</strong>.
+        </p>
+      </div>
+
+      <div class="asymmetric-split">
+        <div class="painting-stage">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-sm); margin-bottom: var(--space-sm);">
+            <strong>Inšpirované obrazom „Žltá-červená-modrá“ (1925)</strong>
+            <button type="button" class="btn btn-primary btn-sm" id="play-kandinsky-story-btn" onclick="playAllKandinskyElements()">
+              <i data-lucide="play" aria-hidden="true"></i>
+              Prehrať celý obraz
+            </button>
+          </div>
+
+          <svg id="kandinsky-svg" viewBox="0 0 600 400" role="img" aria-label="Interaktívny obraz inšpirovaný dielom Žltá-červená-modrá od Kandinského">
+            <!-- Podkladové plochy -->
+            <rect x="0" y="0" width="600" height="400" fill="var(--art-paper)" />
+            <rect x="18" y="20" width="270" height="360" rx="18" fill="var(--art-yellow-soft)" />
+            <rect x="302" y="20" width="280" height="360" rx="18" fill="var(--art-blue-soft)" />
+
+            <!-- 1. Žltý trojuholník (Trúbka / ostrý výkrik) -->
+            <g id="k-el-yellow" class="k-element" tabindex="0" role="button" aria-label="Žltý trojuholník: počúvať zvuk" onclick="inspectKandinskyElement('yellow')" onkeydown="handleKeyPlay(event, function(){ inspectKandinskyElement('yellow'); })">
+              <polygon points="150,52 248,218 68,200" fill="var(--art-yellow)" stroke="var(--art-ink)" stroke-width="4" stroke-linejoin="round" />
+              <line x1="88" y1="168" x2="212" y2="122" stroke="var(--art-ink)" stroke-width="3" />
+            </g>
+
+            <!-- 2. Modrý kruh (Violončelo / hlboký pokoj) -->
+            <g id="k-el-blue" class="k-element" tabindex="0" role="button" aria-label="Modrý kruh: počúvať zvuk" onclick="inspectKandinskyElement('blue')" onkeydown="handleKeyPlay(event, function(){ inspectKandinskyElement('blue'); })">
+              <circle cx="445" cy="195" r="88" fill="var(--art-blue)" stroke="var(--art-ink)" stroke-width="4" />
+              <circle cx="445" cy="195" r="40" fill="var(--art-violet)" opacity="0.55" />
+            </g>
+
+            <!-- 3. Červený kríž a obdĺžnik (Bicie a silná energia) -->
+            <g id="k-el-red" class="k-element" tabindex="0" role="button" aria-label="Červený kríž a pruh: počúvať zvuk" onclick="inspectKandinskyElement('red')" onkeydown="handleKeyPlay(event, function(){ inspectKandinskyElement('red'); })">
+              <rect x="264" y="96" width="38" height="212" rx="6" fill="var(--art-red)" stroke="var(--art-ink)" stroke-width="3.5" />
+              <rect x="210" y="182" width="146" height="32" rx="6" fill="var(--art-red)" stroke="var(--art-ink)" stroke-width="3.5" />
+            </g>
+
+            <!-- 4. Čierna vlnovka (Sláčiky a melódia, ktorá spája obraz) -->
+            <g id="k-el-wave" class="k-element" tabindex="0" role="button" aria-label="Čierna vlnovka: počúvať zvuk" onclick="inspectKandinskyElement('wave')" onkeydown="handleKeyPlay(event, function(){ inspectKandinskyElement('wave'); })">
+              <path d="M 46 310 C 110 230, 175 370, 240 280 C 310 190, 390 340, 540 272" fill="none" stroke="var(--art-ink)" stroke-width="9" stroke-linecap="round" />
+              <circle cx="540" cy="272" r="11" fill="var(--art-orange)" stroke="var(--art-ink)" stroke-width="3" />
+            </g>
+
+            <!-- 5. Hravá šachovnica a bodky (Zvonkohra a iskry) -->
+            <g id="k-el-dots" class="k-element" tabindex="0" role="button" aria-label="Farebné bodky a štvorčeky: počúvať zvuk" onclick="inspectKandinskyElement('dots')" onkeydown="handleKeyPlay(event, function(){ inspectKandinskyElement('dots'); })">
+              <rect x="78" y="252" width="24" height="24" fill="var(--art-violet)" stroke="var(--art-ink)" stroke-width="2.5" />
+              <rect x="102" y="252" width="24" height="24" fill="var(--art-yellow)" stroke="var(--art-ink)" stroke-width="2.5" />
+              <rect x="78" y="276" width="24" height="24" fill="var(--art-green)" stroke="var(--art-ink)" stroke-width="2.5" />
+              <rect x="102" y="276" width="24" height="24" fill="var(--art-red)" stroke="var(--art-ink)" stroke-width="2.5" />
+              <circle cx="385" cy="72" r="14" fill="var(--art-yellow)" stroke="var(--art-ink)" stroke-width="3" />
+              <circle cx="428" cy="54" r="9" fill="var(--art-green)" stroke="var(--art-ink)" stroke-width="2.5" />
+              <circle cx="465" cy="76" r="12" fill="var(--art-orange)" stroke="var(--art-ink)" stroke-width="2.5" />
+            </g>
+          </svg>
+        </div>
+
+        <aside class="story-readout" aria-live="polite">
+          <div class="swatch-pill" id="k-story-pill">
+            <span class="swatch-dot swatch-yellow" id="k-story-dot"></span>
+            <span id="k-story-tag">Klikni na tvar v obraze</span>
+          </div>
+          <h3 id="k-story-title">Príbeh „Play a Kandinsky“</h3>
+          <p id="k-story-text">
+            V projekte <strong>Play a Kandinsky</strong> na stránke <strong>Google Arts &amp; Culture</strong> ožíva obraz hudbou. Ťukni na žltý trojuholník, modrý kruh, červený kríž, čiernu vlnovku alebo farebné bodky a zisti, aké zvuky si maliar predstavoval!
+          </p>
+          <div class="feedback-banner" id="k-story-tip">
+            Tip pre uši: Všímaj si, ako ostré rohy znejú ostro a jasne, zatiaľ čo oblé kruhy znejú mäkko a hlboko.
+          </div>
+
+          <div class="discovery-progress">
+            <div style="display: flex; justify-content: space-between; font-size: 0.88rem; font-weight: 700;">
+              <span>Preskúmané časti obrazu</span>
+              <span id="k-discovery-count">0 / 5</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" id="k-discovery-bar"></div>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="card-grid">
+        <button type="button" class="card color-sound-card" onclick="inspectKandinskyElement('yellow')">
+          <div class="shape-badge">
+            <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
+              <polygon points="16,3 29,27 3,27" fill="var(--art-yellow)" stroke="var(--art-ink)" stroke-width="2.5" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <h3>Žltá a ostrý trojuholník</h3>
+          <p>Žiarivá žltá farba vyskakuje z plátna. Kandinský ju počul ako hlasný, jasný tón <strong>trúbky</strong>.</p>
+        </button>
+
+        <button type="button" class="card color-sound-card" onclick="inspectKandinskyElement('blue')">
+          <div class="shape-badge">
+            <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
+              <circle cx="16" cy="16" r="12" fill="var(--art-blue)" stroke="var(--art-ink)" stroke-width="2.5" />
+            </svg>
+          </div>
+          <h3>Modrá a hlboký kruh</h3>
+          <p>Modrá farba upokojuje a vťahuje do hĺbky. Znie ako jemné <strong>violončelo</strong> alebo kostolný <strong>organ</strong>.</p>
+        </button>
+
+        <button type="button" class="card color-sound-card" onclick="inspectKandinskyElement('red')">
+          <div class="shape-badge">
+            <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
+              <rect x="5" y="5" width="22" height="22" rx="3" fill="var(--art-red)" stroke="var(--art-ink)" stroke-width="2.5" />
+            </svg>
+          </div>
+          <h3>Červená a pevné tvary</h3>
+          <p>Červená je plná sily, tepla a pohybu. Pripomína pevné údery <strong>bubna</strong> alebo slávnostnej fanfáry.</p>
+        </button>
+      </div>
+    </section>
+
+    <!-- SECTION 2: CHROME MUSIC LAB (KANDINSKY TOOL) -->
+    <section id="laboratorium" class="section-block">
+      <div class="section-header">
+        <span class="label-tag">2. Zmyslový zážitok • Inšpirované Chrome Music Lab</span>
+        <h2>Zvukové kreslenie: keď sa čiary menia na melódie</h2>
+        <p class="section-lede">
+          V nástroji <strong>Kandinsky</strong> z projektu <strong>Chrome Music Lab</strong> sa každá nakreslená čiara stane melódiou, trojuholník rytmickým úderom a kruh veselým akordom. Nakresli vlastný obrázok a stlač <strong>Prehrať</strong>!
+        </p>
+      </div>
+
+      <div class="lab-card">
+        <div class="toolbar-row">
+          <div>
+            <div class="shape-group-label" style="margin-bottom: var(--space-xs);">1. Vyber si nástroj kreslenia</div>
+            <div class="segmented" role="group" aria-label="Nástroje kreslenia">
+              <button type="button" class="seg-btn is-active" id="lab-tool-line" onclick="setLabTool('line')">
+                <i data-lucide="pencil" aria-hidden="true"></i>
+                Čiara (melódia)
+              </button>
+              <button type="button" class="seg-btn" id="lab-tool-circle" onclick="setLabTool('circle')">
+                <i data-lucide="circle" aria-hidden="true"></i>
+                Kruh (akord)
+              </button>
+              <button type="button" class="seg-btn" id="lab-tool-triangle" onclick="setLabTool('triangle')">
+                <i data-lucide="triangle" aria-hidden="true"></i>
+                Trojuholník (rytmus)
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <div class="shape-group-label" style="margin-bottom: var(--space-xs);">2. Zmeň farebnú paletu zvukov</div>
+            <div class="btn-row" role="group" aria-label="Farebné palety zvukov">
+              <button type="button" class="palette-chip is-active" id="lab-pal-0" onclick="setLabPalette(0)">
+                <span class="palette-dots" aria-hidden="true">
+                  <span class="swatch-yellow"></span>
+                  <span class="swatch-red"></span>
+                  <span class="swatch-blue"></span>
+                </span>
+                Orchester
+              </button>
+              <button type="button" class="palette-chip" id="lab-pal-1" onclick="setLabPalette(1)">
+                <span class="palette-dots" aria-hidden="true">
+                  <span class="swatch-pink"></span>
+                  <span class="swatch-sky"></span>
+                  <span class="swatch-grape"></span>
+                </span>
+                Zvonkohra
+              </button>
+              <button type="button" class="palette-chip" id="lab-pal-2" onclick="setLabPalette(2)">
+                <span class="palette-dots" aria-hidden="true">
+                  <span class="swatch-green"></span>
+                  <span class="swatch-orange"></span>
+                  <span class="swatch-blue"></span>
+                </span>
+                Príroda
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="canvas-shell">
+          <div class="pitch-legend" aria-hidden="true">
+            <span>Vysoké tóny</span>
+            <span>Stredné tóny</span>
+            <span>Hlboké basy</span>
+          </div>
+          <canvas id="lab-canvas" aria-label="Kresliace hudobné plátno"></canvas>
+        </div>
+
+        <div class="toolbar-row">
+          <div class="btn-row">
+            <button type="button" class="btn btn-primary" id="lab-play-btn" onclick="toggleLabPlayback()">
+              <i data-lucide="play" aria-hidden="true"></i>
+              Prehrať slučku
+            </button>
+            <button type="button" class="btn btn-soft" onclick="undoLabStroke()">
+              <i data-lucide="undo-2" aria-hidden="true"></i>
+              Krok späť
+            </button>
+            <button type="button" class="btn btn-soft" id="lab-clear-btn" onclick="clearLabCanvas(this)">
+              <i data-lucide="trash-2" aria-hidden="true"></i>
+              Vymazať plátno
+            </button>
+          </div>
+
+          <div class="control-field" style="min-width: 210px;">
+            <label for="lab-tempo-slider">Rýchlosť hudby: <span id="lab-tempo-val">Stredná (110 BPM)</span></label>
+            <input type="range" id="lab-tempo-slider" min="70" max="160" value="110" oninput="setLabTempo(this.value)">
+          </div>
+        </div>
+
+        <div class="status-strip" aria-live="polite">
+          <span id="lab-live-note">Nakresli čiaru zľava doprava alebo klikni a pridaj kruhy a trojuholníky.</span>
+          <span id="lab-count-badge">Počet prvkov: 4</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: CREATIVE WORKSHOP 'MÔJ HUDOBNÝ OBRAZ' -->
+    <section id="dielna" class="section-block">
+      <div class="section-header">
+        <span class="label-tag">3. Tvorivá dielňa</span>
+        <h2>Môj hudobný obraz a vlastný zmyslový kľúč</h2>
+        <p class="section-lede">
+          Teraz si hlavným skladateľom ty! Vyber si ostré alebo oblé tvary, zvoľ farbu a ulož ich na plátno. Vpravo si uprav svoj vlastný <strong>zmyslový kľúč</strong> — sám rozhodneš, ktorý tvar a farba hrá na aký nástroj.
+        </p>
+      </div>
+
+      <div class="workshop-grid">
+        <!-- Left: Artboard -->
+        <div class="workshop-panel">
+          <div class="control-field">
+            <label for="artwork-title-input">Názov tvojho hudobného obrazu</label>
+            <input type="text" id="artwork-title-input" maxlength="60" value="Tanec žltej trúbky a modrých vĺn" oninput="updateArtworkTitle(this.value)">
+          </div>
+
+          <div class="shape-picker-group">
+            <span class="shape-group-label">Ostré tvary (jasné a výrazné zvuky)</span>
+            <div class="tool-chips" role="group" aria-label="Ostré tvary">
+              <button type="button" class="shape-chip is-active" id="w-shape-triangle" onclick="selectWorkshopShape('triangle')">
+                <i data-lucide="triangle" aria-hidden="true"></i>
+                Trojuholník
+              </button>
+              <button type="button" class="shape-chip" id="w-shape-zigzag" onclick="selectWorkshopShape('zigzag')">
+                <i data-lucide="zap" aria-hidden="true"></i>
+                Cikcak čiara
+              </button>
+              <button type="button" class="shape-chip" id="w-shape-square" onclick="selectWorkshopShape('square')">
+                <i data-lucide="square" aria-hidden="true"></i>
+                Štvorec
+              </button>
+            </div>
+          </div>
+
+          <div class="shape-picker-group">
+            <span class="shape-group-label">Oblé tvary a línie (mäkké a plynulé zvuky)</span>
+            <div class="tool-chips" role="group" aria-label="Oblé tvary">
+              <button type="button" class="shape-chip" id="w-shape-circle" onclick="selectWorkshopShape('circle')">
+                <i data-lucide="circle" aria-hidden="true"></i>
+                Kruh
+              </button>
+              <button type="button" class="shape-chip" id="w-shape-wave" onclick="selectWorkshopShape('wave')">
+                <i data-lucide="waves" aria-hidden="true"></i>
+                Vlna
+              </button>
+              <button type="button" class="shape-chip" id="w-shape-line" onclick="selectWorkshopShape('line')">
+                <i data-lucide="minus" aria-hidden="true"></i>
+                Rovná čiara
+              </button>
+            </div>
+          </div>
+
+          <div class="toolbar-row">
+            <div class="shape-picker-group">
+              <span class="shape-group-label">Farba štetca</span>
+              <div class="btn-row" role="group" aria-label="Farba tvaru">
+                <button type="button" class="color-swatch-btn swatch-yellow is-active" id="w-color-yellow" aria-label="Žltá farba" onclick="selectWorkshopColor('yellow')"></button>
+                <button type="button" class="color-swatch-btn swatch-blue" id="w-color-blue" aria-label="Modrá farba" onclick="selectWorkshopColor('blue')"></button>
+                <button type="button" class="color-swatch-btn swatch-red" id="w-color-red" aria-label="Červená farba" onclick="selectWorkshopColor('red')"></button>
+                <button type="button" class="color-swatch-btn swatch-green" id="w-color-green" aria-label="Zelená farba" onclick="selectWorkshopColor('green')"></button>
+                <button type="button" class="color-swatch-btn swatch-orange" id="w-color-orange" aria-label="Oranžová farba" onclick="selectWorkshopColor('orange')"></button>
+                <button type="button" class="color-swatch-btn swatch-violet" id="w-color-violet" aria-label="Fialová farba" onclick="selectWorkshopColor('violet')"></button>
+              </div>
+            </div>
+
+            <div class="shape-picker-group">
+              <span class="shape-group-label">Veľkosť</span>
+              <div class="segmented" role="group" aria-label="Veľkosť tvaru">
+                <button type="button" class="seg-btn" id="w-size-sm" onclick="selectWorkshopSize('sm')">Malý</button>
+                <button type="button" class="seg-btn is-active" id="w-size-md" onclick="selectWorkshopSize('md')">Stredný</button>
+                <button type="button" class="seg-btn" id="w-size-lg" onclick="selectWorkshopSize('lg')">Veľký</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="workshop-canvas-wrap">
+            <canvas id="workshop-canvas" aria-label="Plátno môj hudobný obraz — kliknutím pridáš tvar, potiahnutím ho presunieš"></canvas>
+          </div>
+
+          <div class="status-strip" aria-live="polite">
+            <span id="workshop-hint-text">Klikni do plátna a pridaj vybraný tvar. Tvary môžeš aj presúvať prstom alebo myšou!</span>
+            <span id="workshop-count-text">0 prvkov</span>
+          </div>
+
+          <div class="btn-row">
+            <button type="button" class="btn btn-primary" id="workshop-play-btn" onclick="playWorkshopComposition()">
+              <i data-lucide="play" aria-hidden="true"></i>
+              Prehrať môj obraz
+            </button>
+            <button type="button" class="btn btn-secondary" onclick="downloadWorkshopPng()">
+              <i data-lucide="download" aria-hidden="true"></i>
+              Uložiť obrázok (PNG)
+            </button>
+            <button type="button" class="btn btn-soft" onclick="removeLastWorkshopItem()">
+              <i data-lucide="undo-2" aria-hidden="true"></i>
+              Odstrániť posledný
+            </button>
+            <button type="button" class="btn btn-soft" id="workshop-sample-btn" onclick="loadSampleComposition()">
+              <i data-lucide="wand-2" aria-hidden="true"></i>
+              Načítať ukážku
+            </button>
+            <button type="button" class="btn btn-quiet" id="workshop-clear-btn" onclick="clearWorkshopCanvas(this)">
+              Vyčistiť
+            </button>
+          </div>
+        </div>
+
+        <!-- Right: Custom Sensory Key -->
+        <aside class="sensory-key-panel">
+          <div>
+            <h3>Môj zmyslový kľúč</h3>
+            <p style="font-size: 0.95rem; color: var(--on-surface-variant);">
+              Tu určuješ pravidlá svojho obrazu! Napríklad: žltý trojuholník = trúbka, modrý kruh = violončelo, červená čiara = bicie.
+            </p>
+          </div>
+
+          <div class="key-rule-list" id="sensory-key-list"></div>
+
+          <div class="add-rule-box">
+            <strong style="font-size: 0.95rem;">Pridať alebo zmeniť vlastné pravidlo:</strong>
+            <div class="add-rule-controls">
+              <div class="control-field">
+                <label for="rule-color-select">Farba</label>
+                <select id="rule-color-select">
+                  <option value="yellow">Žltá</option>
+                  <option value="blue">Modrá</option>
+                  <option value="red">Červená</option>
+                  <option value="green">Zelená</option>
+                  <option value="orange">Oranžová</option>
+                  <option value="violet">Fialová</option>
+                </select>
+              </div>
+              <div class="control-field">
+                <label for="rule-shape-select">Tvar</label>
+                <select id="rule-shape-select">
+                  <option value="triangle">Trojuholník</option>
+                  <option value="circle">Kruh</option>
+                  <option value="line">Rovná čiara</option>
+                  <option value="zigzag">Cikcak čiara</option>
+                  <option value="wave">Vlna</option>
+                  <option value="square">Štvorec</option>
+                </select>
+              </div>
+              <div class="control-field">
+                <label for="rule-inst-select">Nástroj</label>
+                <select id="rule-inst-select">
+                  <option value="trumpet">Trúbka</option>
+                  <option value="cello">Violončelo</option>
+                  <option value="drums">Bicie</option>
+                  <option value="flute">Flauta</option>
+                  <option value="glockenspiel">Zvonkohra</option>
+                  <option value="piano">Klavír</option>
+                </select>
+              </div>
+            </div>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="addSensoryRule()">
+              <i data-lucide="plus" aria-hidden="true"></i>
+              Uložiť pravidlo do kľúča
+            </button>
+          </div>
+
+          <div class="feedback-banner" id="workshop-sound-banner" aria-live="polite">
+            Veľké tvary hrajú hlasnejšie a nižšie v spodnej časti plátna majú hlbší tón!
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- SECTION 4: SOUND RIDDLE & SELF REFLECTION -->
+    <section id="reflexia" class="section-block">
+      <div class="section-header">
+        <span class="label-tag">4. Záverečná hra a sebareflexia</span>
+        <h2>Zvuková hádanka a tvoja hudobná vizitka</h2>
+        <p class="section-lede">
+          Otestuj svoje uši aj oči v krátkej hádanke a potom si zapíš, ako sa ti dnes maľovalo zvukmi.
+        </p>
+      </div>
+
+      <div class="asymmetric-split-reverse">
+        <!-- Audio-Visual Riddle -->
+        <div class="card card-sky" style="display: flex; flex-direction: column; gap: var(--space-md);">
+          <div style="display: flex; justify-content: space-between; align-items: center; gap: var(--space-sm); flex-wrap: wrap;">
+            <h3>Hádanka: Ktorý obrázok znie?</h3>
+            <span class="label-tag" id="riddle-score-pill">Body: 0 / 3</span>
+          </div>
+
+          <p id="riddle-prompt-text" style="font-weight: 600;">
+            Úloha 1 z 3: Vypočuj si tajomný tón a vyber tvar, ktorý sa k nemu hodí najviac!
+          </p>
+
+          <div class="btn-row">
+            <button type="button" class="btn btn-primary" onclick="playCurrentRiddleSound()">
+              <i data-lucide="volume-2" aria-hidden="true"></i>
+              Vypočuť si zvukovú nápovedu
+            </button>
+            <button type="button" class="btn btn-soft btn-sm" id="riddle-next-btn" onclick="nextRiddleQuestion()">
+              Ďalšia hádanka
+            </button>
+          </div>
+
+          <div class="riddle-grid" id="riddle-options"></div>
+
+          <div class="feedback-banner" id="riddle-feedback" aria-live="polite">
+            Najprv stlač „Vypočuť si zvukovú nápovedu“ a potom ťukni na správnu kartu.
+          </div>
+        </div>
+
+        <!-- Student Self-Reflection -->
+        <div class="card card-grape" style="display: flex; flex-direction: column; gap: var(--space-md);">
+          <h3>Moja hravá sebareflexia</h3>
+
+          <div>
+            <span class="shape-group-label" style="display: block; margin-bottom: var(--space-xs);">1. Ako sa ti dnes tvorila vizuálna hudba?</span>
+            <div class="mood-grid" role="group" aria-label="Moja nálada pri tvorení">
+              <button type="button" class="mood-btn" id="mood-nadšene" onclick="selectMood('nadšene')">
+                <svg width="36" height="36" viewBox="0 0 36 36" aria-hidden="true">
+                  <circle cx="18" cy="18" r="15" fill="var(--art-yellow)" stroke="var(--art-ink)" stroke-width="2.5" />
+                  <circle cx="13" cy="14" r="2.2" fill="var(--art-ink)" />
+                  <circle cx="23" cy="14" r="2.2" fill="var(--art-ink)" />
+                  <path d="M 11 21 Q 18 28, 25 21" fill="none" stroke="var(--art-ink)" stroke-width="2.5" stroke-linecap="round" />
+                </svg>
+                Nadšene
+              </button>
+              <button type="button" class="mood-btn" id="mood-zvedavo" onclick="selectMood('zvedavo')">
+                <svg width="36" height="36" viewBox="0 0 36 36" aria-hidden="true">
+                  <circle cx="18" cy="18" r="15" fill="var(--art-blue-soft)" stroke="var(--art-ink)" stroke-width="2.5" />
+                  <circle cx="13" cy="14" r="2.2" fill="var(--art-ink)" />
+                  <circle cx="23" cy="14" r="2.2" fill="var(--art-ink)" />
+                  <circle cx="18" cy="23" r="3" fill="var(--primary)" />
+                </svg>
+              Zvedavo
+              </button>
+              <button type="button" class="mood-btn" id="mood-pokojne" onclick="selectMood('pokojne')">
+                <svg width="36" height="36" viewBox="0 0 36 36" aria-hidden="true">
+                  <circle cx="18" cy="18" r="15" fill="var(--art-green-soft)" stroke="var(--art-ink)" stroke-width="2.5" />
+                  <path d="M 11 15 Q 13 13, 15 15" fill="none" stroke="var(--art-ink)" stroke-width="2.2" stroke-linecap="round" />
+                  <path d="M 21 15 Q 23 13, 25 15" fill="none" stroke="var(--art-ink)" stroke-width="2.2" stroke-linecap="round" />
+                  <path d="M 13 22 Q 18 25, 23 22" fill="none" stroke="var(--art-ink)" stroke-width="2.5" stroke-linecap="round" />
+                </svg>
+                Pokojne
+              </button>
+              <button type="button" class="mood-btn" id="mood-hravo" onclick="selectMood('hravo')">
+                <svg width="36" height="36" viewBox="0 0 36 36" aria-hidden="true">
+                  <circle cx="18" cy="18" r="15" fill="var(--primary-container)" stroke="var(--art-ink)" stroke-width="2.5" />
+                  <polygon points="13,11 15,16 11,16" fill="var(--art-ink)" />
+                  <circle cx="23" cy="14" r="2.2" fill="var(--art-ink)" />
+                  <path d="M 12 22 Q 18 27, 24 21" fill="none" stroke="var(--art-ink)" stroke-width="2.5" stroke-linecap="round" />
+                </svg>
+                Hravo
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <span class="shape-group-label" style="display: block; margin-bottom: var(--space-xs);">2. Čo sa ti dnes podarilo? (Označ všetky, ktoré platia)</span>
+            <div class="tool-chips" role="group" aria-label="Moje úspechy">
+              <button type="button" class="reflect-chip" id="badge-synesthesia" onclick="toggleReflectBadge('synesthesia')">
+                <i data-lucide="eye" aria-hidden="true"></i>
+                Viem, čo je synestézia
+              </button>
+              <button type="button" class="reflect-chip" id="badge-melody" onclick="toggleReflectBadge('melody')">
+                <i data-lucide="music" aria-hidden="true"></i>
+                Nakreslil/a som melódiu
+              </button>
+              <button type="button" class="reflect-chip" id="badge-key" onclick="toggleReflectBadge('key')">
+                <i data-lucide="key-round" aria-hidden="true"></i>
+                Mám vlastný zmyslový kľúč
+              </button>
+              <button type="button" class="reflect-chip" id="badge-sharproll" onclick="toggleReflectBadge('sharproll')">
+                <i data-lucide="shapes" aria-hidden="true"></i>
+                Rozlišujem ostré a oblé tvary
+              </button>
+            </div>
+          </div>
+
+          <div class="control-field">
+            <label for="reflection-song-note">3. Akú farbu a tvar má tvoja obľúbená pesnička a prečo?</label>
+            <textarea id="reflection-song-note" placeholder="Napríklad: Moja obľúbená pesnička je žltá ako slnko a má vlnovky, lebo sa pri nej tancuje…" oninput="updateReflectionNote(this.value)"></textarea>
+          </div>
+
+          <div class="btn-row">
+            <button type="button" class="btn btn-primary" onclick="completeReflectionCard()">
+              <i data-lucide="award" aria-hidden="true"></i>
+              Zobraziť moju hudobnú vizitku
+            </button>
+            <button type="button" class="btn btn-soft btn-sm" onclick="downloadReflectionText()">
+              <i data-lucide="file-text" aria-hidden="true"></i>
+              Stiahnuť zápisník (.txt)
+            </button>
+          </div>
+
+          <div class="certificate-card" id="student-certificate" hidden>
+            <div style="display: flex; align-items: center; gap: var(--space-sm);">
+              <i data-lucide="sparkles" aria-hidden="true"></i>
+              <h3 style="margin: 0;">Vizitka malého skladateľa farieb</h3>
+            </div>
+            <p id="cert-summary-text"></p>
+            <div id="cert-key-summary" style="font-size: 0.92rem; font-weight: 600;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <span>Inšpirované dielom Wassilyho Kandinského, projektom Play a Kandinsky na Google Arts &amp; Culture a hudobným experimentom Chrome Music Lab (Kandinsky).</span>
+      <button type="button" class="btn btn-quiet btn-sm" id="reset-all-btn" onclick="resetAllProgress(this)">
+        Začať odznova
+      </button>
+    </footer>
+  </main>
+
+  <api-shim></api-shim>
+  <script>
+    /* ============================================================
+       1. STATE & CONSTANTS (template literals for all strings)
+       ============================================================ */
+    const COLOR_META = {
+      yellow: { label: `Žltá`, cssVar: `--art-yellow`, softVar: `--art-yellow-soft` },
+      blue:   { label: `Modrá`, cssVar: `--art-blue`, softVar: `--art-blue-soft` },
+      red:    { label: `Červená`, cssVar: `--art-red`, softVar: `--art-red-soft` },
+      green:  { label: `Zelená`, cssVar: `--art-green`, softVar: `--art-green-soft` },
+      orange: { label: `Oranžová`, cssVar: `--art-orange`, softVar: `--art-orange-soft` },
+      violet: { label: `Fialová`, cssVar: `--art-violet`, softVar: `--art-violet-soft` }
+    };
+
+    const SHAPE_META = {
+      triangle: { label: `Trojuholník` },
+      circle:   { label: `Kruh` },
+      line:     { label: `Rovná čiara` },
+      zigzag:   { label: `Cikcak čiara` },
+      wave:     { label: `Vlna` },
+      square:   { label: `Štvorec` }
+    };
+
+    const INSTRUMENT_META = {
+      trumpet:      { label: `Trúbka` },
+      cello:        { label: `Violončelo` },
+      drums:        { label: `Bicie` },
+      flute:        { label: `Flauta` },
+      glockenspiel: { label: `Zvonkohra` },
+      piano:        { label: `Klavír` }
+    };
+
+    const KANDINSKY_STORIES = {
+      yellow: {
+        tag: `Žltý trojuholník • Trúbka`,
+        dotClass: `swatch-yellow`,
+        title: `Jasný výkrik žltej trúbky`,
+        text: `Kandinský cítil, že žltá farba sa rozbieha k divákovi a má ostrý, prenikavý zvuk. V príbehu „Play a Kandinsky“ znie ako vysoký, radostný tón trúbky!`,
+        tip: `Ostré rohy trojuholníka pripomínajú rýchly a jasný hudobný signál.`,
+        sound: `trumpet`
+      },
+      blue: {
+        tag: `Modrý kruh • Violončelo a organ`,
+        dotClass: `swatch-blue`,
+        title: `Hlboký pokoj modrého kruhu`,
+        text: `Modrá farba nikam neponáhľa — priťahuje nás do svojho stredu. Tmavomodrý kruh znie ako pokojný, hlboký a zamatový hlas violončela alebo organu.`,
+        tip: `Oblý tvar kruhu nemá žiadne rohy, preto jeho tón plynie mäkko bez prerušenia.`,
+        sound: `cello`
+      },
+      red: {
+        tag: `Červený kríž • Rytmické bicie`,
+        dotClass: `swatch-red`,
+        title: `Sila a energia červenej`,
+        text: `Červená farba je ako bijúce srdce obrazu. Má v sebe odhodlanie, silu a pohyb — preto sa spája s výraznými údermi bubnov a činelov.`,
+        tip: `Pevné zvislé a vodorovné pruhy držia rytmus tak ako bubeník v kapele.`,
+        sound: `drums`
+      },
+      wave: {
+        tag: `Čierna vlnovka • Melódia sláčikov`,
+        dotClass: `swatch-ink`,
+        title: `Čiara, ktorá ide na prechádzku`,
+        text: `Kandinský hovorieval, že čiara je bodka, ktorá sa vybrala na prechádzku. Keď vlnovka stúpa hore, melódia letí do výšky; keď klesá, tón sa stíši dole.`,
+        tip: `Sleduj prstom pohyb vlnovky zľava doprava — tak presne sa hýbe aj melódia!`,
+        sound: `fluteWave`
+      },
+      dots: {
+        tag: `Bodky a štvorčeky • Zvonkohra`,
+        dotClass: `swatch-violet`,
+        title: `Iskrivé kvapky rytmu`,
+        text: `Malé farebné bodky a šachovnica sú ako krátke zvonivé tóny zvonkohry alebo pizzicato — keď huslista jemne brnkne prstom na strunu.`,
+        tip: `Krátke bodky = krátke staccato tóny (ťuk, ťuk, ťuk).`,
+        sound: `glockenspiel`
+      }
+    };
+
+    const LAB_PALETTES = [
+      {
+        name: `Orchester`,
+        lineColor: `yellow`,
+        circleColor: `blue`,
+        triangleColor: `red`,
+        lineInst: `flute`,
+        circleInst: `piano`,
+        triInst: `drums`
+      },
+      {
+        name: `Zvonkohra`,
+        lineColor: `violet`,
+        circleColor: `orange`,
+        triangleColor: `green`,
+        lineInst: `glockenspiel`,
+        circleInst: `cello`,
+        triInst: `trumpet`
+      },
+      {
+        name: `Príroda`,
+        lineColor: `green`,
+        circleColor: `blue`,
+        triangleColor: `orange`,
+        lineInst: `flute`,
+        circleInst: `cello`,
+        triInst: `drums`
+      }
+    ];
+
+    const RIDDLE_QUESTIONS = [
+      {
+        id: `q1`,
+        prompt: `Úloha 1 z 3: Vypočuj si jasný, vysoký a ostrý tón. Ktorý tvar a farba mu najviac svedčia?`,
+        soundType: `trumpet`,
+        correctId: `a`,
+        options: [
+          { id: `a`, label: `Žltý ostrý trojuholník`, shape: `triangle`, color: `yellow` },
+          { id: `b`, label: `Modrý veľký kruh`, shape: `circle`, color: `blue` },
+          { id: `c`, label: `Zelená pokojná vlna`, shape: `wave`, color: `green` }
+        ],
+        winMsg: `Výborne! Jasná trúbka a ostrý žltý trojuholník tvoria dokonalú dvojicu.`
+      },
+      {
+        id: `q2`,
+        prompt: `Úloha 2 z 3: Teraz počúvaj — tón je veľmi hlboký, dlhý a pokojný. Čo ho nakreslilo?`,
+        soundType: `cello`,
+        correctId: `b`,
+        options: [
+          { id: `a`, label: `Červený cikcak blesk`, shape: `zigzag`, color: `red` },
+          { id: `b`, label: `Modrý oblý kruh`, shape: `circle`, color: `blue` },
+          { id: `c`, label: `Oranžový malý štvorec`, shape: `square`, color: `orange` }
+        ],
+        winMsg: `Presne tak! Hlboké violončelo znie ako pokojný modrý kruh bez ostrých hrán.`
+      },
+      {
+        id: `q3`,
+        prompt: `Úloha 3 z 3: Počuješ krátke, veselé údery do rytmu! Ktorý tvar hrá na bicie?`,
+        soundType: `drums`,
+        correctId: `c`,
+        options: [
+          { id: `a`, label: `Fialová dlhá vlna`, shape: `wave`, color: `violet` },
+          { id: `b`, label: `Modrá rovná čiara`, shape: `line`, color: `blue` },
+          { id: `c`, label: `Červený pevný tvar`, shape: `square`, color: `red` }
+        ],
+        winMsg: `Skvelé uši! Červené pevné tvary nesú energický rytmus bicích.`
+      }
+    ];
+
+    const DEFAULT_STATE = {
+      unlockedAudio: false,
+      discoveredElements: [],
+      labTool: `line`,
+      labPalette: 0,
+      labTempo: 110,
+      labStrokes: [
+        { type: `line`, points: [{ x: 0.14, y: 0.68 }, { x: 0.28, y: 0.48 }, { x: 0.42, y: 0.34 }] },
+        { type: `circle`, x: 0.56, y: 0.52 },
+        { type: `triangle`, x: 0.74, y: 0.38 },
+        { type: `circle`, x: 0.87, y: 0.64 }
+      ],
+      workshopTitle: `Tanec žltej trúbky a modrých vĺn`,
+      workshopShape: `triangle`,
+      workshopColor: `yellow`,
+      workshopSize: `md`,
+      workshopItems: [
+        { id: `init-1`, shape: `circle`, colorKey: `blue`, size: `lg`, x: 0.24, y: 0.62 },
+        { id: `init-2`, shape: `triangle`, colorKey: `yellow`, size: `md`, x: 0.52, y: 0.34 },
+        { id: `init-3`, shape: `line`, colorKey: `red`, size: `md`, x: 0.78, y: 0.68 }
+      ],
+      sensoryKey: [
+        { id: `rule-1`, colorKey: `yellow`, shape: `triangle`, instrument: `trumpet` },
+        { id: `rule-2`, colorKey: `blue`, shape: `circle`, instrument: `cello` },
+        { id: `rule-3`, colorKey: `red`, shape: `line`, instrument: `drums` }
+      ],
+      riddleIndex: 0,
+      riddleSolved: {},
+      reflectionMood: ``,
+      reflectionBadges: [],
+      reflectionNote: ``,
+      cardCompleted: false
+    };
+
+    let appState = JSON.parse(JSON.stringify(DEFAULT_STATE));
+
+    /* ============================================================
+       2. CSS TOKEN RESOLUTION FOR CANVAS
+       ============================================================ */
+    let resolvedColors = {};
+
+    function refreshCssColorCache() {
+      const styles = getComputedStyle(document.documentElement);
+      const keys = [
+        `--art-paper`, `--art-ink`, `--art-yellow`, `--art-red`,
+        `--art-blue`, `--art-green`, `--art-orange`, `--art-violet`,
+        `--art-grid`, `--primary`, `--tertiary`, `--secondary`
+      ];
+      keys.forEach(function (k) {
+        resolvedColors[k] = styles.getPropertyValue(k).trim();
+      });
+    }
+
+    function getArtColor(colorKey) {
+      const meta = COLOR_META[colorKey] || COLOR_META.yellow;
+      return resolvedColors[meta.cssVar] || resolvedColors[`--art-yellow`];
+    }
+
+    /* ============================================================
+       3. WEB AUDIO SYNTHESIS ENGINE (0 external audio dependencies)
+       ============================================================ */
+    let audioCtx = null;
+
+    function ensureAudioContext() {
+      const AudioClass = window.AudioContext || window.webkitAudioContext;
+      if (!AudioClass) return null;
+      if (!audioCtx) {
+        audioCtx = new AudioClass();
+      }
+      if (audioCtx.state === `suspended`) {
+        audioCtx.resume().catch(function () {});
+      }
+      return audioCtx;
+    }
+
+    function markAudioReady() {
+      const badge = document.getElementById(`audio-status-badge`);
+      if (badge) {
+        badge.classList.add(`is-ready`);
+        badge.innerHTML = `<i data-lucide="check-circle-2" aria-hidden="true"></i> Zvukové štúdio je zapnuté`;
+        refreshIcons();
+      }
+      if (!appState.unlockedAudio) {
+        appState.unlockedAudio = true;
+        persistState();
+      }
+    }
+
+    function yNormToPentatonicFreq(yNorm) {
+      /* Pentatonic C major across 2 octaves: C4..E6; top (0) is high, bottom (1) is low */
+      const scale = [
+        261.63, 293.66, 329.63, 392.00, 440.00,
+        523.25, 587.33, 659.25, 783.99, 880.00, 1046.50
+      ];
+      const clamped = Math.max(0, Math.min(1, yNorm));
+      const idx = Math.round((1 - clamped) * (scale.length - 1));
+      return scale[idx];
+    }
+
+    function playInstrument(instrument, freq, durationSec, volume) {
+      const ctx = ensureAudioContext();
+      if (!ctx) return;
+      markAudioReady();
+
+      const now = ctx.currentTime;
+      const dur = durationSec || 0.45;
+      const vol = volume || 0.24;
+      const baseFreq = freq || 440;
+
+      if (instrument === `trumpet`) {
+        const osc = ctx.createOscillator();
+        const filter = ctx.createBiquadFilter();
+        const gain = ctx.createGain();
+        osc.type = `sawtooth`;
+        osc.frequency.setValueAtTime(baseFreq, now);
+        filter.type = `lowpass`;
+        filter.frequency.setValueAtTime(900, now);
+        filter.frequency.exponentialRampToValueAtTime(2400, now + 0.08);
+        filter.frequency.exponentialRampToValueAtTime(1100, now + dur);
+
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(vol, now + 0.04);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + dur);
+
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + dur + 0.03);
+      } else if (instrument === `cello`) {
+        const osc = ctx.createOscillator();
+        const osc2 = ctx.createOscillator();
+        const filter = ctx.createBiquadFilter();
+        const gain = ctx.createGain();
+        const lowFreq = baseFreq > 350 ? baseFreq * 0.5 : baseFreq;
+        osc.type = `triangle`;
+        osc.frequency.setValueAtTime(lowFreq, now);
+        osc2.type = `sawtooth`;
+        osc2.frequency.setValueAtTime(lowFreq * 1.003, now);
+
+        filter.type = `lowpass`;
+        filter.frequency.setValueAtTime(750, now);
+
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(vol * 0.9, now + 0.14);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + dur + 0.35);
+
+        osc.connect(filter);
+        osc2.connect(filter);
+        filter.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc2.start(now);
+        osc.stop(now + dur + 0.38);
+        osc2.stop(now + dur + 0.38);
+      } else if (instrument === `drums`) {
+        /* Kick + crisp wood/snare accent */
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = `sine`;
+        osc.frequency.setValueAtTime(160, now);
+        osc.frequency.exponentialRampToValueAtTime(48, now + 0.14);
+        gain.gain.setValueAtTime(vol * 1.4, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.22);
+
+        const oscClick = ctx.createOscillator();
+        const clickGain = ctx.createGain();
+        oscClick.type = `triangle`;
+        oscClick.frequency.setValueAtTime(baseFreq * 1.5, now + 0.06);
+        clickGain.gain.setValueAtTime(vol * 0.7, now + 0.06);
+        clickGain.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
+        oscClick.connect(clickGain);
+        clickGain.connect(ctx.destination);
+        oscClick.start(now + 0.06);
+        oscClick.stop(now + 0.18);
+      } else if (instrument === `flute`) {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = `sine`;
+        osc.frequency.setValueAtTime(baseFreq, now);
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(vol * 0.85, now + 0.07);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + dur);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + dur + 0.03);
+      } else if (instrument === `glockenspiel`) {
+        const osc = ctx.createOscillator();
+        const oscOver = ctx.createOscillator();
+        const gain = ctx.createGain();
+        const highF = baseFreq < 450 ? baseFreq * 2 : baseFreq;
+        osc.type = `sine`;
+        osc.frequency.setValueAtTime(highF, now);
+        oscOver.type = `sine`;
+        oscOver.frequency.setValueAtTime(highF * 2.756, now);
+
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(vol * 0.8, now + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + dur + 0.2);
+
+        osc.connect(gain);
+        oscOver.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        oscOver.start(now);
+        osc.stop(now + dur + 0.22);
+        oscOver.stop(now + dur + 0.22);
+      } else {
+        /* piano / chordal warm tone */
+        const chordRatios = [1, 1.25, 1.5];
+        chordRatios.forEach(function (ratio, idx) {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = `triangle`;
+          osc.frequency.setValueAtTime(baseFreq * ratio, now + idx * 0.02);
+          gain.gain.setValueAtTime(0.001, now + idx * 0.02);
+          gain.gain.linearRampToValueAtTime(vol * 0.4, now + idx * 0.02 + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + dur + 0.25);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now + idx * 0.02);
+          osc.stop(now + dur + 0.28);
+        });
+      }
+    }
+
+    function unlockStudioAudio() {
+      ensureAudioContext();
+      playInstrument(`glockenspiel`, 523.25, 0.25, 0.2);
+      setTimeout(function () { playInstrument(`glockenspiel`, 659.25, 0.25, 0.2); }, 110);
+      setTimeout(function () { playInstrument(`glockenspiel`, 783.99, 0.35, 0.22); }, 220);
+    }
+
+    function playHeroShape(kind) {
+      if (kind === `circle`) playInstrument(`cello`, 196.0, 0.7, 0.28);
+      if (kind === `triangle`) playInstrument(`trumpet`, 587.33, 0.45, 0.24);
+      if (kind === `line`) playInstrument(`drums`, 330.0, 0.3, 0.28);
+    }
+
+    /* ============================================================
+       4. SECTION 1: PLAY A KANDINSKY STORY EXPLORER
+       ============================================================ */
+    let storySequenceTimer = null;
+
+    function inspectKandinskyElement(key) {
+      const item = KANDINSKY_STORIES[key];
+      if (!item) return;
+
+      const dot = document.getElementById(`k-story-dot`);
+      const tag = document.getElementById(`k-story-tag`);
+      const title = document.getElementById(`k-story-title`);
+      const text = document.getElementById(`k-story-text`);
+      const tip = document.getElementById(`k-story-tip`);
+
+      if (dot) dot.className = `swatch-dot ` + item.dotClass;
+      if (tag) tag.textContent = item.tag;
+      if (title) title.textContent = item.title;
+      if (text) text.textContent = item.text;
+      if (tip) tip.textContent = item.tip;
+
+      Object.keys(KANDINSKY_STORIES).forEach(function (k) {
+        const el = document.getElementById(`k-el-` + k);
+        if (el) el.classList.toggle(`is-playing`, k === key);
+      });
+
+      /* Play expressive sound for this element */
+      if (item.sound === `trumpet`) {
+        playInstrument(`trumpet`, 587.33, 0.42, 0.25);
+        setTimeout(function () { playInstrument(`trumpet`, 783.99, 0.45, 0.25); }, 180);
+      } else if (item.sound === `cello`) {
+        playInstrument(`cello`, 196.0, 0.9, 0.3);
+      } else if (item.sound === `drums`) {
+        playInstrument(`drums`, 293.66, 0.3, 0.3);
+        setTimeout(function () { playInstrument(`drums`, 293.66, 0.3, 0.28); }, 190);
+      } else if (item.sound === `fluteWave`) {
+        [392.0, 440.0, 523.25, 659.25, 587.33].forEach(function (f, i) {
+          setTimeout(function () { playInstrument(`flute`, f, 0.25, 0.2); }, i * 110);
+        });
+      } else if (item.sound === `glockenspiel`) {
+        [783.99, 1046.5, 880.0, 659.25].forEach(function (f, i) {
+          setTimeout(function () { playInstrument(`glockenspiel`, f, 0.25, 0.2); }, i * 115);
+        });
+      }
+
+      if (appState.discoveredElements.indexOf(key) === -1) {
+        appState.discoveredElements.push(key);
+        persistState();
+      }
+      renderDiscoveryProgress();
+    }
+
+    function renderDiscoveryProgress() {
+      const count = appState.discoveredElements.length;
+      const countEl = document.getElementById(`k-discovery-count`);
+      const barEl = document.getElementById(`k-discovery-bar`);
+      if (countEl) countEl.textContent = count + ` / 5`;
+      if (barEl) barEl.style.width = Math.round((count / 5) * 100) + `%`;
+    }
+
+    function playAllKandinskyElements() {
+      if (storySequenceTimer) {
+        clearTimeout(storySequenceTimer);
+        storySequenceTimer = null;
+      }
+      const order = [`yellow`, `blue`, `red`, `wave`, `dots`];
+      order.forEach(function (key, idx) {
+        setTimeout(function () {
+          inspectKandinskyElement(key);
+        }, idx * 850);
+      });
+    }
+
+    /* ============================================================
+       5. SECTION 2: CHROME MUSIC LAB (KANDINSKY CANVAS)
+       ============================================================ */
+    let labCanvas = null;
+    let labCtx = null;
+    let labDrawing = false;
+    let labActiveStroke = null;
+    let labLastNoteTime = 0;
+    let labPlaying = false;
+    let labPlayhead = 0;
+    let labLastFrameTs = 0;
+    let labRafId = null;
+    let labTriggeredSet = new Set();
+
+    function initLabCanvas() {
+      labCanvas = document.getElementById(`lab-canvas`);
+      if (!labCanvas) return;
+      labCtx = labCanvas.getContext(`2d`);
+      resizeLabCanvas();
+
+      labCanvas.addEventListener(`pointerdown`, onLabPointerDown);
+      labCanvas.addEventListener(`pointermove`, onLabPointerMove);
+      window.addEventListener(`pointerup`, onLabPointerUp);
+      renderLabCanvas();
+    }
+
+    function resizeLabCanvas() {
+      if (!labCanvas) return;
+      const rect = labCanvas.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      labCanvas.width = Math.max(300, Math.floor(rect.width * dpr));
+      labCanvas.height = Math.max(320, Math.floor(360 * dpr));
+      if (labCtx) {
+        labCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+    }
+
+    function getCanvasNormPos(canvasEl, clientX, clientY) {
+      const rect = canvasEl.getBoundingClientRect();
+      const x = Math.max(0.02, Math.min(0.98, (clientX - rect.left) / rect.width));
+      const y = Math.max(0.05, Math.min(0.95, (clientY - rect.top) / rect.height));
+      return { x: x, y: y };
+    }
+
+    function onLabPointerDown(e) {
+      if (!labCanvas) return;
+      const pos = getCanvasNormPos(labCanvas, e.clientX, e.clientY);
+      const pal = LAB_PALETTES[appState.labPalette] || LAB_PALETTES[0];
+      const freq = yNormToPentatonicFreq(pos.y);
+
+      if (appState.labTool === `line`) {
+        labDrawing = true;
+        labActiveStroke = { type: `line`, points: [pos] };
+        playInstrument(pal.lineInst, freq, 0.25, 0.18);
+        updateLabLiveNote(`Kreslíš melódiu nástrojom ` + INSTRUMENT_META[pal.lineInst].label + `.`);
+      } else if (appState.labTool === `circle`) {
+        appState.labStrokes.push({ type: `circle`, x: pos.x, y: pos.y });
+        playInstrument(pal.circleInst, freq, 0.5, 0.22);
+        updateLabLiveNote(`Pridal/a si kruh — znie ako ` + INSTRUMENT_META[pal.circleInst].label + `!`);
+        persistState();
+      } else if (appState.labTool === `triangle`) {
+        appState.labStrokes.push({ type: `triangle`, x: pos.x, y: pos.y });
+        playInstrument(pal.triInst, freq, 0.35, 0.24);
+        updateLabLiveNote(`Pridal/a si trojuholník — rytmus pre ` + INSTRUMENT_META[pal.triInst].label + `!`);
+        persistState();
+      }
+      renderLabCanvas();
+      updateLabCountBadge();
+    }
+
+    function onLabPointerMove(e) {
+      if (!labDrawing || !labActiveStroke || !labCanvas) return;
+      const pos = getCanvasNormPos(labCanvas, e.clientX, e.clientY);
+      const pts = labActiveStroke.points;
+      const last = pts[pts.length - 1];
+      const dist = Math.hypot(pos.x - last.x, pos.y - last.y);
+      if (dist > 0.018) {
+        pts.push(pos);
+        const now = performance.now();
+        if (now - labLastNoteTime > 95) {
+          const pal = LAB_PALETTES[appState.labPalette] || LAB_PALETTES[0];
+          playInstrument(pal.lineInst, yNormToPentatonicFreq(pos.y), 0.2, 0.15);
+          labLastNoteTime = now;
+        }
+        renderLabCanvas();
+      }
+    }
+
+    function onLabPointerUp() {
+      if (!labDrawing) return;
+      labDrawing = false;
+      if (labActiveStroke && labActiveStroke.points.length >= 2) {
+        appState.labStrokes.push(labActiveStroke);
+        persistState();
+      }
+      labActiveStroke = null;
+      renderLabCanvas();
+      updateLabCountBadge();
+    }
+
+    function renderLabCanvas() {
+      if (!labCanvas || !labCtx) return;
+      const w = labCanvas.getBoundingClientRect().width;
+      const h = 360;
+      const pal = LAB_PALETTES[appState.labPalette] || LAB_PALETTES[0];
+
+      labCtx.clearRect(0, 0, w, h);
+      labCtx.fillStyle = resolvedColors[`--art-paper`];
+      labCtx.fillRect(0, 0, w, h);
+
+      /* Subtle staff-like guide lines */
+      labCtx.strokeStyle = resolvedColors[`--art-grid`];
+      labCtx.lineWidth = 1.5;
+      for (let i = 1; i <= 4; i++) {
+        const gy = (h / 5) * i;
+        labCtx.beginPath();
+        labCtx.moveTo(0, gy);
+        labCtx.lineTo(w, gy);
+        labCtx.stroke();
+      }
+
+      const allStrokes = labActiveStroke ? appState.labStrokes.concat([labActiveStroke]) : appState.labStrokes;
+
+      allStrokes.forEach(function (st) {
+        if (st.type === `line` && st.points && st.points.length > 1) {
+          labCtx.strokeStyle = getArtColor(pal.lineColor);
+          labCtx.lineWidth = 7;
+          labCtx.lineCap = `round`;
+          labCtx.lineJoin = `round`;
+          labCtx.beginPath();
+          st.points.forEach(function (p, i) {
+            if (i === 0) labCtx.moveTo(p.x * w, p.y * h);
+            else labCtx.lineTo(p.x * w, p.y * h);
+          });
+          labCtx.stroke();
+        } else if (st.type === `circle`) {
+          const cx = st.x * w;
+          const cy = st.y * h;
+          const r = 24;
+          labCtx.fillStyle = getArtColor(pal.circleColor);
+          labCtx.strokeStyle = resolvedColors[`--art-ink`];
+          labCtx.lineWidth = 3;
+          labCtx.beginPath();
+          labCtx.arc(cx, cy, r, 0, Math.PI * 2);
+          labCtx.fill();
+          labCtx.stroke();
+
+          /* Friendly inner musical eyes like Chrome Music Lab */
+          labCtx.fillStyle = resolvedColors[`--art-paper`];
+          labCtx.beginPath();
+          labCtx.arc(cx - 7, cy - 4, 3, 0, Math.PI * 2);
+          labCtx.arc(cx + 7, cy - 4, 3, 0, Math.PI * 2);
+          labCtx.fill();
+        } else if (st.type === `triangle`) {
+          const cx = st.x * w;
+          const cy = st.y * h;
+          const sz = 26;
+          labCtx.fillStyle = getArtColor(pal.triangleColor);
+          labCtx.strokeStyle = resolvedColors[`--art-ink`];
+          labCtx.lineWidth = 3;
+          labCtx.beginPath();
+          labCtx.moveTo(cx, cy - sz);
+          labCtx.lineTo(cx + sz * 0.9, cy + sz * 0.75);
+          labCtx.lineTo(cx - sz * 0.9, cy + sz * 0.75);
+          labCtx.closePath();
+          labCtx.fill();
+          labCtx.stroke();
+        }
+      });
+
+      if (labPlaying) {
+        const px = labPlayhead * w;
+        labCtx.strokeStyle = resolvedColors[`--primary`];
+        labCtx.lineWidth = 4;
+        labCtx.beginPath();
+        labCtx.moveTo(px, 0);
+        labCtx.lineTo(px, h);
+        labCtx.stroke();
+      }
+    }
+
+    function setLabTool(tool) {
+      appState.labTool = tool;
+      [`line`, `circle`, `triangle`].forEach(function (t) {
+        const btn = document.getElementById(`lab-tool-` + t);
+        if (btn) btn.classList.toggle(`is-active`, t === tool);
+      });
+      persistState();
+    }
+
+    function setLabPalette(idx) {
+      appState.labPalette = idx;
+      [0, 1, 2].forEach(function (i) {
+        const btn = document.getElementById(`lab-pal-` + i);
+        if (btn) btn.classList.toggle(`is-active`, i === idx);
+      });
+      const pal = LAB_PALETTES[idx];
+      updateLabLiveNote(`Paleta „` + pal.name + `“: čiary = ` + INSTRUMENT_META[pal.lineInst].label + `, kruhy = ` + INSTRUMENT_META[pal.circleInst].label + `, trojuholníky = ` + INSTRUMENT_META[pal.triInst].label + `.`);
+      renderLabCanvas();
+      persistState();
+    }
+
+    function setLabTempo(val) {
+      const bpm = Number(val) || 110;
+      appState.labTempo = bpm;
+      const el = document.getElementById(`lab-tempo-val`);
+      if (el) {
+        const word = bpm < 95 ? `Pomaly` : (bpm > 130 ? `Rýchlo` : `Stredná`);
+        el.textContent = word + ` (` + bpm + ` BPM)`;
+      }
+      persistState();
+    }
+
+    function toggleLabPlayback() {
+      ensureAudioContext();
+      labPlaying = !labPlaying;
+      const btn = document.getElementById(`lab-play-btn`);
+      if (btn) {
+        btn.innerHTML = labPlaying
+          ? `<i data-lucide="square" aria-hidden="true"></i> Zastaviť`
+          : `<i data-lucide="play" aria-hidden="true"></i> Prehrať slučku`;
+        refreshIcons();
+      }
+      if (labPlaying) {
+        labPlayhead = 0;
+        labTriggeredSet.clear();
+        labLastFrameTs = performance.now();
+        cancelAnimationFrame(labRafId);
+        labRafId = requestAnimationFrame(stepLabPlayhead);
+      } else {
+        cancelAnimationFrame(labRafId);
+        renderLabCanvas();
+      }
+    }
+
+    function stepLabPlayhead(ts) {
+      if (!labPlaying) return;
+      const dt = Math.min(0.1, (ts - labLastFrameTs) / 1000);
+      labLastFrameTs = ts;
+
+      const prevHead = labPlayhead;
+      /* Sweep duration scales inversely with BPM */
+      const loopSeconds = (110 / appState.labTempo) * 4.0;
+      labPlayhead += dt / loopSeconds;
+      if (labPlayhead >= 1) {
+        labPlayhead = 0;
+        labTriggeredSet.clear();
+      } else {
+        triggerLabNotesBetween(prevHead, labPlayhead);
+      }
+      renderLabCanvas();
+      labRafId = requestAnimationFrame(stepLabPlayhead);
+    }
+
+    function triggerLabNotesBetween(x0, x1) {
+      const pal = LAB_PALETTES[appState.labPalette] || LAB_PALETTES[0];
+      appState.labStrokes.forEach(function (st, sIdx) {
+        if (st.type === `circle` || st.type === `triangle`) {
+          const id = `shape-` + sIdx;
+          if (!labTriggeredSet.has(id) && st.x >= x0 && st.x <= x1) {
+            labTriggeredSet.add(id);
+            const inst = st.type === `circle` ? pal.circleInst : pal.triInst;
+            playInstrument(inst, yNormToPentatonicFreq(st.y), 0.4, 0.22);
+          }
+        } else if (st.type === `line` && st.points) {
+          /* Sample every few points so lines sing smoothly */
+          for (let i = 0; i < st.points.length; i += 2) {
+            const p = st.points[i];
+            const id = `pt-` + sIdx + `-` + i;
+            if (!labTriggeredSet.has(id) && p.x >= x0 && p.x <= x1) {
+              labTriggeredSet.add(id);
+              playInstrument(pal.lineInst, yNormToPentatonicFreq(p.y), 0.24, 0.16);
+            }
+          }
+        }
+      });
+    }
+
+    function undoLabStroke() {
+      if (appState.labStrokes.length > 0) {
+        appState.labStrokes.pop();
+        renderLabCanvas();
+        updateLabCountBadge();
+        persistState();
+      }
+    }
+
+    function clearLabCanvas(btn) {
+      if (btn && btn.dataset.armed !== `true`) {
+        btn.dataset.armed = `true`;
+        btn.textContent = `Klikni znova pre vymazanie`;
+        setTimeout(function () {
+          if (btn.dataset.armed === `true`) {
+            btn.dataset.armed = `false`;
+            btn.innerHTML = `<i data-lucide="trash-2" aria-hidden="true"></i> Vymazať plátno`;
+            refreshIcons();
+          }
+        }, 3000);
+        return;
+      }
+      if (btn) {
+        btn.dataset.armed = `false`;
+        btn.innerHTML = `<i data-lucide="trash-2" aria-hidden="true"></i> Vymazať plátno`;
+        refreshIcons();
+      }
+      appState.labStrokes = [];
+      renderLabCanvas();
+      updateLabCountBadge();
+      updateLabLiveNote(`Plátno je čisté — nakresli nový hudobný príbeh!`);
+      persistState();
+    }
+
+    function updateLabLiveNote(msg) {
+      const el = document.getElementById(`lab-live-note`);
+      if (el) el.textContent = msg;
+    }
+
+    function updateLabCountBadge() {
+      const el = document.getElementById(`lab-count-badge`);
+      if (el) el.textContent = `Počet prvkov: ` + appState.labStrokes.length;
+    }
+
+    /* ============================================================
+       6. SECTION 3: CREATIVE WORKSHOP ('MÔJ HUDOBNÝ OBRAZ')
+       ============================================================ */
+    let workshopCanvas = null;
+    let workshopCtx = null;
+    let workshopDragId = null;
+    let workshopDidDrag = false;
+    let workshopPlayActiveId = null;
+    let workshopPlayTimers = [];
+
+    function initWorkshopCanvas() {
+      workshopCanvas = document.getElementById(`workshop-canvas`);
+      if (!workshopCanvas) return;
+      workshopCtx = workshopCanvas.getContext(`2d`);
+      resizeWorkshopCanvas();
+
+      workshopCanvas.addEventListener(`pointerdown`, onWorkshopDown);
+      workshopCanvas.addEventListener(`pointermove`, onWorkshopMove);
+      window.addEventListener(`pointerup`, onWorkshopUp);
+
+      renderSensoryKeyList();
+      renderWorkshopCanvas();
+      updateWorkshopCount();
+    }
+
+    function resizeWorkshopCanvas() {
+      if (!workshopCanvas) return;
+      const rect = workshopCanvas.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      workshopCanvas.width = Math.max(300, Math.floor(rect.width * dpr));
+      workshopCanvas.height = Math.max(320, Math.floor(360 * dpr));
+      if (workshopCtx) {
+        workshopCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+    }
+
+    function sizeToRadius(size) {
+      if (size === `sm`) return 20;
+      if (size === `lg`) return 42;
+      return 30;
+    }
+
+    function findWorkshopItemAt(xNorm, yNorm) {
+      if (!workshopCanvas) return null;
+      const w = workshopCanvas.getBoundingClientRect().width;
+      const h = 360;
+      for (let i = appState.workshopItems.length - 1; i >= 0; i--) {
+        const it = appState.workshopItems[i];
+        const dist = Math.hypot((it.x - xNorm) * w, (it.y - yNorm) * h);
+        if (dist <= sizeToRadius(it.size) + 10) {
+          return it;
+        }
+      }
+      return null;
+    }
+
+    function onWorkshopDown(e) {
+      if (!workshopCanvas) return;
+      const pos = getCanvasNormPos(workshopCanvas, e.clientX, e.clientY);
+      const hit = findWorkshopItemAt(pos.x, pos.y);
+      if (hit) {
+        workshopDragId = hit.id;
+        workshopDidDrag = false;
+        playWorkshopItemSound(hit);
+        flashWorkshopItem(hit.id);
+      } else {
+        const newItem = {
+          id: `item-` + Date.now() + `-` + Math.floor(Math.random() * 1000),
+          shape: appState.workshopShape,
+          colorKey: appState.workshopColor,
+          size: appState.workshopSize,
+          x: pos.x,
+          y: pos.y
+        };
+        appState.workshopItems.push(newItem);
+        playWorkshopItemSound(newItem);
+        flashWorkshopItem(newItem.id);
+        renderWorkshopCanvas();
+        updateWorkshopCount();
+        persistState();
+      }
+    }
+
+    function onWorkshopMove(e) {
+      if (!workshopDragId || !workshopCanvas) return;
+      const pos = getCanvasNormPos(workshopCanvas, e.clientX, e.clientY);
+      const item = appState.workshopItems.find(function (it) { return it.id === workshopDragId; });
+      if (item) {
+        item.x = pos.x;
+        item.y = pos.y;
+        workshopDidDrag = true;
+        renderWorkshopCanvas();
+      }
+    }
+
+    function onWorkshopUp() {
+      if (workshopDragId && workshopDidDrag) {
+        persistState();
+      }
+      workshopDragId = null;
+      workshopDidDrag = false;
+    }
+
+    function flashWorkshopItem(id) {
+      workshopPlayActiveId = id;
+      renderWorkshopCanvas();
+      setTimeout(function () {
+        if (workshopPlayActiveId === id) {
+          workshopPlayActiveId = null;
+          renderWorkshopCanvas();
+        }
+      }, 320);
+    }
+
+    function resolveInstrumentForItem(item) {
+      /* Exact match in sensoryKey first, then shape match, then color fallback */
+      const exact = appState.sensoryKey.find(function (r) {
+        return r.colorKey === item.colorKey && r.shape === item.shape;
+      });
+      if (exact) return exact.instrument;
+
+      const byShape = appState.sensoryKey.find(function (r) { return r.shape === item.shape; });
+      if (byShape) return byShape.instrument;
+
+      const fallbackMap = {
+        yellow: `trumpet`,
+        blue: `cello`,
+        red: `drums`,
+        green: `flute`,
+        orange: `glockenspiel`,
+        violet: `piano`
+      };
+      return fallbackMap[item.colorKey] || `piano`;
+    }
+
+    function playWorkshopItemSound(item) {
+      const inst = resolveInstrumentForItem(item);
+      const freq = yNormToPentatonicFreq(item.y);
+      const vol = item.size === `lg` ? 0.28 : (item.size === `sm` ? 0.18 : 0.23);
+      playInstrument(inst, freq, 0.5, vol);
+
+      const banner = document.getElementById(`workshop-sound-banner`);
+      if (banner) {
+        banner.textContent = COLOR_META[item.colorKey].label + ` ` + SHAPE_META[item.shape].label.toLowerCase() + ` → hrá: ` + INSTRUMENT_META[inst].label + ` (podľa tvojho kľúča!)`;
+      }
+    }
+
+    function drawSingleWorkshopShape(ctx, it, w, h, isActive) {
+      const cx = it.x * w;
+      const cy = it.y * h;
+      const r = sizeToRadius(it.size) * (isActive ? 1.15 : 1);
+      const fill = getArtColor(it.colorKey);
+      const ink = resolvedColors[`--art-ink`];
+
+      ctx.save();
+      if (isActive) {
+        ctx.shadowColor = resolvedColors[`--primary`];
+        ctx.shadowBlur = 16;
+      }
+
+      ctx.fillStyle = fill;
+      ctx.strokeStyle = ink;
+      ctx.lineWidth = 3;
+      ctx.lineCap = `round`;
+      ctx.lineJoin = `round`;
+
+      if (it.shape === `triangle`) {
+        ctx.beginPath();
+        ctx.moveTo(cx, cy - r);
+        ctx.lineTo(cx + r * 0.92, cy + r * 0.8);
+        ctx.lineTo(cx - r * 0.92, cy + r * 0.8);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+      } else if (it.shape === `circle`) {
+        ctx.beginPath();
+        ctx.arc(cx, cy, r * 0.9, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+      } else if (it.shape === `square`) {
+        const side = r * 1.5;
+        ctx.beginPath();
+        ctx.rect(cx - side / 2, cy - side / 2, side, side);
+        ctx.fill();
+        ctx.stroke();
+      } else if (it.shape === `line`) {
+        ctx.strokeStyle = fill;
+        ctx.lineWidth = Math.max(7, r * 0.3);
+        ctx.beginPath();
+        ctx.moveTo(cx - r * 1.25, cy + r * 0.25);
+        ctx.lineTo(cx + r * 1.25, cy - r * 0.25);
+        ctx.stroke();
+      } else if (it.shape === `wave`) {
+        ctx.strokeStyle = fill;
+        ctx.lineWidth = Math.max(6, r * 0.25);
+        ctx.beginPath();
+        ctx.moveTo(cx - r * 1.3, cy);
+        ctx.bezierCurveTo(cx - r * 0.65, cy - r * 0.8, cx, cy + r * 0.8, cx + r * 0.65, cy);
+        ctx.bezierCurveTo(cx + r * 0.95, cy - r * 0.4, cx + r * 1.15, cy - r * 0.4, cx + r * 1.35, cy);
+        ctx.stroke();
+      } else if (it.shape === `zigzag`) {
+        ctx.strokeStyle = fill;
+        ctx.lineWidth = Math.max(6, r * 0.24);
+        ctx.beginPath();
+        ctx.moveTo(cx - r * 1.2, cy + r * 0.35);
+        ctx.lineTo(cx - r * 0.4, cy - r * 0.45);
+        ctx.lineTo(cx + r * 0.35, cy + r * 0.4);
+        ctx.lineTo(cx + r * 1.2, cy - r * 0.45);
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    function renderWorkshopCanvas() {
+      if (!workshopCanvas || !workshopCtx) return;
+      const w = workshopCanvas.getBoundingClientRect().width;
+      const h = 360;
+
+      workshopCtx.clearRect(0, 0, w, h);
+      workshopCtx.fillStyle = resolvedColors[`--art-paper`];
+      workshopCtx.fillRect(0, 0, w, h);
+
+      /* Light artist canvas grid */
+      workshopCtx.strokeStyle = resolvedColors[`--art-grid`];
+      workshopCtx.lineWidth = 1;
+      for (let gx = 60; gx < w; gx += 60) {
+        workshopCtx.beginPath();
+        workshopCtx.moveTo(gx, 0);
+        workshopCtx.lineTo(gx, h);
+        workshopCtx.stroke();
+      }
+      for (let gy = 60; gy < h; gy += 60) {
+        workshopCtx.beginPath();
+        workshopCtx.moveTo(0, gy);
+        workshopCtx.lineTo(w, gy);
+        workshopCtx.stroke();
+      }
+
+      appState.workshopItems.forEach(function (it) {
+        drawSingleWorkshopShape(workshopCtx, it, w, h, it.id === workshopPlayActiveId);
+      });
+    }
+
+    function selectWorkshopShape(shape) {
+      appState.workshopShape = shape;
+      Object.keys(SHAPE_META).forEach(function (s) {
+        const el = document.getElementById(`w-shape-` + s);
+        if (el) el.classList.toggle(`is-active`, s === shape);
+      });
+      persistState();
+    }
+
+    function selectWorkshopColor(colorKey) {
+      appState.workshopColor = colorKey;
+      Object.keys(COLOR_META).forEach(function (c) {
+        const el = document.getElementById(`w-color-` + c);
+        if (el) el.classList.toggle(`is-active`, c === colorKey);
+      });
+      persistState();
+    }
+
+    function selectWorkshopSize(sz) {
+      appState.workshopSize = sz;
+      [`sm`, `md`, `lg`].forEach(function (s) {
+        const el = document.getElementById(`w-size-` + s);
+        if (el) el.classList.toggle(`is-active`, s === sz);
+      });
+      persistState();
+    }
+
+    function updateArtworkTitle(val) {
+      appState.workshopTitle = val;
+      persistState();
+    }
+
+    function updateWorkshopCount() {
+      const el = document.getElementById(`workshop-count-text`);
+      if (el) el.textContent = appState.workshopItems.length + ` prvkov`;
+    }
+
+    function playWorkshopComposition() {
+      workshopPlayTimers.forEach(function (t) { clearTimeout(t); });
+      workshopPlayTimers = [];
+
+      if (appState.workshopItems.length === 0) {
+        const hint = document.getElementById(`workshop-hint-text`);
+        if (hint) hint.textContent = `Plátno je zatiaľ prázdne — klikni na plátno alebo načítaj ukážku!`;
+        return;
+      }
+
+      const sorted = appState.workshopItems.slice().sort(function (a, b) { return a.x - b.x; });
+      sorted.forEach(function (item, idx) {
+        const timer = setTimeout(function () {
+          playWorkshopItemSound(item);
+          flashWorkshopItem(item.id);
+        }, idx * 450);
+        workshopPlayTimers.push(timer);
+      });
+    }
+
+    function removeLastWorkshopItem() {
+      if (appState.workshopItems.length > 0) {
+        appState.workshopItems.pop();
+        renderWorkshopCanvas();
+        updateWorkshopCount();
+        persistState();
+      }
+    }
+
+    function loadSampleComposition() {
+      appState.workshopItems = [
+        { id: `smp-1`, shape: `circle`, colorKey: `blue`, size: `lg`, x: 0.2, y: 0.68 },
+        { id: `smp-2`, shape: `wave`, colorKey: `green`, size: `md`, x: 0.38, y: 0.52 },
+        { id: `smp-3`, shape: `triangle`, colorKey: `yellow`, size: `lg`, x: 0.56, y: 0.28 },
+        { id: `smp-4`, shape: `line`, colorKey: `red`, size: `md`, x: 0.72, y: 0.72 },
+        { id: `smp-5`, shape: `zigzag`, colorKey: `orange`, size: `sm`, x: 0.86, y: 0.38 }
+      ];
+      renderWorkshopCanvas();
+      updateWorkshopCount();
+      persistState();
+      playWorkshopComposition();
+    }
+
+    function clearWorkshopCanvas(btn) {
+      if (btn && btn.dataset.armed !== `true`) {
+        btn.dataset.armed = `true`;
+        btn.textContent = `Naozaj vyčistiť?`;
+        setTimeout(function () {
+          if (btn.dataset.armed === `true`) {
+            btn.dataset.armed = `false`;
+            btn.textContent = `Vyčistiť`;
+          }
+        }, 3000);
+        return;
+      }
+      if (btn) {
+        btn.dataset.armed = `false`;
+        btn.textContent = `Vyčistiť`;
+      }
+      appState.workshopItems = [];
+      renderWorkshopCanvas();
+      updateWorkshopCount();
+      persistState();
+    }
+
+    function downloadWorkshopPng() {
+      if (!workshopCanvas) return;
+      const dataUrl = workshopCanvas.toDataURL(`image/png`);
+      const b64 = dataUrl.split(`,`)[1];
+      const safeName = (appState.workshopTitle || `moj-hudobny-obraz`)
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, `-`)
+        .replace(/^-|-$/g, ``) || `moj-hudobny-obraz`;
+
+      if (window.notebookAppApi && typeof window.notebookAppApi.triggerFileDownload === `function`) {
+        window.notebookAppApi.triggerFileDownload({
+          content: b64,
+          contentType: `image/png`,
+          encoding: `base64`,
+          filename: safeName + `.png`
+        });
+      } else {
+        const a = document.createElement(`a`);
+        a.href = dataUrl;
+        a.download = safeName + `.png`;
+        a.click();
+      }
+    }
+
+    function renderSensoryKeyList() {
+      const container = document.getElementById(`sensory-key-list`);
+      if (!container) return;
+
+      if (appState.sensoryKey.length === 0) {
+        container.innerHTML = `<p style="font-size: 0.9rem; color: var(--on-surface-variant);">Zatiaľ nemáš žiadne pravidlo v kľúči. Pridaj si prvé nižšie!</p>`;
+        return;
+      }
+
+      container.innerHTML = ``;
+      appState.sensoryKey.forEach(function (rule) {
+        const row = document.createElement(`div`);
+        row.className = `key-rule-row`;
+
+        const badge = document.createElement(`div`);
+        badge.className = `key-rule-badge`;
+        const dot = document.createElement(`span`);
+        dot.className = `swatch-dot swatch-` + rule.colorKey;
+        const text = document.createElement(`span`);
+        text.textContent = COLOR_META[rule.colorKey].label + ` ` + SHAPE_META[rule.shape].label.toLowerCase();
+        badge.appendChild(dot);
+        badge.appendChild(text);
+
+        const selectWrap = document.createElement(`select`);
+        selectWrap.setAttribute(`aria-label`, `Nástroj pre ` + text.textContent);
+        Object.keys(INSTRUMENT_META).forEach(function (instKey) {
+          const opt = document.createElement(`option`);
+          opt.value = instKey;
+          opt.textContent = INSTRUMENT_META[instKey].label;
+          if (instKey === rule.instrument) opt.selected = true;
+          selectWrap.appendChild(opt);
+        });
+        selectWrap.onchange = function () {
+          rule.instrument = selectWrap.value;
+          playInstrument(rule.instrument, 440, 0.4, 0.22);
+          persistState();
+        };
+
+        const actions = document.createElement(`div`);
+        actions.className = `key-rule-actions`;
+        const playBtn = document.createElement(`button`);
+        playBtn.type = `button`;
+        playBtn.className = `btn btn-soft btn-sm`;
+        playBtn.setAttribute(`aria-label`, `Vyskúšať zvuk`);
+        playBtn.innerHTML = `<i data-lucide="volume-2" aria-hidden="true"></i>`;
+        playBtn.onclick = function () {
+          playInstrument(rule.instrument, 440, 0.45, 0.24);
+        };
+
+        const delBtn = document.createElement(`button`);
+        delBtn.type = `button`;
+        delBtn.className = `btn btn-quiet btn-sm`;
+        delBtn.setAttribute(`aria-label`, `Odstrániť pravidlo`);
+        delBtn.innerHTML = `<i data-lucide="x" aria-hidden="true"></i>`;
+        delBtn.onclick = function () {
+          appState.sensoryKey = appState.sensoryKey.filter(function (r) { return r.id !== rule.id; });
+          renderSensoryKeyList();
+          persistState();
+        };
+
+        actions.appendChild(playBtn);
+        actions.appendChild(delBtn);
+
+        row.appendChild(badge);
+        row.appendChild(selectWrap);
+        row.appendChild(actions);
+        container.appendChild(row);
+      });
+      refreshIcons();
+    }
+
+    function addSensoryRule() {
+      const colorSel = document.getElementById(`rule-color-select`);
+      const shapeSel = document.getElementById(`rule-shape-select`);
+      const instSel = document.getElementById(`rule-inst-select`);
+      if (!colorSel || !shapeSel || !instSel) return;
+
+      const colorKey = colorSel.value;
+      const shape = shapeSel.value;
+      const instrument = instSel.value;
+
+      const existing = appState.sensoryKey.find(function (r) {
+        return r.colorKey === colorKey && r.shape === shape;
+      });
+      if (existing) {
+        existing.instrument = instrument;
+      } else {
+        appState.sensoryKey.push({
+          id: `rule-` + Date.now(),
+          colorKey: colorKey,
+          shape: shape,
+          instrument: instrument
+        });
+      }
+      playInstrument(instrument, 440, 0.45, 0.24);
+      renderSensoryKeyList();
+      persistState();
+    }
+
+    /* ============================================================
+       7. SECTION 4: SOUND RIDDLE & SELF REFLECTION
+       ============================================================ */
+    function renderRiddleQuestion() {
+      const q = RIDDLE_QUESTIONS[appState.riddleIndex] || RIDDLE_QUESTIONS[0];
+      const promptEl = document.getElementById(`riddle-prompt-text`);
+      const optsEl = document.getElementById(`riddle-options`);
+      const scoreEl = document.getElementById(`riddle-score-pill`);
+      const fbEl = document.getElementById(`riddle-feedback`);
+
+      if (promptEl) promptEl.textContent = q.prompt;
+      const solvedCount = Object.keys(appState.riddleSolved).filter(function (k) { return appState.riddleSolved[k]; }).length;
+      if (scoreEl) scoreEl.textContent = `Body: ` + solvedCount + ` / 3`;
+
+      if (!optsEl) return;
+      optsEl.innerHTML = ``;
+      q.options.forEach(function (opt) {
+        const btn = document.createElement(`button`);
+        btn.type = `button`;
+        btn.className = `riddle-option`;
+        if (appState.riddleSolved[q.id] && opt.id === q.correctId) {
+          btn.classList.add(`is-correct`);
+        }
+
+        const svgWrap = document.createElement(`div`);
+        svgWrap.innerHTML = buildMiniShapeSvg(opt.shape, opt.color);
+        const lbl = document.createElement(`span`);
+        lbl.textContent = opt.label;
+
+        btn.appendChild(svgWrap);
+        btn.appendChild(lbl);
+        btn.onclick = function () { answerRiddleOption(q, opt.id, btn); };
+        optsEl.appendChild(btn);
+      });
+
+      if (fbEl) {
+        if (appState.riddleSolved[q.id]) {
+          fbEl.className = `feedback-banner is-positive`;
+          fbEl.textContent = q.winMsg;
+        } else {
+          fbEl.className = `feedback-banner`;
+          fbEl.textContent = `Najprv stlač „Vypočuť si zvukovú nápovedu“ a potom ťukni na správnu kartu.`;
+        }
+      }
+    }
+
+    function buildMiniShapeSvg(shape, colorKey) {
+      const fillVar = `var(` + (COLOR_META[colorKey] ? COLOR_META[colorKey].cssVar : `--art-yellow`) + `)`;
+      if (shape === `triangle`) {
+        return `<svg width="56" height="56" viewBox="0 0 56 56" aria-hidden="true"><polygon points="28,6 50,48 6,48" fill="${fillVar}" stroke="var(--art-ink)" stroke-width="3" stroke-linejoin="round"/></svg>`;
+      }
+      if (shape === `circle`) {
+        return `<svg width="56" height="56" viewBox="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="20" fill="${fillVar}" stroke="var(--art-ink)" stroke-width="3"/></svg>`;
+      }
+      if (shape === `square`) {
+        return `<svg width="56" height="56" viewBox="0 0 56 56" aria-hidden="true"><rect x="10" y="10" width="36" height="36" rx="4" fill="${fillVar}" stroke="var(--art-ink)" stroke-width="3"/></svg>`;
+      }
+      if (shape === `zigzag`) {
+        return `<svg width="56" height="56" viewBox="0 0 56 56" aria-hidden="true"><polyline points="6,40 18,16 32,40 48,14" fill="none" stroke="${fillVar}" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+      }
+      if (shape === `wave`) {
+        return `<svg width="56" height="56" viewBox="0 0 56 56" aria-hidden="true"><path d="M 6 28 Q 17 10, 28 28 T 50 28" fill="none" stroke="${fillVar}" stroke-width="6" stroke-linecap="round"/></svg>`;
+      }
+      return `<svg width="56" height="56" viewBox="0 0 56 56" aria-hidden="true"><line x1="8" y1="36" x2="48" y2="20" stroke="${fillVar}" stroke-width="7" stroke-linecap="round"/></svg>`;
+    }
+
+    function playCurrentRiddleSound() {
+      const q = RIDDLE_QUESTIONS[appState.riddleIndex] || RIDDLE_QUESTIONS[0];
+      if (q.soundType === `trumpet`) {
+        playInstrument(`trumpet`, 659.25, 0.4, 0.25);
+        setTimeout(function () { playInstrument(`trumpet`, 783.99, 0.45, 0.25); }, 180);
+      } else if (q.soundType === `cello`) {
+        playInstrument(`cello`, 174.61, 0.9, 0.3);
+      } else {
+        playInstrument(`drums`, 293.66, 0.25, 0.3);
+        setTimeout(function () { playInstrument(`drums`, 293.66, 0.25, 0.28); }, 170);
+        setTimeout(function () { playInstrument(`drums`, 392.0, 0.25, 0.28); }, 340);
+      }
+    }
+
+    function answerRiddleOption(question, chosenId, btnEl) {
+      const fbEl = document.getElementById(`riddle-feedback`);
+      const allOpts = document.querySelectorAll(`#riddle-options .riddle-option`);
+      allOpts.forEach(function (el) {
+        el.classList.remove(`is-wrong`);
+      });
+
+      if (chosenId === question.correctId) {
+        appState.riddleSolved[question.id] = true;
+        btnEl.classList.add(`is-correct`);
+        playInstrument(`glockenspiel`, 783.99, 0.35, 0.22);
+        if (fbEl) {
+          fbEl.className = `feedback-banner is-positive`;
+          fbEl.textContent = question.winMsg;
+        }
+        const scoreEl = document.getElementById(`riddle-score-pill`);
+        const solvedCount = Object.keys(appState.riddleSolved).filter(function (k) { return appState.riddleSolved[k]; }).length;
+        if (scoreEl) scoreEl.textContent = `Body: ` + solvedCount + ` / 3`;
+        persistState();
+      } else {
+        btnEl.classList.add(`is-wrong`);
+        if (fbEl) {
+          fbEl.className = `feedback-banner is-warning`;
+          fbEl.textContent = `Skús ešte raz! Vypočuj si tón znova a všimni si, či je ostrý, hlboký alebo rytmický.`;
+        }
+      }
+    }
+
+    function nextRiddleQuestion() {
+      appState.riddleIndex = (appState.riddleIndex + 1) % RIDDLE_QUESTIONS.length;
+      renderRiddleQuestion();
+      persistState();
+    }
+
+    function selectMood(mood) {
+      appState.reflectionMood = mood;
+      renderReflectionUi();
+      persistState();
+    }
+
+    function toggleReflectBadge(badgeKey) {
+      const idx = appState.reflectionBadges.indexOf(badgeKey);
+      if (idx === -1) appState.reflectionBadges.push(badgeKey);
+      else appState.reflectionBadges.splice(idx, 1);
+      renderReflectionUi();
+      persistState();
+    }
+
+    function updateReflectionNote(val) {
+      appState.reflectionNote = val;
+      persistState();
+    }
+
+    function renderReflectionUi() {
+      [`nadšene`, `zvedavo`, `pokojne`, `hravo`].forEach(function (m) {
+        const btn = document.getElementById(`mood-` + m);
+        if (btn) btn.classList.toggle(`is-selected`, appState.reflectionMood === m);
+      });
+      [`synesthesia`, `melody`, `key`, `sharproll`].forEach(function (b) {
+        const btn = document.getElementById(`badge-` + b);
+        if (btn) btn.classList.toggle(`is-checked`, appState.reflectionBadges.indexOf(b) !== -1);
+      });
+      const noteEl = document.getElementById(`reflection-song-note`);
+      if (noteEl && noteEl.value !== appState.reflectionNote) {
+        noteEl.value = appState.reflectionNote;
+      }
+      if (appState.cardCompleted) {
+        showCertificateSummary();
+      }
+    }
+
+    function completeReflectionCard() {
+      appState.cardCompleted = true;
+      showCertificateSummary();
+      playInstrument(`glockenspiel`, 523.25, 0.25, 0.2);
+      setTimeout(function () { playInstrument(`glockenspiel`, 783.99, 0.35, 0.24); }, 140);
+      persistState();
+    }
+
+    function showCertificateSummary() {
+      const cert = document.getElementById(`student-certificate`);
+      const sumEl = document.getElementById(`cert-summary-text`);
+      const keyEl = document.getElementById(`cert-key-summary`);
+      if (!cert || !sumEl || !keyEl) return;
+
+      cert.hidden = false;
+      const moodLabel = appState.reflectionMood ? `Dnes si tvoril/a ` + appState.reflectionMood + `. ` : ``;
+      const artTitle = appState.workshopTitle || `Môj hudobný obraz`;
+      const itemCount = appState.workshopItems.length;
+      const solvedCount = Object.keys(appState.riddleSolved).filter(function (k) { return appState.riddleSolved[k]; }).length;
+
+      sumEl.textContent = moodLabel + `Tvoj obraz „` + artTitle + `“ má ` + itemCount + ` tvarov a v zvukovej hádanke máš ` + solvedCount + ` z 3 bodov!`;
+
+      const rulesTxt = appState.sensoryKey.map(function (r) {
+        return COLOR_META[r.colorKey].label + ` ` + SHAPE_META[r.shape].label.toLowerCase() + ` = ` + INSTRUMENT_META[r.instrument].label;
+      }).join(` • `);
+      keyEl.textContent = `Tvoj zmyslový kľúč: ` + (rulesTxt || `Zatiaľ bez pravidiel`);
+    }
+
+    function downloadReflectionText() {
+      const artTitle = appState.workshopTitle || `Môj hudobný obraz`;
+      const rulesTxt = appState.sensoryKey.map(function (r) {
+        return `- ` + COLOR_META[r.colorKey].label + ` ` + SHAPE_META[r.shape].label.toLowerCase() + ` = ` + INSTRUMENT_META[r.instrument].label;
+      }).join(`\n`);
+
+      const content = [
+        `MOJA HUDOBNÁ VIZITKA — KANDINSKÝ, ZVUKY A FARBY`,
+        `==================================================`,
+        `Názov obrazu: ` + artTitle,
+        `Počet prvkov v obraze: ` + appState.workshopItems.length,
+        `Nálada pri tvorení: ` + (appState.reflectionMood || `neuvedená`),
+        `Obľúbená pesnička vo farbách: ` + (appState.reflectionNote || `neuvedená`),
+        ``,
+        `Môj zmyslový kľúč:`,
+        rulesTxt
+      ].join(`\n`);
+
+      if (window.notebookAppApi && typeof window.notebookAppApi.triggerFileDownload === `function`) {
+        window.notebookAppApi.triggerFileDownload({
+          content: content,
+          contentType: `text/plain`,
+          encoding: `UTF-8`,
+          filename: `hudobna-vizitka-kandinsky.txt`
+        });
+      } else {
+        const blob = new Blob([content], { type: `text/plain;charset=utf-8` });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement(`a`);
+        a.href = url;
+        a.download = `hudobna-vizitka-kandinsky.txt`;
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+    }
+
+    /* ============================================================
+       8. STATE PERSISTENCE & BOOTSTRAP
+       ============================================================ */
+    async function persistState() {
+      if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === `function`) {
+        try {
+          await window.notebookAppApi.setAppState(appState);
+        } catch (err) {
+          /* Ignore transient host save errors */
+        }
+      }
+    }
+
+    function applyStateToUi() {
+      renderDiscoveryProgress();
+      setLabTool(appState.labTool);
+      setLabPalette(appState.labPalette);
+      const tempoSlider = document.getElementById(`lab-tempo-slider`);
+      if (tempoSlider) tempoSlider.value = appState.labTempo;
+      setLabTempo(appState.labTempo);
+      updateLabCountBadge();
+
+      const titleInp = document.getElementById(`artwork-title-input`);
+      if (titleInp) titleInp.value = appState.workshopTitle;
+      selectWorkshopShape(appState.workshopShape);
+      selectWorkshopColor(appState.workshopColor);
+      selectWorkshopSize(appState.workshopSize);
+
+      renderSensoryKeyList();
+      renderWorkshopCanvas();
+      updateWorkshopCount();
+      renderLabCanvas();
+      renderRiddleQuestion();
+      renderReflectionUi();
+    }
+
+    function resetAllProgress(btn) {
+      if (btn && btn.dataset.armed !== `true`) {
+        btn.dataset.armed = `true`;
+        btn.textContent = `Klikni znova pre vymazanie všetkého`;
+        setTimeout(function () {
+          if (btn.dataset.armed === `true`) {
+            btn.dataset.armed = `false`;
+            btn.textContent = `Začať odznova`;
+          }
+        }, 3000);
+        return;
+      }
+      if (btn) {
+        btn.dataset.armed = `false`;
+        btn.textContent = `Začať odznova`;
+      }
+      appState = JSON.parse(JSON.stringify(DEFAULT_STATE));
+      const cert = document.getElementById(`student-certificate`);
+      if (cert) cert.hidden = true;
+      applyStateToUi();
+      persistState();
+    }
+
+    function handleKeyPlay(event, cb) {
+      if (event.key === `Enter` || event.key === ` `) {
+        event.preventDefault();
+        cb();
+      }
+    }
+
+    function refreshIcons() {
+      if (window.lucide && typeof window.lucide.createIcons === `function`) {
+        window.lucide.createIcons();
+      }
+    }
+
+    async function bootApp() {
+      refreshCssColorCache();
+      refreshIcons();
+
+      if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === `function`) {
+        try {
+          const saved = await window.notebookAppApi.getAppState();
+          if (saved && typeof saved === `object`) {
+            appState = Object.assign(JSON.parse(JSON.stringify(DEFAULT_STATE)), saved);
+          }
+        } catch (err) {
+          /* Fall back to defaults */
+        }
+      }
+
+      initLabCanvas();
+      initWorkshopCanvas();
+      applyStateToUi();
+
+      window.addEventListener(`resize`, function () {
+        resizeLabCanvas();
+        resizeWorkshopCanvas();
+        renderLabCanvas();
+        renderWorkshopCanvas();
+      });
+
+      if (window.notebookAppApi && typeof window.notebookAppApi.notifyAppReady === `function`) {
+        window.notebookAppApi.notifyAppReady();
+      }
+    }
+
+    document.addEventListener(`DOMContentLoaded`, bootApp);
+  </script>
+</body>
+</html>
